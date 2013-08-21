@@ -41,7 +41,7 @@ xhr.onreadystatechange = function() {
   if (xhr.readyState == 4) {
   var roots= parseEtymology(pre_url,xhr.responseText);
   $('.popover').remove();
-  $('body').append('<div class="popover fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><div class="modal"><button class="close" data-dismiss="modal"></button><h3 class="popover-title"><span class="word"></span></h3></div><div class="popover-content"><p></p></div></div></div>')
+  $('body').append('<div class="popover fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>div class="popover-content"><p></p></div></div></div>')
   $('.popover-title').html('<span class="word">'+$(anchor).text()+'</span>')
   $('.popover-content').html('<p>'+roots+'</p>')
   var offset=$(anchor).offset();
