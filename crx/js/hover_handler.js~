@@ -1,0 +1,6 @@
+$("img").hover(function (e){
+   $(iconsId).offset({
+       top:e.pageY,
+       left:e.pageX
+   }).fadeIn(500);
+});
