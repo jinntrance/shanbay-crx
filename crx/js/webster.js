@@ -26,10 +26,12 @@ function findDerivatives() {
             if(undefined!=roots) roots=roots.toString().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>")
             var term = $('#learning_word .word .content.pull-left');
             var small = term.find('small')[0].outerHTML
-            term.html((word.find('hw')[0].textContent.replace(/\*/g, '·') + small))
-                if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym')
+	    var hw=word.find('hw')
+            if(hw.length>0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
+            if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym')
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
-                else getEthology()
+            else getEthology()
+            addNoteButton("#roots .due_msg");
             if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)
             else $("#affix").hide();
         }
