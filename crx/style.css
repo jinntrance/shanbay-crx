@@ -2,3 +2,10 @@ span.foreign,#affix .due_msg{
 font-style:italic;
 font-weight:bold;
 }
+.options{
+    text-align: center;
+}
+.option-set{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

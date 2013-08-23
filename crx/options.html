@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body class="options">
+   <div>
+          <div class="option-set"> 词根来源 :
+              <label>
+                  <input name="etym" type="radio" value="etym">
+              </label>Etymology Online
+              <label>
+                  <input name="etym" type="radio" value='webster' checked="checked">
+              </label> Webster Collegiate
+          </div>
+         <div class="option-set">隐藏内容
+          <input type="checkbox" name="hider" value="roots"> 词根
+          <input type="checkbox" name="hider" value="affix"> 词汇派生
+          <input type="checkbox" name="hider" value="learning-examples-box"> 例句
+          <input type="checkbox" name="hider" value="notes-box"> 笔记
+         </div>
+       <div id="status"></div>
+       <button id="save">保存</button>
+   </div>
+
+</body>
+<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/options.js"></script>
+</html>
