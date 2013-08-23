@@ -25,7 +25,7 @@ function getEthology() {
             var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
-            else  $("#roots").remove();
+            else  $("#roots").hide();
         }
     }
     xhr.send();

@@ -31,7 +31,7 @@ function findDerivatives() {
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
                 else getEthology()
             if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)
-            else $("#affix").remove();
+            else $("#affix").hide();
         }
     }
     xhr.send();

@@ -30,7 +30,7 @@ chrome.extension.sendRequest({method: "getLocalStorage"}, function(response) {
     switch (e.keyCode) {
         case 13:
         case 27:
-            $('div.popover').fadeOut(3000);
+            $('div.popover').fadeOut(1000);
             return ;
         case 70:
         case 102:
@@ -43,6 +43,14 @@ chrome.extension.sendRequest({method: "getLocalStorage"}, function(response) {
         case 78:
         case 110:
             $('div#notes-box').toggle();
+            return ;
+        case 82:
+        case 114:
+            $('div#roots').toggle();
+            return ;
+        case 88:
+        case 120:
+            $('div#affix').toggle();
             return ;
     }
     return;//using "return" other attached events will execute
