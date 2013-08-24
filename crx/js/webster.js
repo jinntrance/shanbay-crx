@@ -35,6 +35,7 @@ function findDerivatives() {
             else getEthology()
             if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)
             else $("#affix").hide();
+            if (!$("#affix .due_msg").hasClass("alert") && localStorage['afx2note'] == 'yes') addToNote("#affix a.note-button");
         }
     }
     xhr.send();
