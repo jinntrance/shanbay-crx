@@ -28,7 +28,7 @@ function getEthology() {
         if (xhr.readyState == 4 && $('#current-learning-word').text() == term) {
             var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
-                $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
+                $("#roots .due_msg").addClass("well").removeClass("alert").html($(roots))
             else  $("#roots").hide();
             if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots a.note-button");
         }

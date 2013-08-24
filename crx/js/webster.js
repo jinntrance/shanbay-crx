@@ -30,7 +30,7 @@ function findDerivatives() {
             if(hw.length>0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
             if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym'){
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
-                if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots .roots-due-wrapper");
+                if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots a.note-button");
             }
             else getEthology()
             if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)

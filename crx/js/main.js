@@ -2,7 +2,7 @@
  * @user Joseph
  **/
 
-noteString='<a href="javascript:void(0)" id="note-button" class="note-button sblink pull-right">加入笔记</a>'
+noteString='<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>'
 
 chrome.extension.sendRequest({method: "getLocalStorage"}, function(response) {
     for(k in response.data)
@@ -26,30 +26,26 @@ function addToNote(add){
 }
 
 $(document).on("DOMNodeInserted", '#learning_word',function () {
-
         var $definitions = $('#review-definitions');
-        if($definitions.find('div.endf').length>0 &&localStorage['hide_cn']=='yes'){
+        if($definitions.find('div.endf').length>0&&$('div.endf').text().trim()!="" &&localStorage['hide_cn']=='yes'){
            $definitions.find('div.endf').show()
            var cn_anchor='<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings().show();" class="sblink pull-right">中文释义</a>'
            if($definitions.find('div.cndf').hide().siblings('#show_cn_df').length==0)
                $definitions.find('div.cndf').after(cn_anchor)
+       }}).on("DOMNodeInserted", '#roots .roots-due-wrapper',function () {
 
-       }
-
-    }
-).on("DOMNodeInserted", '#roots .roots-due-wrapper',function () {
-    if ($("#roots .due_msg").hasClass("alert")&&localStorage['hider'].search("roots")==-1) {
+    if ($("#roots .due_msg").hasClass("alert")&&(undefined==localStorage['hider']||localStorage['hider'].search("roots")==-1)) {
         if(localStorage['etym']=='etym')
             getEthology();
         addNoteButton('#roots .due_msg')
     }
+    if(undefined!=localStorage['hider']){
     var ids=localStorage['hider'].split(',')
     for(var i in ids){
         $('#'+ids[i]).hide()
-    }
-
+    }}
 }).on("DOMNodeInserted", '#affix .roots-due-wrapper',function () {
-        if ($("#affix .due_msg").hasClass("alert")&&localStorage['hider'].search("affix")==-1) {
+        if ($("#affix .due_msg").hasClass("alert")&&(undefined==localStorage['hider']||localStorage['hider'].search("affix")==-1)) {
             findDerivatives();
         }
     }).on("DOMNodeInserted", '#note-mine-box',function () {
@@ -70,10 +66,13 @@ $(window).keydown(function (e) {
 	//退出浮框
         case 13:
         case 27:
-        case 67:
-        case 99:
             $('div.popover').remove();
             return ;
+        case 67:
+        case 99:
+            $('div.cndf').toggle();
+            return ;
+
 	//全屏
         case 70:
         case 102:
