@@ -30,7 +30,7 @@ function getEthology() {
             if (undefined != roots && roots.trim() != "")
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
             else  $("#roots").hide();
-            if($("#roots .due_msg a.note-button").length==0) addNoteButton("#roots .due_msg")
+            if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots a.note-button");
         }
     }
     xhr.send();
@@ -38,11 +38,12 @@ function getEthology() {
 
 function popup(anchor,term,text) {
             $('.popover').remove();
-            $('body').append('<div class="popover fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span>'+noteString+'</h3><div class="popover-content"><p></p></div></div></div>')
+            $('body').append('<div class="popover fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>'+noteString+'<div class="popover-content"></div></div></div>')
             $('.popover-title').html('<span class="word">' + term + '</span>')
             $('.popover-content').html('<p>' + text + '</p>')
             var offset = $(anchor).offset();
-            if(undefined!=offset) $('.popover').show().offset({top: offset.top + 23, left: offset.left - 130})
+            if(undefined!=offset) $('.popover').show().offset({top: offset.top + 23, left: offset.left - 130})  ;
+      if(localStorage['root2note']=='yes') addToNote(".popover a.note-button");
 }
 
 function popupEtymology( anchor) {

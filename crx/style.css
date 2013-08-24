@@ -15,3 +15,10 @@ font-weight:bold;
 .shortcut{
     line-height: 150%;
 }
+a.note-button{
+    margin-right: 15px;
+}
+a.note-button,a#show_cn_df{
+    text-decoration: underline;
+    margin-left: 6px;
+}

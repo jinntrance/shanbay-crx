@@ -7,7 +7,7 @@
 </head>
 <body class="options">
    <div>
-          <div class="option-set"> 词根来源 :
+         <div class="option-set"> 词根来源 :
               <label>
                   <input name="etym" type="radio" value="etym" checked="checked">
               </label>Etymology Online
@@ -21,6 +21,22 @@
           <input type="checkbox" name="hider" value="learning-examples-box"> 例句
           <input type="checkbox" name="hider" value="notes-box"> 笔记
          </div>
+          <div class="option-set">默认将词根记入笔记
+              <label>
+                  <input name="root2note" type="radio" value="yes" checked="checked">
+              </label>是
+              <label>
+                  <input name="root2note" type="radio" value='no'>
+              </label>否
+         </div>
+       <div class="option-set">默认隐藏中文释义
+           <label>
+               <input name="hide_cn" type="radio" value="yes" >
+           </label>是
+           <label>
+               <input name="hide_cn" type="radio" value='no' checked="checked">
+           </label>否
+       </div>
        <div id="status"></div>
        <button id="save">保存</button>
    </div>

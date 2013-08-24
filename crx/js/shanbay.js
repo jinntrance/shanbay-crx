@@ -2,10 +2,13 @@
 $(function (){
 $('div').on('DOMNodeInserted',function(){
    var text=window.getSelection().toString()
-    if(undefined!=text&&""!=text)    chrome.tabs.sendMessage(tab.id, {
-        action: 'lookup',
-        data: text
-      }); 
+    if(undefined!=text&&""!=text)
+        chrome.tabs.getSelected(null, function(tab) {
+            chrome.tabs.sendMessage(tab.id, {
+                action: 'lookup',
+                data: text
+            });
+        });
 })
 })
 

@@ -28,10 +28,11 @@ function findDerivatives() {
             var small = term.find('small')[0].outerHTML
 	    var hw=word.find('hw')
             if(hw.length>0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
-            if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym')
+            if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym'){
                 $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
+                if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots .roots-due-wrapper");
+            }
             else getEthology()
-            addNoteButton("#roots .due_msg");
             if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)
             else $("#affix").hide();
         }
