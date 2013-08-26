@@ -6,14 +6,13 @@ function websterUrl(term) {
 }
 
 function findDerivatives() {
-    var term = $('#current-learning-word').text()
-    originTerm = term
-    var url = websterUrl(term)
+    var originalTerm = getCurrentTerm()
+    var url = websterUrl(originalTerm)
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && $('#current-learning-word').text() == originTerm) {
-            var word = $($.parseXML(xhr.responseText));
+        if (xhr.readyState == 4 && getCurrentTerm() == originalTerm) {
+            var word = $($.parseXML(xhr.responseText)).find('entry').filter(function () { return $(this).find('ew').text()==originalTerm });
             var derivatives = word.find('ure').map(function (i, e) {
                 return e.textContent.replace(/\*/g, '·')
             })
@@ -22,20 +21,38 @@ function findDerivatives() {
                 return e.textContent.replace(/\*/g, '·')
             })
             if(undefined!=syns) syns=syns.toArray().toString().replace(/,/g, ", ")
-            var roots=word.find('et').html()
+            var roots=word.children('et').html()
             if(undefined!=roots) roots=roots.toString().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>")
             var term = $('#learning_word .word .content.pull-left');
             var small = term.find('small')[0].outerHTML
-	    var hw=word.find('hw')
-            if(hw.length>0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
-            if(undefined != roots&& roots.trim() != ""&&localStorage['etym']!='etym'){
-                $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
-                if(!$("#roots .due_msg").hasClass("alert")&&localStorage['root2note']=='yes') addToNote("#roots a.note-button");
-            }
-            else getEthology()
-            if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "<br/>" + syns)
-            else $("#affix").hide();
-            if (!$("#affix .due_msg").hasClass("alert") && localStorage['afx2note'] == 'yes') addToNote("#affix a.note-button");
+	        var hw=word.children('hw')
+	        var fls=word.children('fl')
+	        var defs=word.children('def')
+
+	        var responseWord=word.find('ew').text()
+            if (getCurrentTerm().length < 3 + responseWord.length) {
+                if (hw.length > 0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
+                if (undefined != roots && roots.trim() != "" && ls()['etym'] != 'etym') {
+                    $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
+                    if (!$("#roots .due_msg").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+                }
+                else getEthology()
+                if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "; <br/>" + syns)
+                else $("#affix").hide();
+                if (!$("#affix .due_msg").hasClass("alert") && ls()['afx2note'] == 'yes') addToNote("#affix a.note-button");
+                if (ls()['web_en'] == 'yes'){
+                    var endef=$("#review-definitions .endf");
+                    endef.html('')
+                    if(fls.length==defs.length) fls.each(function(i){
+                        endef.append($('<div class="span1"><span class="part-of-speech label">').find('span').html($(fls[i]).text().substr(0,4)).parent())
+                        var def=$('<ol class="span7">')
+                        $(defs[i]).find('dt').each(function(i){
+                            def.append($('<li class="definition"><span class="content">').find('span').html($(this).text()).parent())
+                        })
+                        endef.append(def)
+                    })
+                }
+            } else getEthology()
         }
     }
     xhr.send();

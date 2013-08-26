@@ -7,6 +7,7 @@ function save_options() {
     localStorage["root2note"] = $("input[name=root2note]:checked").val();
     localStorage["afx2note"] = $("input[name=afx2note]:checked").val();
     localStorage["hide_cn"] = $("input[name=hide_cn]:checked").val();
+    localStorage["web_en"] = $("input[name=web_en]:checked").val();
     localStorage["hider"] =  $("input[name=hider]:checkbox:checked").map(function(i,e){return $(e).val()}).toArray();
 
     // Update status to let user know options were saved.
@@ -25,6 +26,7 @@ function restore_options() {
     $("input[name=root2note][value="+localStorage["root2note"]+"]").attr("checked",true);
     $("input[name=afx2note][value="+localStorage["afx2note"]+"]").attr("checked",true);
     $("input[name=hide_cn][value="+localStorage["hide_cn"]+"]").attr("checked",true);
+    $("input[name=web_en][value="+localStorage["web_en"]+"]").attr("checked",true);
     $("input[name=hider]:checkbox").val(localStorage["hider"].split(','))
 }
 document.addEventListener('DOMContentLoaded', restore_options);

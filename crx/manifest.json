@@ -1,8 +1,8 @@
 {
-    "name": "扇贝词根词缀助手",
-    "version": "1.5.1",
+    "name": "扇贝助手增强版",
+    "version": "1.6",
     "manifest_version": 2,
-    "description": "扇贝词根词缀助手",
+    "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
    "icons": {
       "48": "icon_48.png",
       "72": "icon_72.png"

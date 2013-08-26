@@ -20,17 +20,17 @@ function parseEtymology(pre_url, text) {
 function getEthology() {
     var pre_url = etho_pre_url
     originAnchor = undefined
-    var term = $('#current-learning-word').text()
+    var term = getCurrentTerm()
     var url = pre_url + term
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && $('#current-learning-word').text() == term) {
+        if (xhr.readyState == 4 && getCurrentTerm() == term) {
             var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
                 $("#roots .due_msg").addClass("well").removeClass("alert").html($(roots))
             else  $("#roots").hide();
-            if (!$("#roots .due_msg").hasClass("alert") && localStorage['root2note'] == 'yes') addToNote("#roots a.note-button");
+            if (!$("#roots .due_msg").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
         }
     }
     xhr.send();
@@ -43,7 +43,7 @@ function popup(anchor, term, text) {
     $('.popover-content').html('<p>' + text + '</p>')
     var offset = $(anchor).offset();
     if (undefined != offset) $('.popover').show().offset({top: offset.top + 23, left: offset.left - 130});
-    if (localStorage['root2note'] == 'yes') addToNote(".popover a.note-button");
+    if (ls()['root2note'] == 'yes') addToNote(".popover a.note-button");
 }
 
 function popupEtymology(anchor) {
