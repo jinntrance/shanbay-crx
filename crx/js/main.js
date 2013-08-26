@@ -72,9 +72,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         $('div.popover').hide()
     }).on('mouseup', 'div.popover', function (e) {
         return false;
-    });
-
-$(window).keydown(function (e) {
+    }).keydown(function (e) {
     switch (e.keyCode) {
         //退出浮框
         case 13:
@@ -129,9 +127,7 @@ $(window).keydown(function (e) {
             return;
     }
     return;//using "return" other attached events will execute
-});
-
-$('input').keydown(function (event) {
+}).on('keydown','input',function (event) {
     event.stopPropagation();
 });
 

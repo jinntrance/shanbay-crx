@@ -37,7 +37,7 @@ function findDerivatives() {
                     if (!$("#roots .due_msg").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
                 }
                 else getEthology()
-                if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "; <br/>" + syns)
+                if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "; <br/>"+derivatives.replace(/·/g,'')+"; <br/>" + syns)
                 else $("#affix").hide();
                 if (!$("#affix .due_msg").hasClass("alert") && ls()['afx2note'] == 'yes') addToNote("#affix a.note-button");
                 if (ls()['web_en'] == 'yes'){
