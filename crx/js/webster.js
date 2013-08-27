@@ -4,6 +4,9 @@
 function websterUrl(term) {
     return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=0f4f19c8-b1cd-401f-a183-6513573cb3b9'
 }
+function thesaurusUrl(term) {
+    return 'http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/' + term + '?key=7269ef5b-4d9f-4d38-ac7e-f1ed6e5568f7'
+}
 
 function findDerivatives() {
     var originalTerm = getCurrentTerm()
@@ -46,7 +49,7 @@ function findDerivatives() {
                     if(fls.length==defs.length) fls.each(function(i){
                         endef.append($('<div class="span1"><span class="part-of-speech label">').find('span').html($(fls[i]).text().substr(0,4)).parent())
                         var def=$('<ol class="span7">')
-                        $(defs[i]).find('dt').each(function(i){
+                        $(defs[i]).find('dt').each(function(){
                             def.append($('<li class="definition"><span class="content">').find('span').html($(this).text()).parent())
                         })
                         endef.append(def)
