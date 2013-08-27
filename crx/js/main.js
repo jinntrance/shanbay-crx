@@ -34,6 +34,7 @@ function addToNote(add,term) {
 }
 
 $(document).on("DOMNodeInserted", '#learning_word',function () {
+    console.log('handling definitions')
     var $definitions = $('#review-definitions');
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
         $definitions.find('div.endf').show()
@@ -42,7 +43,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             $definitions.find('div.cndf').after(cn_anchor)
     }
 }).on("DOMNodeInserted", '#roots .roots-due-wrapper',function () {
-        console.log(this)
+        console.log('handling roots')
         addNoteButton('#roots .due_msg')
         if ($("#roots .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
             if (ls()['etym'] == 'etym')
@@ -55,7 +56,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             }
         }
     }).on("DOMNodeInserted", '#affix .roots-due-wrapper',function () {
-        console.log(this)
+        console.log('handling affix')
         addNoteButton('#affix .due_msg')
         if ($("#affix .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
             findDerivatives();
@@ -72,7 +73,8 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         $('div.popover').hide()
     }).on('mouseup', 'div.popover', function (e) {
         return false;
-    }).keydown(function (e) {
+    }).keyup(function (e) {
+    console.log(String.fromCharCode(e.keyCode)+" pressed")
     switch (e.keyCode) {
         //退出浮框
         case 13:
@@ -124,6 +126,43 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         case 70:
         case 102:
             $('div#affix').toggle();
+            return;
+        //I to ignore
+        case 73:
+        case 74:
+        case 75:
+        case 76:
+        case 79:
+        case 85:
+        case 105:
+        case 106:
+        case 107:
+        case 108:
+        case 117:
+            var map={i:57,I:57,O:48,o:48,U:49,u:49,j:50,J:50,k:51,K:51,l:52,L:52}
+            var key=String.fromCharCode(e.keyCode)
+
+            var $choices = $('#choices li.answer');
+            switch(key){
+                case 'u':
+                case 'U':
+                    if(1<$choices.length)$choices[0].click();
+                    else $('#review a.known').click();
+                    return;
+                case 'j':
+                case 'J':
+                    if(1<$choices.length)$choices[1].click();
+                    else $('#review a.unknown').click();
+                    return;
+                case 'k':
+                case 'K':if(4==$choices.length)$choices[2].click() ;return;
+                case 'l':
+                case 'L':if(4==$choices.length)$choices[3].click();return;
+                case 'O':
+                case 'o':$('#choices li.forget').click();return;
+                case 'i':
+                case 'I':$('#learning_word a.pass').click();return;
+            }
             return;
     }
     return;//using "return" other attached events will execute
