@@ -161,7 +161,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
                 case 'O':
                 case 'o':$('#choices li.forget').click();return;
                 case 'i':
-                case 'I':$('#learning_word a.pass').click();return;
+                case 'I':$('#learning_word a.pass span').click();return;
             }
             return;
     }
