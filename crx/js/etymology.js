@@ -37,13 +37,13 @@ function getEthology() {
 }
 
 function popup(anchor, term, text) {
-    $('.popover').remove();
-    $('body').append('<div class="popover fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>')
+    $('.popover-crx').remove();
+    $('body').append('<div class="popover-crx fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>')
     $('.popover-title').html('<span class="word">' + term + '</span>')
     $('.popover-content').html('<p>' + text + '</p>')
     var offset = $(anchor).offset();
-    if (undefined != offset) $('.popover').show().offset({top: offset.top + 23, left: offset.left - 130});
-    if (ls()['root2note'] == 'yes') addToNote(".popover a.note-button");
+    if (undefined != offset) $('.popover-crx').show().offset({top: offset.top + 23, left: offset.left - 130});
+    if (ls()['root2note'] == 'yes') addToNote(".popover-crx a.note-button");
 }
 
 function popupEtymology(anchor) {

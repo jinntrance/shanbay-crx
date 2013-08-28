@@ -3,14 +3,24 @@
  */
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if (request.method == "getLocalStorage")
-        sendResponse({data: localStorage});
-    else if (request.method == "setLocalStorage") {
-        window.localStorage=request.data;
-        sendResponse({data: localStorage})
+    console.log("received term: "+request.data)
+    switch(request.method){
+        case "getLocalStorage":
+            sendResponse({data: localStorage});
+            break;
+        case "setLocalStorage":
+            window.localStorage=request.data;
+            sendResponse({data: localStorage});
+            break;
+        case 'lookup':
+            isUserSignedOn(function() {
+                getClickHandler(request.data, sender.tab);
+            });
+            sendResponse({data:{tabid:sender.tab.id}})
+            break;
+        default :
+            sendResponse({data:[]}); // snub them.
     }
-    else
-        sendResponse({data:[]}); // snub them.
 });
 
 function normalize(word){
@@ -28,13 +38,14 @@ var API = 'http://www.shanbay.com/api/word/';
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
   var tabid = sender.tab.id;
+  console.log("received "+message.data)
   switch(message.action) {
     case 'is_user_signed_on':
       isUserSignedOn();
       break;
-    case 'lookup': 
+    case 'lookup':
     isUserSignedOn(function() {
-     getClickHandler(message.data, tabid);
+     getClickHandler(message.data, sender.tab);
     });
     break;
   }
@@ -47,6 +58,7 @@ function isUserSignedOn(callback) {
       callback();
     } else {
       localStorage.removeItem('shanbay_cookies');
+      chrome.tabs.create({url:"http://www.shanbay.com/accounts/login/"})
       alert('请先登录到扇贝网！');
     }
   });

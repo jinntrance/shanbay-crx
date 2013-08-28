@@ -43,10 +43,12 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             $definitions.find('div.cndf').after(cn_anchor)
     }
 }).on("DOMNodeInserted", '#roots .roots-due-wrapper',function () {
-        console.log('handling roots')
+        console.log('#roots triggered')
         addNoteButton('#roots .due_msg')
+    }).on("DOMNodeInserted", '#roots .roots-due-wrapper a.note-button',function () {
+        console.log('retrieving roots data')
         if ($("#roots .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
-            if (ls()['etym'] == 'etym')
+            if (ls()['etym'] != 'webster')
                 getEthology();
         }
         if (undefined != ls()['hider']) {
@@ -56,8 +58,10 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             }
         }
     }).on("DOMNodeInserted", '#affix .roots-due-wrapper',function () {
-        console.log('handling affix')
+        console.log('#affix triggered')
         addNoteButton('#affix .due_msg')
+    }).on("DOMNodeInserted", '#affix .roots-due-wrapper a.note-button',function () {
+        console.log('retrieving affix data')
         if ($("#affix .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
             findDerivatives();
         }
@@ -67,11 +71,12 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         popupEtymology($(this));
         return;
     }).on("click", "a.note-button",function () {
-        console.log(this)
+        console.log('clicking a note-button')
         addToNote($(this))
     }).on('mouseup',function (e) {
-        $('div.popover').hide()
-    }).on('mouseup', 'div.popover', function (e) {
+        if($(this).parents('div.popover-crx').length==0)
+            $('div.popover-crx').remove()
+    }).on('mouseup', 'div.popover-crx', function (e) {
         return false;
     }).keyup(function (e) {
     console.log(String.fromCharCode(e.keyCode)+" pressed")
@@ -79,7 +84,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         //退出浮框
         case 13:
         case 27:
-            $('div.popover').remove();
+            $('div.popover-crx').remove();
             return;
         //the chinese definitions C
         case 67:
@@ -166,7 +171,7 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             return;
     }
     return;//using "return" other attached events will execute
-}).on('keydown','input',function (event) {
+}).on('keyup','input',function (event) {
     event.stopPropagation();
 });
 

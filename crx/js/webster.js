@@ -24,8 +24,7 @@ function findDerivatives() {
                 return e.textContent.replace(/\*/g, '·')
             })
             if(undefined!=syns) syns=syns.toArray().toString().replace(/,/g, ", ")
-            var roots=word.children('et').html()
-            if(undefined!=roots) roots=roots.toString().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>")
+            var roots=word.children('et')
             var term = $('#learning_word .word .content.pull-left');
             var small = term.find('small')[0].outerHTML
 	        var hw=word.children('hw')
@@ -35,11 +34,11 @@ function findDerivatives() {
 	        var responseWord=word.find('ew').text()
             if (getCurrentTerm().length < 3 + responseWord.length) {
                 if (hw.length > 0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
-                if (undefined != roots && roots.trim() != "" && ls()['etym'] != 'etym') {
-                    $("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
+                if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster') {
+                    var r=$("#roots .due_msg").addClass("well").removeClass("alert").html(roots)
+                    r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))
                     if (!$("#roots .due_msg").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
-                }
-                else getEthology()
+                } else if(ls()['etym'] == 'webster') getEthology();
                 if (undefined != derivatives && "" != derivatives.trim()) $("#affix .due_msg").addClass("well").removeClass("alert").html(derivatives + "; <br/>"+derivatives.replace(/·/g,'')+"; <br/>" + syns)
                 else $("#affix").hide();
                 if (!$("#affix .due_msg").hasClass("alert") && ls()['afx2note'] == 'yes') addToNote("#affix a.note-button");
@@ -55,7 +54,7 @@ function findDerivatives() {
                         endef.append(def)
                     })
                 }
-            } else getEthology()
+            } else if(ls()['etym'] == 'webster') getEthology()
         }
     }
     xhr.send();

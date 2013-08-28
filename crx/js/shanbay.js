@@ -1,22 +1,25 @@
-
-$(function (){
-$('div').on('DOMNodeInserted',function(){
-   var text=window.getSelection().toString()
-    if(undefined!=text&&""!=text)
-        chrome.tabs.getSelected(null, function(tab) {
-            chrome.tabs.sendMessage(tab.id, {
+$(function () {
+    $(document).on('mouseup', function () {
+        var text = window.getSelection().toString()
+        if (undefined != text && "" != text){
+            console.log("searching "+text)
+            chrome.extension.sendMessage({
+                method: 'lookup',
                 action: 'lookup',
                 data: text
+            },function(resp){
+                console.log(resp.data)
             });
-        });
-})
-})
+        }
+    });
+});
 
 /**
 *@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
 **/
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+    console.log("received\n"+message.data)
 	switch(message.action) {
 		case 'popover':
 			popover(message.data);
