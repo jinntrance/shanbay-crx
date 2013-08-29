@@ -36,7 +36,7 @@ function addToNote(add,term) {
 }
 
 function wrapper(title){
-    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert"></div></div></div>').html()
+    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a></div></div></div>').html()
 }
 
 function addButtons(){
@@ -46,17 +46,23 @@ function addButtons(){
         $('#affix').html(wrapper('派生'))
 }
 
-$(document).on("DOMNodeLoaded", 'div#learning-box',function () {
-     console.log($(this).attr('id'))
-    addButtons()
-}).on("DOMNodeInserted", '#learning_word',function () {
-    console.log('handling definitions')
+$(document).on("DOMNodeInserted", '#learning-box',function () {
+//    console.log('handling definitions')
     var $definitions = $('#review-definitions');
+    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings().toggle();" class="sblink pull-right">中文释义</a>'
+    if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
+        $definitions.find('div.cndf').after(cn_anchor)
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
         $definitions.find('div.endf').show()
-        var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings().show();" class="sblink pull-right">中文释义</a>'
-        if ($definitions.find('div.cndf').hide().siblings('#show_cn_df').length == 0)
-            $definitions.find('div.cndf').after(cn_anchor)
+    }
+}).on("DOMNodeInserted", '#learning_word a#show_cn_df',function () {
+    console.log('retrieving English definitions')
+    if ((undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
+        if (ls()['etym'] != 'webster')
+            getEthology();
+    }
+    if ((undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+            findDerivatives();
     }
 }).on("DOMNodeInserted", '#roots .roots-wrapper',function () {
         console.log('#roots triggered')
@@ -64,10 +70,6 @@ $(document).on("DOMNodeLoaded", 'div#learning-box',function () {
     }).on("DOMNodeInserted", '#roots .roots-wrapper a.note-button',function () {
         console.log('retrieving roots data')
         if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
-        if ($("#roots div").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
-            if (ls()['etym'] != 'webster')
-                getEthology();
-        }
         if (undefined != ls()['hider']) {
             var ids = ls()['hider'].split(',')
             for (var i in ids) {
@@ -80,9 +82,6 @@ $(document).on("DOMNodeLoaded", 'div#learning-box',function () {
     }).on("DOMNodeInserted", '#affix a.note-button',function () {
         console.log('retrieving affix data')
         if($('#affix .well').length>0&&  ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
-        if ($("#affix div").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
-            findDerivatives();
-        }
     }).on("DOMNodeInserted", '#note-mine-box',function () {
 
     }).on("mouseover", "a.etymology",function () {
@@ -119,9 +118,9 @@ $(document).on("DOMNodeLoaded", 'div#learning-box',function () {
         case 119:
             $('div.navbar').toggle();
             return;
-        //例句E
-        case 69:
-        case 101:
+        //例句M
+        case 77:
+        case 109:
             $('div#learning-examples-box').toggle();
             return;
         //notes N
@@ -134,9 +133,9 @@ $(document).on("DOMNodeLoaded", 'div#learning-box',function () {
         case 113:
             addButtons()
             return;
-        //词根 R
-        case 82:
-        case 114:
+        //词根 E
+        case 69:
+        case 101:
             $('div#roots').toggle();
             return;
         //notes T
@@ -145,12 +144,12 @@ $(document).on("DOMNodeLoaded", 'div#learning-box',function () {
             $('div#roots a.note-button').click();
             $('div#affix a.note-button').click();
             return;
-        //webster definition
+        //webster definition V
         case 86:
         case 118:
             $('#review-definitions .endf').toggle();
             return;
-        //衍生、同义F
+        //衍生、同义X
         case 88:
         case 120:
             $('div#affix').toggle();

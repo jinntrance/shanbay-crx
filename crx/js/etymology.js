@@ -26,10 +26,11 @@ function getEthology() {
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && getCurrentTerm() == term) {
+            addButtons();
             var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
-                $("#roots .alert").addClass("well").removeClass("alert").html($(roots))
-            else  $("#roots").hide();
+                $("#roots .alert").addClass("well").removeClass("alert").html($(roots.trim()))
+            else if($('#roots .well').length==0)  $("#roots").hide();
             if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
         }
     }
@@ -38,7 +39,7 @@ function getEthology() {
 
 function popup(anchor, term, text) {
     $('.popover-crx').remove();
-    $('body').append('<div class="popover-crx fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>')
+    $('body').append('<div class="popover popover-crx fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>')
     $('.popover-title').html('<span class="word">' + term + '</span>')
     $('.popover-content').html('<p>' + text + '</p>')
     var offset = $(anchor).offset();
