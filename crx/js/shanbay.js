@@ -98,6 +98,7 @@ function getSelectionOffset(callback) {
 	var left = getLeft(dummy) - 50;
 	var top = getTop(dummy) + 25;
 	dummy.remove();
+    window.getSelection().addRange(range);
 	console.log(left + ':' + top);
 	callback(left, top);
 }
