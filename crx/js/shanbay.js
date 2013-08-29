@@ -1,12 +1,12 @@
 $(function () {
     $(document).on('mouseup', function () {
-        var text = window.getSelection().toString()
-        if (undefined != text && "" != text){
+        var text = window.getSelection().toString().match(/^[a-zA-Z\s']+$/)
+        if (undefined != text && null!=text&&0<text.length){
             console.log("searching "+text)
             chrome.extension.sendMessage({
                 method: 'lookup',
                 action: 'lookup',
-                data: text
+                data: text[0]
             },function(resp){
                 console.log(resp.data)
             });
