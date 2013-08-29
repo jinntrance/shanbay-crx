@@ -28,9 +28,9 @@ function getEthology() {
         if (xhr.readyState == 4 && getCurrentTerm() == term) {
             var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
-                $("#roots .due_msg").addClass("well").removeClass("alert").html($(roots))
+                $("#roots .alert").addClass("well").removeClass("alert").html($(roots))
             else  $("#roots").hide();
-            if (!$("#roots .due_msg").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+            if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
         }
     }
     xhr.send();

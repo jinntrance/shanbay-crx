@@ -21,7 +21,9 @@ function addNoteButton(selector) {
 }
 
 function addToNote(add,term) {
-    var notes = $(add).siblings("div").text()
+    var sib=$(add).siblings("div")
+    var notes =sib.text().trim()
+    if(sib.has('#affix_word_tree_container').length>0) notes=sib.find('#affix_word_tree_container').text().trim()
     var hint = '加入成功'
     var id = $('#learning-box').attr('data-id')
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
@@ -33,7 +35,21 @@ function addToNote(add,term) {
         });
 }
 
-$(document).on("DOMNodeInserted", '#learning_word',function () {
+function wrapper(title){
+    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert"></div></div></div>').html()
+}
+
+function addButtons(){
+    if($('#roots .alert,#roots .well').length==0)
+        $('#roots').html(wrapper('词根'))
+    if($('#affix .alert,#affix .word').length==0)
+        $('#affix').html(wrapper('派生'))
+}
+
+$(document).on("DOMNodeLoaded", 'div#learning-box',function () {
+     console.log($(this).attr('id'))
+    addButtons()
+}).on("DOMNodeInserted", '#learning_word',function () {
     console.log('handling definitions')
     var $definitions = $('#review-definitions');
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
@@ -42,12 +58,13 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         if ($definitions.find('div.cndf').hide().siblings('#show_cn_df').length == 0)
             $definitions.find('div.cndf').after(cn_anchor)
     }
-}).on("DOMNodeInserted", '#roots .roots-due-wrapper',function () {
+}).on("DOMNodeInserted", '#roots .roots-wrapper',function () {
         console.log('#roots triggered')
-        addNoteButton('#roots .due_msg')
-    }).on("DOMNodeInserted", '#roots .roots-due-wrapper a.note-button',function () {
+        addNoteButton('#roots .alert,#roots .well')
+    }).on("DOMNodeInserted", '#roots .roots-wrapper a.note-button',function () {
         console.log('retrieving roots data')
-        if ($("#roots .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
+        if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+        if ($("#roots div").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
             if (ls()['etym'] != 'webster')
                 getEthology();
         }
@@ -57,12 +74,13 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
                 $('#' + ids[i]).hide()
             }
         }
-    }).on("DOMNodeInserted", '#affix .roots-due-wrapper',function () {
+    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .word',function () {
         console.log('#affix triggered')
-        addNoteButton('#affix .due_msg')
-    }).on("DOMNodeInserted", '#affix .roots-due-wrapper a.note-button',function () {
+        addNoteButton('#affix .alert,#affix .well')
+    }).on("DOMNodeInserted", '#affix a.note-button',function () {
         console.log('retrieving affix data')
-        if ($("#affix .due_msg").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+        if($('#affix .well').length>0&&  ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
+        if ($("#affix div").hasClass("alert") && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
             findDerivatives();
         }
     }).on("DOMNodeInserted", '#note-mine-box',function () {
@@ -111,6 +129,11 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
         case 110:
             $('div#notes-box').toggle();
             return;
+        //R/F Q
+        case 81:
+        case 113:
+            addButtons()
+            return;
         //词根 R
         case 82:
         case 114:
@@ -128,8 +151,8 @@ $(document).on("DOMNodeInserted", '#learning_word',function () {
             $('#review-definitions .endf').toggle();
             return;
         //衍生、同义F
-        case 70:
-        case 102:
+        case 88:
+        case 120:
             $('div#affix').toggle();
             return;
         //I to ignore
