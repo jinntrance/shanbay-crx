@@ -11,20 +11,28 @@
         "scripts": ["js/jquery-2.0.3.min.js","js/background.js"]
     }, 
     "options_page":"options.html",
+    "browser_action": {
+        "default_icon": "icon_48.png",
+        "default_popup": "popup.html",
+        "default_title": "扇贝助手增强版"
+    },
     "content_scripts": [
         {
             "matches": ["http://*.shanbay.com/review**"],
-            "css": ["style.css"],
+            "css": ["css/style.css"],
             "js": ["js/jquery-2.0.3.min.js", "js/etymology.js","js/webster.js","js/main.js"]
         },{
-      "css": [ "shanbay.css" ],
+      "css": [ "css/shanbay.css" ],
       "js": [ "js/jquery-2.0.3.min.js", "js/howler.min.js", "js/shanbay.js" ],
-      "matches": [ "http://*/*", "https://*/*" ],
+      "matches": [ "*://*/*" ],
       "exclude_matches": ["http://www.shanbay.com/*"]
+   },{
+      "js": [ "js/jquery-2.0.3.min.js", "js/popup.js" ],
+      "matches": [ "http://www.shanbay.com/bdc/vocabulary/add/batch/*" ]
    }
     ],
     "permissions": [
-       "cookies","contextMenus", "tabs","storage", "http://*/*", "https://*/*"
+       "cookies","contextMenus", "tabs","storage", "*://*/*", "\u003Call_urls\u003E"
     ],
     "web_accessible_resources": []
 }
