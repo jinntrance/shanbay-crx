@@ -26,9 +26,16 @@ function addBatch(text){
             dataType: 'JSON',
             contentType: "application/json; charset=utf-8",
             success: function(data) {
-                var json=$.parseJSON(data)
-                var nf=json['notfound_words']
-//                $('#words').val($('#words').val()+'\n'+nf.join('\n'))
+                var nf=data['notfound_words']
+                if(0<nf.length){
+                    var ch=nf.join('\n')
+                    var ds=nf.map(function(e){
+                        return e+','+defs[e]
+                    }).join('\n')
+                    console.log(ch)
+                    var t=$('textarea[name=words]')
+                    t.val(t.val()+'\n'+ds)
+                }
 //                if(nf.length>0) for (i=0;i<nf.length;i+=1)
 //                    $.get("http://www.shanbay.com/bdc/sentence/add/?",{sentence:nf[i],definition:defs[i]})
             }
@@ -36,7 +43,9 @@ function addBatch(text){
 }
 $(function(){
     $('input[type=submit]').click(function(){
-        addBatch($('textarea[name=words]').val())
+        var t=$('textarea[name=words]')
+        addBatch(t.val())
+        t.val('')
         return false;
     })
 })
