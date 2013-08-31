@@ -3,7 +3,7 @@
  **/
 
 $(function(){
-    $(document).on('click','.learning .master',function () {
+    $(document).on('click','.learning .setmaster,.learning .set-not-hard',function () {
         var review_id = $(this).parents('.learning').attr('id').split('-')[1];
         var $d = $(this);
         $d.html('<span class="loading">&nbsp;</span>');
@@ -26,13 +26,16 @@ $(function(){
     var lastPage=lis[lis.length-2].textContent++
     var loading= false;
     $(window).scroll(function() {
-        if (!loading && $(window).scrollTop() >  $(document).height() - $(window).height()- 100) {
+        if (!loading && currentPage<lastPage && $(window).scrollTop() >  $(document).height() - $(window).height()- 100) {
             loading= true;
             currentPage+=1
-            $.get(url+"page="+currentPage,function(data){
-                var added=$(data).find('.learning:has(span.master)')
-                $('.learning').last().after(added)
-                $(".pagination li.active").text('当前第'+currentPage+'页')
+            var currentUrl=url+"page="+currentPage;
+            $.get(currentUrl,function(data){
+                var added=$(data).find('.learning:has(span.setmaster,span.set-not-hard)')
+                if(0<added.length){
+		            $('.learning').last().after(added)
+		            $(".pagination li.active a").text('当前第'+currentPage+'页').attr('href',currentUrl)
+                }
             })
             loading = false;
         }

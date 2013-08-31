@@ -3,7 +3,7 @@
  */
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    console.log("received term: "+request.data)
+    console.log("received method: "+request.method)
     switch(request.method){
         case "getLocalStorage":
             sendResponse({data: localStorage});
@@ -23,6 +23,21 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     }
 });
 
+chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+    var tabid = sender.tab.id;
+    console.log("received "+message.data)
+    switch(message.action) {
+        case 'is_user_signed_on':
+            isUserSignedOn();
+            break;
+        case 'lookup':
+            isUserSignedOn(function() {
+                getClickHandler(message.data, sender.tab);
+            });
+            break;
+    }
+});
+
 function normalize(word){
     return word.replace(/·/g,'');
 }
@@ -36,20 +51,7 @@ function normalize(word){
 var getLocaleMessage = chrome.i18n.getMessage;
 var API = 'http://www.shanbay.com/api/word/';
 
-chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
-  var tabid = sender.tab.id;
-  console.log("received "+message.data)
-  switch(message.action) {
-    case 'is_user_signed_on':
-      isUserSignedOn();
-      break;
-    case 'lookup':
-    isUserSignedOn(function() {
-     getClickHandler(message.data, sender.tab);
-    });
-    break;
-  }
-});
+
 
 function isUserSignedOn(callback) {
   chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'username'}, function(cookie) {
@@ -89,9 +91,19 @@ function getClickHandler(term, tab) {
     contentType: "application/json; charset=utf-8",
     success: function(data) {
       console.log('success');
-      chrome.tabs.sendMessage(tab.id, {
+      if((data.learning_id == 0&&data.voc == "")||localStorage['search_webster']=='yes')
+        getOnlineWebsterCollegiate(term,function(word,json){
+            var defs=json.fls.map(function(i){
+                return json.fls[i].textContent+', '+json.defs[i].textContent
+            }).toArray().join('<br/>')
+            chrome.tabs.sendMessage(tab.id, {
+                action: 'popover',
+                data: {shanbay:data,webster:{term:json.hw.text().replace(/\*/g, '·'),defs:defs}}
+            });
+        })
+      else chrome.tabs.sendMessage(tab.id, {
         action: 'popover',
-        data: data
+        data: {shanbay:data}
       });
     },
     error: function() {

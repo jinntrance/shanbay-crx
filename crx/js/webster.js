@@ -1,35 +1,19 @@
 /**
  * @user Joseph
  */
-function websterUrl(term) {
-    return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=0f4f19c8-b1cd-401f-a183-6513573cb3b9'
-}
-function thesaurusUrl(term) {
-    return 'http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/' + term + '?key=7269ef5b-4d9f-4d38-ac7e-f1ed6e5568f7'
-}
 
 function findDerivatives() {
     var originalTerm = getCurrentTerm()
-    var url = websterUrl(originalTerm)
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && getCurrentTerm() == originalTerm) {
-            var word = $($.parseXML(xhr.responseText)).find('entry').filter(function () { return $(this).find('ew').text()==originalTerm });
-            var derivatives = word.find('ure').map(function (i, e) {
-                return e.textContent.replace(/\*/g, '·')
-            })
-            if(undefined!=derivatives) derivatives=derivatives.toArray().toString().replace(/,/g, ", ");
-            var syns = word.find('sx').map(function (i, e) {
-                return e.textContent.replace(/\*/g, '·')
-            })
-            if(undefined!=syns) syns=syns.toArray().toString().replace(/,/g, ", ")
-            var roots=word.children('et')
+    getOnlineWebsterCollegiate(originalTerm, function (word,json) {
+        if (getCurrentTerm() == originalTerm) {
+            var derivatives = json.derivatives
+            var syns = json.syns
+            var roots=json.roots
             var term = $('#learning_word .word .content.pull-left');
             var small = term.find('small')[0].outerHTML
-	        var hw=word.children('hw')
-	        var fls=word.children('fl')
-	        var defs=word.children('def')
+	        var hw=json.hw
+	        var fls=json.fls
+	        var defs=json.defs
 
 	        var responseWord=word.find('ew').text()
             if (getCurrentTerm().length < 3 + responseWord.length) {
@@ -57,6 +41,5 @@ function findDerivatives() {
                 }
             } else if(ls()['etym'] == 'webster') getEthology()
         }
-    }
-    xhr.send();
+    });
 }

@@ -8,7 +8,7 @@ function ls(){
 
 $(function () {
     $(document).on('dblclick', function () {
-        var text = window.getSelection().toString().match(/^[a-zA-Z\s']+$/)
+        var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/)
         if (undefined != text && null!=text&&0<text.length&&ls()["click2s"]!='no'){
             console.log("searching "+text)
             chrome.extension.sendMessage({
@@ -35,21 +35,27 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 	}
 });
 
-function popover(data) {
+function popover(alldata) {
+    var data=alldata.shanbay
+    var webster=alldata.webster
+    var defs=""
+    if(ls()['webster_search']=='yes') defs=webster.defs
 	console.log('popover');
 	var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">';
 
     if(data.learning_id == 0) {
       if(data.voc == "") {// word not exist
-      	html += '未找到单词</h3></div>';
+      	if(undefined==webster||webster.term=="") html += '未找到单词</h3></div>';
+      	else html += '<p><span class="word">'+webster.term+'</span></p></h3>' +
+            '<div class="popover-content"><p>'+webster.defs+"</p></div>";
       } else {// word exist, but not recorded
       	html += '<p><span class="word">'+data.voc.content+'</span>'
       		+'<small class="pronunciation">'+(data.voc.pron.length ? ' ['+data.voc.pron+'] ': '')+'</small></p>'
 			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
 			+'<div class="popover-content">'
-			+'<p>'+data.voc.definition.split('\n').join("<br/>")+'</p>'
-			+'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加到生词库</a>'
-			+'<p class="success hide">成功添加到生词库！</p>'
+			+'<p>'+data.voc.definition.split('\n').join("<br/>")+"<br/>"+defs+'</p>'
+			+'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
+			+'<p class="success hide">成功添加！</p>'
 			+'<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a></div>'
 			+'</div>';
       }

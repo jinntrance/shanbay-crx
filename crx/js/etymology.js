@@ -1,40 +1,20 @@
 /**
  * @author Joseph
  */
-
-var etho_pre_url = 'http://www.etymonline.com/index.php?term='
-var etym_url = 'http://www.etymonline.com/'
 var originAnchor = undefined
 
-function parseEtymology(pre_url, text) {
-    var data = $($.parseHTML(text)).find('#dictionary dl');
-    data.find('a').addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
-        //var anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
-        return $(this).attr('href', etym_url + $(this).attr('href'));
-    });
-    data.find('dt a').removeClass('etymology');
-    data.find('dt a.dictionary').remove();
-    return data.html()
-}
-
 function getEthology() {
-    var pre_url = etho_pre_url
     originAnchor = undefined
     var term = getCurrentTerm()
-    var url = pre_url + term
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && getCurrentTerm() == term) {
+    getOnlineEthology(term,function (roots) {
+        if (getCurrentTerm() == term) {
             addButtons();
-            var roots = parseEtymology(pre_url, xhr.responseText);
             if (undefined != roots && roots.trim() != "")
                 $("#roots .alert").addClass("well").removeClass("alert").html($(roots.trim()))
             else if($('#roots .well').length==0)  $("#roots").hide();
             if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
         }
-    }
-    xhr.send();
+    });
 }
 
 function popup(anchor, term, text) {

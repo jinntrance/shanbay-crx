@@ -1,6 +1,6 @@
 {
     "name": "扇贝助手增强版",
-    "version": "1.8.3",
+    "version": "1.8.4",
     "manifest_version": 2,
     "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
    "icons": {
@@ -8,7 +8,7 @@
       "72": "icon_72.png"
    },
     "background": {
-        "scripts": ["js/jquery-2.0.3.min.js","js/background.js"]
+        "scripts": ["js/jquery-2.0.3.min.js","js/common.js","js/background.js"]
     }, 
     "options_page":"options.html",
     "browser_action": {
@@ -20,7 +20,7 @@
         {
             "matches": ["http://*.shanbay.com/review**"],
             "css": ["css/style.css"],
-            "js": ["js/jquery-2.0.3.min.js", "js/etymology.js","js/webster.js","js/main.js"]
+            "js": ["js/jquery-2.0.3.min.js", "js/common.js","js/etymology.js","js/webster.js","js/main.js"]
         },{
       "css": [ "css/shanbay.css" ],
       "js": [ "js/jquery-2.0.3.min.js", "js/howler.min.js", "js/shanbay.js" ],
