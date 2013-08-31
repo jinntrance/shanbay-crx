@@ -29,7 +29,10 @@ function restore_options() {
     $("input[name=afx2note][value="+localStorage["afx2note"]+"]").attr("checked",true);
     $("input[name=hide_cn][value="+localStorage["hide_cn"]+"]").attr("checked",true);
     $("input[name=web_en][value="+localStorage["web_en"]+"]").attr("checked",true);
-    $("input[name=hider]:checkbox").val(localStorage["hider"].split(','))
+    var hider=localStorage["hider"]
+    if(undefined==hider) hider=[]
+    else hider=hider.split(',')
+    $("input[name=hider]:checkbox").val(hider)
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);
