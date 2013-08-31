@@ -1,7 +1,15 @@
+function ls(){
+    chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
+        for (k in response.data)
+            localStorage[k] = response.data[k];
+    });
+    return localStorage;
+}
+
 $(function () {
     $(document).on('dblclick', function () {
         var text = window.getSelection().toString().match(/^[a-zA-Z\s']+$/)
-        if (undefined != text && null!=text&&0<text.length){
+        if (undefined != text && null!=text&&0<text.length&&ls()["click2s"]!='no'){
             console.log("searching "+text)
             chrome.extension.sendMessage({
                 method: 'lookup',
