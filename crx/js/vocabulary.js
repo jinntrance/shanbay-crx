@@ -17,19 +17,26 @@ $(function(){
         }
     });
     var originUrl = window.location.href;
-    var currentPage=1
+    currentPage=1
     var url=originUrl.split("page=")[0]
     if(originUrl.indexOf('page=')>0)
         currentPage=originUrl.match(/page=(\d+)/)[1]++
     else url+='?'
     var lis=$('.pagination li a.endless_page_link')
     var lastPage=lis[lis.length-2].textContent++
-    for(var i=currentPage+1;i<=lastPage;i++){
-        $.get(url+"page="+i,function(data){
-          var added=$(data).find('.learning:has(span.master)')
-          $('.learning').last().after(added)
-        })
-    }
+    var loading= false;
+    $(window).scroll(function() {
+        if (!loading && $(window).scrollTop() >  $(document).height() - $(window).height()- 100) {
+            loading= true;
+            currentPage+=1
+            $.get(url+"page="+currentPage,function(data){
+                var added=$(data).find('.learning:has(span.master)')
+                $('.learning').last().after(added)
+                $(".pagination li.active").text('当前第'+currentPage+'页')
+            })
+            loading = false;
+        }
+    });
 })
 
 function resolveLearning(learning_id, callback, params) {
