@@ -64,19 +64,19 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     if ((undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
             findDerivatives();
     }
-}).on("DOMNodeInserted", '#roots .roots-wrapper',function () {
+    if (undefined != ls()['hider']) {
+        var ids = ls()['hider'].split(',')
+        for (var i in ids) {
+            $('#' + ids[i]).hide()
+        }
+    }
+}).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper',function () {
         console.log('#roots triggered')
         addNoteButton('#roots .alert,#roots .well')
-    }).on("DOMNodeInserted", '#roots .roots-wrapper a.note-button',function () {
+    }).on("DOMNodeInserted", '#roots a.note-button',function () {
         console.log('retrieving roots data')
         if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
-        if (undefined != ls()['hider']) {
-            var ids = ls()['hider'].split(',')
-            for (var i in ids) {
-                $('#' + ids[i]).hide()
-            }
-        }
-    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .word',function () {
+    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word',function () {
         console.log('#affix triggered')
         addNoteButton('#affix .alert,#affix .well')
     }).on("DOMNodeInserted", '#affix a.note-button',function () {
