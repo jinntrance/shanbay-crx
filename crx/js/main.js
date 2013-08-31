@@ -40,9 +40,9 @@ function wrapper(title){
 }
 
 function addButtons(){
-    if($('#roots .alert,#roots .well').length==0)
+    if($('#roots .well').length==0)
         $('#roots').html(wrapper('词根'))
-    if($('#affix .alert,#affix .word,#affix .well').length==0)
+    if($('#affix .word,#affix .well').length==0)
         $('#affix').html(wrapper('派生'))
 }
 
