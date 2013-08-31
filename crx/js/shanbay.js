@@ -1,5 +1,5 @@
 $(function () {
-    $(document).on('mouseup', function () {
+    $(document).on('dblclick', function () {
         var text = window.getSelection().toString().match(/^[a-zA-Z\s']+$/)
         if (undefined != text && null!=text&&0<text.length){
             console.log("searching "+text)
