@@ -2,21 +2,22 @@
  * @user Joseph
  */
 
+var etho_pre_url = 'http://www.etymonline.com/index.php?term='
+
 function getOnlineEthology(term,callback){
-    var etho_pre_url = 'http://www.etymonline.com/index.php?term='
     var url = etho_pre_url + term.toLowerCase()
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 ) {
-            var roots = parseEtymology(etho_pre_url, xhr.responseText);
+            var roots = parseEtymology( xhr.responseText);
             callback(roots)
         }
     }
     xhr.send();
 }
 
-function parseEtymology(pre_url, text) {
+function parseEtymology( text) {
     var etym_url = 'http://www.etymonline.com/'
     var data = $($.parseHTML(text)).find('#dictionary dl');
     data.find('a').addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {

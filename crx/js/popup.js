@@ -47,7 +47,8 @@ $(function(){
         var t=$('textarea[name=words]')
         addBatch(t.val())
         t.val('')
-        $('form').after('<div class="notfounds"><h3>未添加成功单词会再次出现在上面文本框</h3> <ul>  </ul></div>')
+        if($('#batch-add-hint').length==0)
+            $('form#add-learnings-form').after('<div id="batch-add-hint" class="notfounds"><h3>未添加成功单词会再次出现在上面文本框</h3> <ul>  </ul></div>')
         return false;
     });
     $('#maximum-amount-hint').text('每次最多可添1000词。若需添加释义，单词(or 句子)与释义间用英文逗号","隔开。')

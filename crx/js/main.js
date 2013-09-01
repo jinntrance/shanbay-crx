@@ -49,7 +49,7 @@ function addButtons(){
 $(document).on("DOMNodeInserted", '#learning-box',function () {
 //    console.log('handling definitions')
     var $definitions = $('#review-definitions');
-    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings().toggle();" class="sblink pull-right">中文释义</a>'
+    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>'
     if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
         $definitions.find('div.cndf').after(cn_anchor)
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
