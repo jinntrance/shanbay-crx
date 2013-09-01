@@ -46,6 +46,23 @@ function addButtons(){
         $('#affix').html(wrapper('派生'))
 }
 
+function replaceButtons(){
+    if($('#roots .exist').length==0)
+        $('#roots').html(wrapper('词根'))
+    if($('#affix .exist').length==0)
+        $('#affix').html(wrapper('派生'))
+    searchOnline()
+}
+
+function searchOnline() {
+    if ($('#roots .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
+        if (ls()['etym'] != 'webster')
+            getEthology();
+    }
+    if ($('#affix .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+        findDerivatives();
+    }
+}
 $(document).on("DOMNodeInserted", '#learning-box',function () {
 //    console.log('handling definitions')
     var $definitions = $('#review-definitions');
@@ -57,13 +74,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     }
 }).on("DOMNodeInserted", '#learning_word a#show_cn_df',function () {
     console.log('retrieving English definitions')
-    if ((undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
-        if (ls()['etym'] != 'webster')
-            getEthology();
-    }
-    if ((undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
-            findDerivatives();
-    }
+    searchOnline();
     if (undefined != ls()['hider']) {
         var ids = ls()['hider'].split(',')
         for (var i in ids) {
@@ -128,10 +139,11 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 110:
             $('div#notes-box').toggle();
             return;
-        //R/F Q
+        // Q
         case 81:
         case 113:
-            addButtons()
+            if(e.ctrlKey)
+                replaceButtons()
             return;
         //词根 E
         case 69:

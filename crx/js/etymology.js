@@ -9,8 +9,8 @@ function getEthology() {
     getOnlineEthology(term,function (roots) {
         if (getCurrentTerm() == term) {
             addButtons();
-            if (undefined != roots && roots.trim() != "")
-                $("#roots .alert").addClass("well").removeClass("alert").html($(roots.trim()))
+            if (undefined != roots && roots.trim() != ""&&$('#roots .exist').length==0)
+                $("#roots .alert").addClass("well exist").removeClass("alert").html($(roots.trim()))
             else if($('#roots .well').length==0)  $("#roots").hide();
             if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
         }
@@ -23,7 +23,7 @@ function popup(anchor, term, text) {
     $('.popover-title').html('<span class="word">' + term + '</span>')
     $('.popover-content').html('<p>' + text + '</p>')
     var offset = $(anchor).offset();
-    if (undefined != offset) $('.popover-crx').show().offset({top: offset.top + 23, left: offset.left - 130});
+    if (undefined != offset) $('.popover-crx').slideDown().offset({top: offset.top + 23, left: offset.left - 130});
     if (ls()['root2note'] == 'yes') addToNote(".popover-crx a.note-button");
 }
 
@@ -36,7 +36,7 @@ function popupEtymology(anchor) {
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            var roots = parseEtymology(pre_url, xhr.responseText);
+            var roots = parseEtymology(xhr.responseText);
             popup(originAnchor, $(anchor).text(), roots)
         }
     }

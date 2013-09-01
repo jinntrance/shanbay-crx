@@ -19,12 +19,13 @@ function findDerivatives() {
             if (getCurrentTerm().length < 3 + responseWord.length) {
                 addButtons();
                 if (hw.length > 0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
-                if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster') {
-                    var r=$("#roots .alert").addClass("well").removeClass("alert").html(roots.trim())
+                if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster'&& $('#roots .exist').length==0) {
+                    var r=$("#roots .alert").addClass("well exist").removeClass("alert").html(roots.trim())
                     r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))
                     if (!$("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
                 } else if(ls()['etym'] == 'webster') getEthology();
-                if (undefined != derivatives && "" != derivatives.trim()) $("#affix .alert").addClass("well").removeClass("alert").html(derivatives + "; <br/>"+derivatives.replace(/·/g,'')+"; <br/>" + syns)
+                if (undefined != derivatives && "" != derivatives.trim()&&$('#affix .exist').length==0)
+                    $("#affix .alert").addClass("well exist").removeClass("alert").html(derivatives + "; <br/>"+derivatives.replace(/·/g,'')+"; <br/>" + syns)
                 else if($('#affix .word').length==0 )$("#affix").hide();
                 if (!$("#affix .alert").hasClass("alert") && ls()['afx2note'] == 'yes') addToNote("#affix a.note-button");
                 if (ls()['web_en'] == 'yes'){
