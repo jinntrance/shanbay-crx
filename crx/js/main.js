@@ -205,7 +205,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             return;
     }
     return;//using "return" other attached events will execute
-}).on('keyup','input',function (event) {
+}).on('keyup','input,textarea',function (event) {
     event.stopPropagation();
 });
 
