@@ -20,7 +20,7 @@ function findDerivatives() {
                 addButtons();
                 if (hw.length > 0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
                 if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster'&& $('#roots .exist').length==0) {
-                    var r=$("#roots .alert").addClass("well exist").removeClass("alert").html(roots.trim())
+                    var r=$("#roots .alert").addClass("well exist").removeClass("alert").html(roots)
                     r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))
                     if (!$("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
                 } else if(ls()['etym'] == 'webster') getEthology();
