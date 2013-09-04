@@ -19,7 +19,7 @@ function getOnlineEthology(term,callback){
 
 function parseEtymology( text) {
     var etym_url = 'http://www.etymonline.com/'
-    var data = $($.parseHTML(text)).find('#dictionary dl');
+    var data = $(text.replace(/<img[^>]*>/g,"")).find('#dictionary dl');
     data.find('a').addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
         //var anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
         return $(this).attr('href', etym_url + $(this).attr('href'));
