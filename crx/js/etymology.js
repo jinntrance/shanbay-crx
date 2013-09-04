@@ -29,7 +29,8 @@ function popup(anchor, term, text) {
 
 function popupEtymology(anchor) {
     var pre_url = etho_pre_url
-    if (undefined == originAnchor || $(anchor).parents("#roots").length > 0) originAnchor = $(anchor);
+    if (undefined == originAnchor ||  originAnchor.text() != $(anchor).text()){
+    if($(anchor).parents("#roots").length > 0) originAnchor = $(anchor);
     //var url = pre_url + $(anchor).text()
     var url = $(anchor).attr('href')
     var xhr = new XMLHttpRequest();
@@ -41,6 +42,7 @@ function popupEtymology(anchor) {
         }
     }
     xhr.send();
+    }
 }
 
 
