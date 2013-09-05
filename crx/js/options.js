@@ -9,6 +9,7 @@ function save_options() {
     localStorage["afx2note"] = $("input[name=afx2note]:checked").val();
     localStorage["hide_cn"] = $("input[name=hide_cn]:checked").val();
     localStorage["web_en"] = $("input[name=web_en]:checked").val();
+    localStorage["skip_easy"] = $("input[name=skip_easy]:checked").val();
     localStorage["hider"] =  $("input[name=hider]:checkbox:checked").map(function(i,e){return $(e).val()}).toArray();
 
     // Update status to let user know options were saved.
@@ -29,6 +30,7 @@ function restore_options() {
     $("input[name=afx2note][value="+localStorage["afx2note"]+"]").attr("checked",true);
     $("input[name=hide_cn][value="+localStorage["hide_cn"]+"]").attr("checked",true);
     $("input[name=web_en][value="+localStorage["web_en"]+"]").attr("checked",true);
+    $("input[name=skip_easy][value="+localStorage["skip_easy"]+"]").attr("checked",true);
     var hider=localStorage["hider"]
     if(undefined==hider) hider=[]
     else hider=hider.split(',')
