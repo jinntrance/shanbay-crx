@@ -19,6 +19,7 @@ function getEthology() {
 
 function popup(anchor, term, text) {
     $('.popover-crx').remove();
+    $('.popover').remove();
     $('body').append('<div class="popover popover-crx fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>')
     $('.popover-title').html('<span class="word">' + term + '</span>')
     $('.popover-content').html('<p>' + text + '</p>')
