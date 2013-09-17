@@ -98,7 +98,7 @@ function getClickHandler(term, tab) {
             }).toArray().join('<br/>')
             chrome.tabs.sendMessage(tab.id, {
                 action: 'popover',
-                data: {shanbay:data,webster:{term:json.hw.text().replace(/\*/g, '·'),defs:defs}}
+                data: {shanbay:data,webster:{term:json.hw[0].text().replace(/\*/g, '·'),defs:defs}}
             });
         })
       else chrome.tabs.sendMessage(tab.id, {
