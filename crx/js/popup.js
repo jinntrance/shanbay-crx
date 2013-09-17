@@ -19,6 +19,7 @@ function addBatch(text){
         }
         words.push(word)
     })
+    $('#add-status').html("添加中...")
     for (var i=0;i<words.length;i+=10)
         $.ajax({
             url: "http://www.shanbay.com/bdc/vocabulary/add/batch/?words="+words.slice(i,i+10).join("%0A"),
@@ -54,15 +55,15 @@ function addBatch(text){
 //                    $.get("http://www.shanbay.com/bdc/sentence/add/?",{sentence:nf[i],definition:defs[i]})
             }
         });
-    $('#add-status').innerHTML='"添加完成"'
+    $('#add-status').html("添加完成");
 }
 $(function(){
     $('input[type=submit]').click(function(){
+        if($('#batch-add-hint').length==0)
+            $('form#add-learnings-form').after('<div id="batch-add-hint" class="notfounds"><h3>未添加成功单词会再次出现在上面文本框</h3><span id="add-status"></span> <ul>  </ul></div>')
         var t=$('textarea[name=words]')
         addBatch(t.val())
         t.val('')
-        if($('#batch-add-hint').length==0)
-            $('form#add-learnings-form').after('<div id="batch-add-hint" class="notfounds"><h3>未添加成功单词会再次出现在上面文本框<span id="add-status"></span></h3> <ul>  </ul></div>')
         return false;
     });
     $('#maximum-amount-hint').text('每次最多可添1000词。若需添加释义，单词(or 句子)与释义间用英文逗号","隔开。')

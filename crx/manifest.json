@@ -29,7 +29,8 @@
         },
         {
             "js": [ "js/jquery-2.0.3.min.js", "js/popup.js" ],
-            "matches": [ "http://*.shanbay.com/bdc/vocabulary/add/batch/*" ]
+            "matches": [ "http://*.shanbay.com/bdc/vocabulary/add/batch/*" ],
+            "css": ["css/style.css"]
         },
         {
             "js": [ "js/jquery-2.0.3.min.js", "js/vocabulary.js" ],

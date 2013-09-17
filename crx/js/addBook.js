@@ -48,6 +48,7 @@ $(function(){
                     init=num++
                 }
             }
+            $('#add-status').html("添加中...")
             for(var i=init+1;i<=init+len;i++){
                 var li="http://www.shanbay.com/api/v1/wordbook/wordlist/"
                 var word_num=all<i*200?all-(i-1)*200:200
@@ -76,12 +77,12 @@ $(function(){
                                                $add.val($add.val()+e+","+defs[e]+'\n')
                                             else $add.val($add.val()+e+'\n')
                                         }else {
-                                            if(defs[e]&& data.vocabulary.definition.search(defs[e])==-1){
+                                            if(defs[e]&& data.data.vocabulary.definition.search(defs[e])==-1){
                                                 var id= e.id;
                                                 $.ajax({
                                                     url: "http://www.shanbay.com/wordlist/vocabulary/definition/edit/",
                                                     type: 'POST',
-                                                    data: {vocabulary_id:data.vocabulary.id,wordlist_id:li_id,definition: defs[e.content]+"\n"+e.definition},
+                                                    data: {vocabulary_id:data.data.vocabulary.id,wordlist_id:li_id,definition: defs[e]+"\n"+data.data.vocabulary.definition},
                                                     dataType: 'JSON'
                                                 })
                                             }
