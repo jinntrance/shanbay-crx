@@ -81,24 +81,24 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             $('#' + ids[i]).hide()
         }
     }
-}).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper',function () {
+}).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper',function (e) {
         console.log('#roots triggered')
         addNoteButton('#roots .alert,#roots .well')
-    }).on("DOMNodeInserted", '#roots a.note-button',function () {
+    }).on("DOMNodeInserted", '#roots a.note-button',function (e) {
         console.log('retrieving roots data')
         if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
-    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word',function () {
+    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word',function (e) {
         console.log('#affix triggered')
         addNoteButton('#affix .alert,#affix .well')
-    }).on("DOMNodeInserted", '#affix a.note-button',function () {
+    }).on("DOMNodeInserted", '#affix a.note-button',function (e) {
         console.log('retrieving affix data')
         if($('#affix .well').length>0&&  ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
     }).on("DOMNodeInserted", '#note-mine-box',function () {
 
-    }).on("mouseover", "a.etymology",function () {
+    }).on("mouseover", "a.etymology",function (e) {
         popupEtymology($(this));
         return;
-    }).on("click", "a.note-button",function () {
+    }).on("click", "a.note-button",function (e) {
         console.log('clicking a note-button')
         addToNote($(this))
     }).on('mouseup',function (e) {
@@ -153,8 +153,9 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         //notes T
         case 84:
         case 116:
-            $('div#roots a.note-button').click();
-            $('div#affix a.note-button').click();
+            $('a.note-button').each(function(e){
+                addToNote($(this));
+            });
             return;
         //webster definition V
         case 86:

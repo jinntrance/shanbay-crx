@@ -16,9 +16,9 @@ function findDerivatives() {
 	        var defs=json.defs
 
 	        var responseWord=word.find('ew').text()
-            if (getCurrentTerm().length < 3 + responseWord.length) {
+            if (getCurrentTerm().length <= 4 + responseWord.length) {
                 addButtons();
-                if (hw.length > 0) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
+                if (hw.length > 0 &&hw[0].textContent.replace(/\*/g,'')==originalTerm) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
                 if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster'&& $('#roots .exist').length==0) {
                     var r=$("#roots .alert").addClass("well exist").html(roots)
                     if(0<r.length) r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))

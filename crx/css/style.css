@@ -27,11 +27,24 @@ a.note-button,a#show_cn_df{
     color: green;
     font-size: 25pt;
 }
+#add-status{
+    color: green;
+    font-size: 16pt;
+}
 .shortcut ol{
     text-align: left;
     margin-left: 20px;
 
 }
+
+#add-new-book{
+    width:95%;
+    margin:6px
+}
+a#btn-delete-all-book{
+    float: right;
+}
+
 textarea#words{
 background-color: #ffffff;
 border: 1px solid #cccccc;
