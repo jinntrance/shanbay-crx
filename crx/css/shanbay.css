@@ -11,6 +11,9 @@
 	border-right: 8px solid transparent;
 	border-bottom: 8px solid rgba(0, 0, 0, 0.2);
 }
+.web_type{
+    font-weight:bold ;
+}
 #shanbay_popover::after{
 	content: '';
 	position: absolute;

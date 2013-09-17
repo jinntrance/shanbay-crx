@@ -94,11 +94,11 @@ function getClickHandler(term, tab) {
       if((data.learning_id == 0&&data.voc == "")||localStorage['search_webster']=='yes')
         getOnlineWebsterCollegiate(term,function(word,json){
             var defs=json.fls.map(function(i){
-                return json.fls[i].textContent+', '+json.defs[i].textContent
+                return "<span class='web_type'>"+json.fls[i].textContent+'</span>, '+json.defs[i].textContent
             }).toArray().join('<br/>')
             chrome.tabs.sendMessage(tab.id, {
                 action: 'popover',
-                data: {shanbay:data,webster:{term:json.hw[0].text().replace(/\*/g, '·'),defs:defs}}
+                data: {shanbay:data,webster:{term:json.hw[0].textContent.replace(/\*/g, '·'),defs:defs}}
             });
         })
       else chrome.tabs.sendMessage(tab.id, {
