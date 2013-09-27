@@ -12,7 +12,7 @@ function getEthology() {
             if (undefined != roots && roots.trim() != ""&&$('#roots .exist').length==0)
                 $("#roots .alert").addClass("well exist").removeClass("alert").html($(roots.trim()))
             else if($('#roots .well').length==0)  $("#roots").hide();
-            if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+            if (!$("#roots .alert").hasClass("alert") && ls()['root2note'] == 'YES') addToNote("#roots a.note-button");
         }
     });
 }

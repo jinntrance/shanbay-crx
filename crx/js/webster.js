@@ -23,12 +23,12 @@ function findDerivatives() {
                     var r=$("#roots .alert").addClass("well exist").html(roots)
                     if(0<r.length) r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))
                     r.removeClass("alert")
-                    if (!$("#roots .alert").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+                    if (!$("#roots .alert").length>0 && ls()['root2note'] == 'YES') addToNote("#roots a.note-button");
                 } else if(ls()['etym'] == 'webster') getEthology();
                 if (undefined != derivatives && "" != derivatives.trim()&&$('#affix .exist').length==0)
                     $("#affix .alert").addClass("well exist").removeClass("alert").html(derivatives + "; <br/>"+derivatives.replace(/·/g,'')+"; <br/>" + syns)
                 else if($('#affix .word').length==0 )$("#affix").hide();
-                if (!$("#affix .alert").hasClass("alert") && ls()['afx2note'] == 'yes') addToNote("#affix a.note-button");
+                if (!$("#affix .alert").hasClass("alert") && ls()['afx2note'] == 'YES') addToNote("#affix a.note-button");
                 if (ls()['web_en'] == 'yes'){
                     var endef=$("#review-definitions .endf");
                     endef.html('')
