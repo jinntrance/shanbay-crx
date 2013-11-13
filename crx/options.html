@@ -17,7 +17,7 @@
                     <ol>
                     <li>W或w 全屏切换、T/t添加笔记noTes(自动添加笔记应扇贝网要求停用)</li>
                     <li>显示隐藏:C/c中文释义Chinese、G/g英文释义enGlish、M/m例句(exaMple)、N/n笔记Notes、E/e词根(Etymology)、X/x派生affiX</li>
-                    <li>U,J,K,L分別可选1,2,3,4 、I太简单、O/o不认识</li>
+                    <li>U,J,K,L分別可选1,2,3,4 、I太简单、O/o不认识，U,J选择“认识”/“不认识”</li>
                     <li>若觉着扇贝自带词根不全，可按Ctrl+q再网上查词源、派生</li>
                     </ol>
                 </div>
@@ -100,11 +100,22 @@
                     </div>
                     <div class="option-set">我的词库翻页时默认过滤掉“太简单”单词
                         <label>
-                            <input name="skip_easy" type="radio" value="yes" >
+                            <input name="skip_easy" type="radio" value="yes"  >
                         </label>是
                         <label>
                             <input name="skip_easy" type="radio" value='no' checked="checked">
                         </label>否
+                    </div>
+                    <div class="option-set" style="vertical-align: top" id="reg_key">Webster Key:
+                        <label>
+                            <textarea name="web_key" type="text" value="" cols="40" rows="3"></textarea>
+                        </label><a href="javascript:void(0);" id="test">测试</a>
+                        <p>Webster Key最好自己<a href="http://www.dictionaryapi.com/register/index.htm" target="_blank">注册</a>(注册时请选择"Collegiate Dictionary")并存于此处,以保证Webster词根、英文释义能快速、成功获取。
+                        注册后可在<a href="http://www.dictionaryapi.com/account/my-keys.htm">此处</a>查询自己的keys,请将左端为“Key (Dictionary):”的key保存在上述方框内，每行一个key。不能使用的key将被自动删除。
+                        可点击右方“测试”删除不可用keys。<br/>
+                            一个key已经足够一人使用，若想把多余的keys贡献给大家使用，可email <a href="javascript:void(0);" id="mail_me">我</a>。
+                            我之前申请的keys就因为使用量过大而被Webster勒令不能再用了，另申请的俩keys不知道能用多久，如果有童鞋愿意奉献，我再收集7、8个key就完全够当前全部用户使用了。
+                        </p>
                     </div>
                 </div>
 
@@ -125,5 +136,6 @@
 </div>
 </body>
 <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/common.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/options.js" charset="UTF-8"></script>
 </html>

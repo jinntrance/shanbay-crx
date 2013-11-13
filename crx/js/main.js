@@ -8,14 +8,6 @@ function getCurrentTerm() {
     return $('#current-learning-word').text();
 }
 
-function ls(){
-    chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
-        for (k in response.data)
-            localStorage[k] = response.data[k];
-    });
-    return localStorage;
-}
-
 function addNoteButton(selector) {
     if ($(selector).siblings('a.note-button').length == 0) $(selector).before(noteString)
 }
@@ -186,13 +178,14 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             switch(key){
                 case 'u':
                 case 'U':
-                    if(1<$choices.length)$choices[0].click();
-                    else $('#review a.known').click();
+                    if(0== $choices.length) $('#review a.known')[0].click()
+                    else $choices[0].click();
                     return;
                 case 'j':
                 case 'J':
                     if(1<$choices.length)$choices[1].click();
-                    else $('#review a.unknown').click();
+                    else $('#review a.unknown')[0
+                        ].click();
                     return;
                 case 'k':
                 case 'K':if(4==$choices.length)$choices[2].click() ;return;

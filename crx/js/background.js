@@ -42,6 +42,17 @@ function normalize(word){
     return word.replace(/·/g,'');
 }
 
+var updates = webkitNotifications.createHTMLNotification(
+    'updates.html'  // html url - can be relative
+);
+if(localStorage['notified']!='yes'){
+    updates.show()
+    setTimeout(function(){
+        updates.cancel();
+    },8000);
+    localStorage['notified']='yes'
+}
+
 
 /**
 *@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
@@ -60,8 +71,14 @@ function isUserSignedOn(callback) {
       callback();
     } else {
       localStorage.removeItem('shanbay_cookies');
-      chrome.tabs.create({url:"http://www.shanbay.com/accounts/login/"})
-      alert('请先登录到扇贝网！');
+//      chrome.tabs.create({url:"http://www.shanbay.com/accounts/login/"})
+        var notification = webkitNotifications.createHTMLNotification(
+            'login.html'  // html url - can be relative
+        );
+        notification.show()
+        setTimeout(function(){
+            notification.cancel();
+        },5000);
     }
   });
 }

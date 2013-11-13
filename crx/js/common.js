@@ -6,6 +6,14 @@ var etho_pre_url = 'http://www.etymonline.com/index.php?term='
 
 var keys=['b724c154-a86b-4c8e-a48d-22c85d391428','822c717c-3bbe-40b4-9b46-bcab7f76ff88']
 
+function ls(){
+    chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
+        for (var k in response.data)
+            localStorage[k] = response.data[k];
+    });
+    return localStorage;
+}
+
 function getOnlineEthology(term,callback){
     var url = etho_pre_url + term.toLowerCase()
     var xhr = new XMLHttpRequest();
@@ -31,8 +39,11 @@ function parseEtymology( text) {
     return data.html()
 }
 
+function getKey() {
+    return keys[Math.floor(Math.random() * keys.length)];
+}
 function websterUrl(term) {
-    return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key='+keys[Math.floor( Math.random()*keys.length)]
+    return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key='+getKey()
 }
 function thesaurusUrl(term) {
     return 'http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/' + term + '?key=7269ef5b-4d9f-4d38-ac7e-f1ed6e5568f7'
@@ -61,10 +72,11 @@ function getOnlineWebster(term,url,callback){
             })
             if(undefined!=syns) syns=syns.toArray().toString().replace(/,/g, ", ")
             var roots=word.children('et')
+            var resp_word=word.children('ew')
             var hw=word.children('hw') // 音节划分
             var fls=word.children('fl') //lexical class 词性
             var defs=word.children('def')
-            callback(word,{derivatives:derivatives,syns:syns,roots:roots,fls:fls,defs:defs,hw:hw});
+            callback(word,{derivatives:derivatives,syns:syns,roots:roots,fls:fls,defs:defs,hw:hw,ew:resp_word});
         }
     }
     xhr.send();
