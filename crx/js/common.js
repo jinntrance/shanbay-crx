@@ -40,6 +40,11 @@ function parseEtymology( text) {
 }
 
 function getKey() {
+    var personal_keys=ls()['web_key']
+    if(undefined!=personal_keys && ''!=personal_keys.trim() ){
+      var p_keys=personal_keys.split(',')
+      return p_keys[Math.floor(Math.random() * p_keys.length)];
+    }
     return keys[Math.floor(Math.random() * keys.length)];
 }
 function websterUrl(term) {

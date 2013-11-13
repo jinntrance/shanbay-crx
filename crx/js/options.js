@@ -3,7 +3,7 @@
  */
 // Saves options to localStorage.
 function save_options() {
-    test_keys();
+//    test_keys();
     localStorage["etym"] = $("input[name=etym]:checked").val();
     localStorage["click2s"] = $("input[name=click2s]:checked").val();
     localStorage["root2note"] = $("input[name=root2note]:checked").val();
@@ -12,7 +12,7 @@ function save_options() {
     localStorage["web_en"] = $("input[name=web_en]:checked").val();
     localStorage["skip_easy"] = $("input[name=skip_easy]:checked").val();
     localStorage["hider"] =  $("input[name=hider]:checkbox:checked").map(function(i,e){return $(e).val()}).toArray();
-    localStorage["web_key"] =  $('textarea[name=web_key]').val().split('\n');
+    localStorage["web_key"] =  $('textarea[name=web_key]').val().trim().split('\n');
 
 
     // Update status to let user know options were saved.
@@ -40,7 +40,7 @@ function restore_options() {
     else hider=hider.split(',')
     $("input[name=hider]:checkbox").val(hider)
     var keys= localStorage["web_key"]
-    if(undefined==keys) keys=[]
+    if(undefined==keys) keys=''
     else keys=keys.replace(/,/g,'\n')
     $("textarea[name=web_key]").val(keys)
 }
