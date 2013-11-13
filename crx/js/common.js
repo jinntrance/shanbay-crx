@@ -4,6 +4,8 @@
 
 var etho_pre_url = 'http://www.etymonline.com/index.php?term='
 
+var keys=['b724c154-a86b-4c8e-a48d-22c85d391428','822c717c-3bbe-40b4-9b46-bcab7f76ff88']
+
 function getOnlineEthology(term,callback){
     var url = etho_pre_url + term.toLowerCase()
     var xhr = new XMLHttpRequest();
@@ -30,7 +32,7 @@ function parseEtymology( text) {
 }
 
 function websterUrl(term) {
-    return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=0f4f19c8-b1cd-401f-a183-6513573cb3b9'
+    return 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key='+keys[Math.floor( Math.random()*keys.length)]
 }
 function thesaurusUrl(term) {
     return 'http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/' + term + '?key=7269ef5b-4d9f-4d38-ac7e-f1ed6e5568f7'
