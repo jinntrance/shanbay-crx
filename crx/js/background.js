@@ -42,16 +42,6 @@ function normalize(word){
     return word.replace(/·/g,'');
 }
 
-var updates = webkitNotifications.createHTMLNotification(
-    'updates.html'  // html url - can be relative
-);
-if(localStorage['notified']!='yes'){
-    updates.show()
-    setTimeout(function(){
-        updates.cancel();
-    },8000);
-    localStorage['notified']='yes'
-}
 
 
 /**
@@ -84,6 +74,7 @@ function isUserSignedOn(callback) {
 }
 
 $(function() {
+
   chrome.contextMenus.removeAll(function() {
     chrome.contextMenus.create({
       "title": '在扇贝网中查找"%s"',
@@ -95,12 +86,22 @@ $(function() {
       }
     });
   });
+ var updates = webkitNotifications.createHTMLNotification(
+        'updates.html'  // html url - can be relative
+    );
+ if(localStorage['notified']!='yes'){
+        updates.show()
+        setTimeout(function(){
+            updates.cancel();
+        },8000);
+        localStorage['notified']='yes'
+    }
 });
 
 function getClickHandler(term, tab) {
   console.log('signon');
   var url = 'http://www.shanbay.com/api/word/' + singularize(normalize(term));//normalize it then sigularize
-  
+
   $.ajax({
     url: url,
     type: 'GET',
