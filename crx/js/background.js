@@ -53,24 +53,24 @@ var getLocaleMessage = chrome.i18n.getMessage;
 var API = 'http://www.shanbay.com/api/word/';
 
 
-
 function isUserSignedOn(callback) {
-  chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'username'}, function(cookie) {
-    if(cookie) {
-      localStorage.setItem('shanbay_cookies', cookie);
-      callback();
-    } else {
-      localStorage.removeItem('shanbay_cookies');
-//      chrome.tabs.create({url:"http://www.shanbay.com/accounts/login/"})
-        var notification = webkitNotifications.createHTMLNotification(
-            'login.html'  // html url - can be relative
-        );
-        notification.show()
-        setTimeout(function(){
-            notification.cancel();
-        },5000);
-    }
-  });
+    chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'username'}, function (cookie) {
+        if (cookie) {
+            localStorage.setItem('shanbay_cookies', cookie);
+            callback();
+        } else {
+            localStorage.removeItem('shanbay_cookies');
+            var notification = webkitNotifications.createNotification("icon_48.png", "登陆", "登陆扇贝网后方可划词查义");
+            notification.addEventListener('click', function () {
+                notification.cancel();
+                window.open("http://www.shanbay.com/accounts/login/", "login_shanbay")
+            })
+            setTimeout(function(){
+                notification.cancel();
+            },5000);
+            notification.show();
+        }
+    });
 }
 
 $(function() {
@@ -86,16 +86,6 @@ $(function() {
       }
     });
   });
- var updates = webkitNotifications.createHTMLNotification(
-        'updates.html'  // html url - can be relative
-    );
- if(localStorage['notified']!='yes'){
-        updates.show()
-        setTimeout(function(){
-            updates.cancel();
-        },8000);
-        localStorage['notified']='yes'
-    }
 });
 
 function getClickHandler(term, tab) {
