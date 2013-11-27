@@ -5,7 +5,8 @@
     "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
     "icons": {
         "48": "icon_48.png",
-        "72": "icon_72.png"
+        "72": "icon_72.png",
+        "128": "icon_128.png"
     },
     "background": {
         "scripts": ["js/jquery-2.0.3.min.js", "js/common.js", "js/background.js"]
@@ -45,5 +46,5 @@
     "permissions": [
         "cookies", "contextMenus", "tabs", "storage","notifications", "*://*/*", "\u003Call_urls\u003E"
     ],
-    "web_accessible_resources": ["icon_48.png"]
+    "web_accessible_resources": ["icon_48.png","images/bg-pattern.png"]
 }

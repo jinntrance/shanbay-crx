@@ -184,8 +184,10 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
                 case 'j':
                 case 'J':
                     if(1<$choices.length)$choices[1].click();
-                    else $('#review a.unknown')[0
-                        ].click();
+                    else {
+                        if($('#review a.unknown').length>0) $('#review a.unknown')[0].click();
+                        if($('a.btn-forget').length>0)$('a.btn-forget')[0].click();
+                    }
                     return;
                 case 'k':
                 case 'K':if(4==$choices.length)$choices[2].click() ;return;
