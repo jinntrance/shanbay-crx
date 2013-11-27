@@ -1,5 +1,5 @@
 *	{ margin:0; padding:0; }
-body { 
+body {
     overflow-y:scroll !important;
     font:15px/1.5 Helvetica,arial,sans-serif;
     background:#ccc url(../images/bg-pattern.png);
@@ -7,7 +7,7 @@ body {
 a	{ text-decoration:none; }
 
 #wrapper {
-    width:550px; margin:40px auto 80px auto;
+    width:650px; margin:40px auto 80px auto;
     border: 1px solid #fff; -webkit-box-shadow: #404040 0 5px 10px;
     background-color:#FFF;
     -webkit-border-radius:5px;

@@ -51,7 +51,7 @@ function searchOnline() {
         if (ls()['etym'] != 'webster')
             getEthology();
     }
-    if ($('#affix .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+    if (ls()['web_dict']=='yes' && $('#affix .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
         findDerivatives();
     }
 }

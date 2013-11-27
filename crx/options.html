@@ -27,6 +27,7 @@
             <legend>功能设置</legend>
             <div id="shortcuts_table">
                 <div id="menu_shortcuts">
+
                 <div>
                     <div>      词根来源 : </div>
                     <div class="td">
@@ -58,6 +59,16 @@
                     </div>
                 </div>
                 <div>
+                    <div class="option-set">
+                        是否使用Webster相关功能(若使用Webster英文释义词根派生，请打开此项)
+                        <label>
+                            <input name="web_dict" type="radio" value="yes">Yes
+                        </label>
+                        <label>
+                            <input name="web_dict" type="radio" value='no'  checked="checked">No
+                        </label>
+
+                    </div>
                     <div class="option-set">打开双击单词查义
                         <label>
                             <input name="click2s" type="radio" value="yes" checked="checked">
@@ -90,7 +101,7 @@
                             <input name="hide_cn" type="radio" value='no' checked="checked">
                         </label>否
                     </div>
-                    <div class="option-set">默认使用Webster
+                    <div class="option-set">默认使用Webster英文释义
                         <label>
                             <input name="web_en" type="radio" value="yes" >
                         </label>是
