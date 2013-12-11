@@ -154,6 +154,17 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 118:
             $('#review-definitions .endf').toggle();
             return;
+                   //webster definition V
+        //U
+        case 85:
+        case 117:
+            $('.learning-speaker .us').click()
+            return;
+        //B
+        case 66:
+        case 98:
+            $('.learning-speaker .uk').click()
+            return;
         //衍生、同义X
         case 88:
         case 120:
@@ -202,6 +213,15 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     }
     return;//using "return" other attached events will execute
 }).on('keyup','input,textarea',function (event) {
+    if(event.altKey && (event.which== 66 || event.which== 98)){
+        console.log("reading British English")
+        $('.learning-speaker .uk').click()
+    }
+    else if(event.altKey && (event.which== 85 || event.which== 117)){
+        console.log("reading American English")
+        $('.learning-speaker .us').click()
+    }
+
     event.stopPropagation();
 });
 
