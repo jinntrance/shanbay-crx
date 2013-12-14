@@ -18,6 +18,12 @@ $(function () {
             },function(resp){
                 console.log(resp.data)
             });
+            popover({
+                shanbay:{
+                    loading:true,
+                    msg:"查询中...."
+                }
+            })
         }
     });
 });
@@ -59,6 +65,8 @@ function popover(alldata) {
 			+'<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a></div>'
 			+'</div>';
       }
+    } else if(true == data.loading) { //loading notification
+       html += '<p><span class="word">'+data.msg+'</span></p>';
     } else {// word recorded
     	html += '<p><span class="word">'+data.voc.content+'</span>'
       		+'<span class="pronunciation">'+(data.voc.pron.length ? ' ['+data.voc.pron+'] ': '')+'</span></p>'
@@ -69,7 +77,7 @@ function popover(alldata) {
     }
 
     html += '</div></div>'
-
+    $('#shanbay_popover').remove()
 	$('body').append(html);
 
    	getSelectionOffset(function(left, top) {
@@ -96,7 +104,7 @@ function popover(alldata) {
    	$('html').click(function() {
       hidePopover();
     });
-    $('body').on('click', '#shanbay_popover', function (e) { 
+    $('body').on('click', '#shanbay_popover', function (e) {
       e.stopPropagation();
     });
 }
@@ -116,15 +124,15 @@ function getSelectionOffset(callback) {
 	console.log(left + ':' + top);
 	callback(left, top);
 }
-function getTop(e){ 
-	var offset=e.offsetTop; 
-	if(e.offsetParent!=null) offset+=getTop(e.offsetParent); 
+function getTop(e){
+	var offset=e.offsetTop;
+	if(e.offsetParent!=null) offset+=getTop(e.offsetParent);
 	return offset;
-} 
+}
 
-function getLeft(e){ 
-	var offset=e.offsetLeft; 
-	if(e.offsetParent!=null) offset+=getLeft(e.offsetParent); 
+function getLeft(e){
+	var offset=e.offsetLeft;
+	if(e.offsetParent!=null) offset+=getLeft(e.offsetParent);
 	return offset;
 }
 

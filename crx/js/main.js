@@ -155,16 +155,16 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             $('#review-definitions .endf').toggle();
             return;
                    //webster definition V
-        //U
-        case 85:
-        case 117:
-            $('.learning-speaker .us').click()
-            return;
-        //B
-        case 66:
-        case 98:
-            $('.learning-speaker .uk').click()
-            return;
+//        //U
+//        case 85:
+//        case 117:
+//            $('.learning-speaker .us').click()
+//            return;
+//        //B
+//        case 66:
+//        case 98:
+//            $('.learning-speaker .uk').click()
+//            return;
         //衍生、同义X
         case 88:
         case 120:

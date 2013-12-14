@@ -63,7 +63,9 @@ function isUserSignedOn(callback) {
             var notification = webkitNotifications.createNotification("icon_48.png", "登陆", "登陆扇贝网后方可划词查义");
             notification.addEventListener('click', function () {
                 notification.cancel();
-                window.open("http://www.shanbay.com/accounts/login/", "login_shanbay")
+                chrome.tabs.create({
+                    url:"http://www.shanbay.com/accounts/login/"
+                })
             })
             setTimeout(function(){
                 notification.cancel();
