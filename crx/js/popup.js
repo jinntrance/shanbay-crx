@@ -67,4 +67,13 @@ $(function(){
         return false;
     });
     $('#maximum-amount-hint').text('每次最多可添1000词。若需添加释义，单词(or 句子)与释义间用英文逗号","隔开。')
+    $('#begin-learning').click(function(){
+        chrome.tabs.create({url:'http://www.shanbay.com/bdc/review/new/'})
+    })
+    $('#batch-add').click(function(){
+        chrome.tabs.create({url:'http://www.shanbay.com/bdc/vocabulary/add/batch/'})
+    })
+    $('#options').click(function(){
+        chrome.tabs.create({url:'options.html'})
+    })
 })

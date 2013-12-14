@@ -155,16 +155,16 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             $('#review-definitions .endf').toggle();
             return;
                    //webster definition V
-//        //U
-//        case 85:
-//        case 117:
-//            $('.learning-speaker .us').click()
-//            return;
-//        //B
-//        case 66:
-//        case 98:
-//            $('.learning-speaker .uk').click()
-//            return;
+        //A
+        case 65:
+        case 97:
+            $('.learning-speaker .us').click()
+            return;
+        //B
+        case 66:
+        case 98:
+            $('.learning-speaker .uk').click()
+            return;
         //衍生、同义X
         case 88:
         case 120:
@@ -217,7 +217,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         console.log("reading British English")
         $('.learning-speaker .uk').click()
     }
-    else if(event.altKey && (event.which== 85 || event.which== 117)){
+    else if(event.altKey && (event.which== 65 || event.which== 97)){
         console.log("reading American English")
         $('.learning-speaker .us').click()
     }
