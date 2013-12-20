@@ -4,6 +4,8 @@
 
 noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>'
 
+chr=chrome
+
 function getCurrentTerm() {
     return $('#current-learning-word').text();
 }
@@ -28,7 +30,7 @@ function addToNote(add,term) {
 }
 
 function wrapper(title){
-    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a></div></div></div>').html()
+    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中打开Webster功能</div></div></div>').html()
 }
 
 function addButtons(){
@@ -93,6 +95,8 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     }).on("click", "a.note-button",function (e) {
         console.log('clicking a note-button')
         addToNote($(this))
+    }).on("click", "a#settings",function (e) {
+        chrome.extension.sendRequest({method: "openSettings",anchor:"webster_set"});
     }).on('mouseup',function (e) {
         if($(this).parents('div.popover-crx').length==0)
             $('div.popover-crx').remove()
