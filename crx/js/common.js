@@ -4,7 +4,7 @@
 
 var etho_pre_url = 'http://www.etymonline.com/index.php?term='
 
-var keys=['4d8125eb-c2a2-441a-8eae-3210da24ed94','b724c154-a86b-4c8e-a48d-22c85d391428','822c717c-3bbe-40b4-9b46-bcab7f76ff88']
+var keys=['4d8125eb-c2a2-441a-8eae-3210da24ed94','b724c154-a86b-4c8e-a48d-22c85d391428','822c717c-3bbe-40b4-9b46-bcab7f76ff88','e2a54c04-201b-4605-99e6-a872ec27130d']
 
 function ls(){
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {

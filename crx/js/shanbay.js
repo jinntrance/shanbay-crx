@@ -154,7 +154,7 @@ function addNewWord(word) {
 	      console.log('success');
 	      $('#shanbay-add-btn').addClass('hide');
 	      $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-	      $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/learning/' + data.id);
+	      $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + data.id);
 	    },
 	    error: function() {
 	      console.log('error');
