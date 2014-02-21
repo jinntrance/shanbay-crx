@@ -21,6 +21,11 @@ shanbay-crx
 
 如果有兴趣一起完善，乐意参与。
 反馈意见，给我留言 http://weibo.com/jinntrance
-查词等修改自https://chrome.google.com/webstore/detail/扇贝助手/nmbcclhheehkbdepblmeclbahadcebhj 多谢。
+
+
+===========
+This is a Chrome extension for www.shanbay.com , which helps users learn English.
+
+
 
 
