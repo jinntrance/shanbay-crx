@@ -1,5 +1,8 @@
 shanbay-crx
 ===========
+This is a Chrome extension for www.shanbay.com , which helps users learn English.
+
+===========
 
 扇贝的Chrome插件，添加词根，帮助记忆。
 
@@ -23,8 +26,6 @@ shanbay-crx
 反馈意见，给我留言 http://weibo.com/jinntrance
 
 
-===========
-This is a Chrome extension for www.shanbay.com , which helps users learn English.
 
 
 
