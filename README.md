@@ -1,6 +1,6 @@
 shanbay-crx
 ===========
-This is a Chrome extension for www.shanbay.com , which helps users learn English.
+This is a Chrome extension for www.shanbay.com , which helps users learn English much more conveniently and more efficiently.
 
 ===========
 
