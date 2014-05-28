@@ -2,6 +2,59 @@
  * @author Joseph
  */
 
+
+$(function() {
+    check_in();
+    setTimeout(function(){
+      check_in();
+    },60*60*1000);
+
+
+    chrome.contextMenus.removeAll(function() {
+        chrome.contextMenus.create({
+            "title": '在扇贝网中查找"%s"',
+            "contexts":["selection"],
+            "onclick": function(info, tab) {
+                isUserSignedOn(function() {
+                    getClickHandler(info.selectionText, tab);
+                });
+            }
+        });
+    });
+});
+
+
+function check_in(){
+    var check_in="http://www.shanbay.com/api/v1/checkin/";
+    $.getJSON(check_in,function(json){
+        var arry=json.data.tasks.map(function(task){
+            return task.meta.num_left;
+        });
+        var m=max(arry);
+        localStorage['checkin']=m;
+        if(m>0) {
+            chrome.browserAction.setBadgeText({text: m+''});
+            var notification = webkitNotifications.createNotification("icon_48.png", "背单词读文章练句子", "少壮不努力，老大背单词！");
+            notification.addEventListener('click', function () {
+                notification.cancel();
+                chrome.tabs.create({
+                    url:"http://www.shanbay.com/"
+                })
+            });
+            notification.show();
+        }
+    });
+}
+
+function max(array){
+    if( undefined==array|| array.length==0) return 0;
+    var max=array[0];
+    array.forEach(function(e){
+        if(e>max) max=e;
+    });
+    return max;
+}
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     console.log("received method: "+request.method)
     switch(request.method){
@@ -70,7 +123,7 @@ function isUserSignedOn(callback) {
                 chrome.tabs.create({
                     url:"http://www.shanbay.com/accounts/login/"
                 })
-            })
+            });
             setTimeout(function(){
                 notification.cancel();
             },5000);
@@ -78,21 +131,6 @@ function isUserSignedOn(callback) {
         }
     });
 }
-
-$(function() {
-
-  chrome.contextMenus.removeAll(function() {
-    chrome.contextMenus.create({
-      "title": '在扇贝网中查找"%s"',
-      "contexts":["selection"],
-      "onclick": function(info, tab) {
-        isUserSignedOn(function() {
-          getClickHandler(info.selectionText, tab);
-        });
-      }
-    });
-  });
-});
 
 function getClickHandler(term, tab) {
   console.log('signon');

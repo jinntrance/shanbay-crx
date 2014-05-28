@@ -18,7 +18,7 @@ function findDerivatives() {
 	        var responseWord=word.find('ew').text()
             if (getCurrentTerm().length <= 4 + responseWord.length) {
                 addButtons();
-                if (hw.length > 0 &&hw[0].textContent.replace(/\*/g,'')==originalTerm) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
+                if (hw.length > 0 && ls()['show_syllabe']!='no' &&hw[0].textContent.replace(/\*/g,'')==originalTerm) term.html((hw[0].textContent.replace(/\*/g, '·') + small))
                 if (undefined != roots &&0< roots.length&& ls()['etym'] == 'webster'&& $('#roots .exist').length==0) {
                     var r=$("#roots .alert").addClass("well exist").html(roots)
                     if(0<r.length) r.html(r.html().replace(/<\/it>/g,"</span>").replace(/<it>/g,"<span class='foreign'>"))
@@ -37,7 +37,7 @@ function findDerivatives() {
                         var def=$('<ol class="span7">')
                         $(defs[i]).find('dt').each(function(){
                             def.append($('<li class="definition"><span class="content">').find('span').html($(this).text()).parent())
-                        })
+                        });
                         endef.append(def)
                     })
                 }
