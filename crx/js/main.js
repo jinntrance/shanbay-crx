@@ -22,11 +22,11 @@ function addToNote(add,term) {
     var id = $('#learning-box').attr('data-id')
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
 
-    if (hint != $(add).text()&&$('#note-mine-box li').text().indexOf(notes)==-1&&(undefined==term||term==getCurrentTerm()))
-        $.post(url, {learning_id: id, note: notes}, function (data) {
-            if (data.status_code == 0)
-                $(add).html(hint)
-        });
+    if (hint != $(add).text()&&$('#note-mine-box li').text().indexOf(notes)==-1&&(undefined==term||term==getCurrentTerm())) {
+        $('textarea[name=note]').val(notes);
+        $('input[type=submit]').click();
+        $(add).html(hint);
+    }
 }
 
 function wrapper(title){

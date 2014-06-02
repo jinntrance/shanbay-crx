@@ -7,7 +7,7 @@ $(function() {
     check_in();
     setTimeout(function(){
       check_in();
-    },60*60*1000);
+    },3*60*60*1000);//每3h提醒一次
 
 
     chrome.contextMenus.removeAll(function() {
