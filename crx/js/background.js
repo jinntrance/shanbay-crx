@@ -32,7 +32,10 @@ function check_in(){
         });
         var m=max(arry);
         localStorage['checkin']=m;
-        if(m>0) {
+        if(0==m){
+            chrome.browserAction.setBadgeText({text: ''});
+        }
+        else if(m>0) {
             chrome.browserAction.setBadgeText({text: m+''});
             var notification = webkitNotifications.createNotification("icon_48.png", "背单词读文章练句子", "少壮不努力，老大背单词！");
             notification.addEventListener('click', function () {
