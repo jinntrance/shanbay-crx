@@ -74,6 +74,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             });
             sendResponse({data:{tabid:sender.tab.id}})
             break;
+        case 'addWord':
+            addNewWordInBrgd(request.data,sendResponse);
+            break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html")+'#'+request.anchor});
             sendResponse({data:{tabid:sender.tab.id}})
@@ -98,19 +101,39 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     }
 });
 
+
+function addNewWordInBrgd(word_id,sendResponse) {
+	chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
+	$.ajax({
+		url: 'http://www.shanbay.com/api/v1/bdc/learning/',
+		type: 'POST',
+	    dataType: 'JSON',
+	    contentType: "application/json; charset=utf-8",
+	    data:JSON.stringify({
+	      content_type: "vocabulary",
+	      id: word_id
+	    }),
+	    success: function(data) {
+	      sendResponse({data: {msg:'success',rsp:data.data}});
+	      console.log('success');
+	    },
+	    error: function() {
+	      sendResponse({data: {msg:'error',rsp:{}}});
+	      console.log('error');
+	    },
+	    complete: function() {
+	      console.log('complete');
+	    }
+	});
+	});
+}
+
 function normalize(word){
     return word.replace(/·/g,'');
 }
 
-
-
-/**
-*@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
-**/
-
-
 var getLocaleMessage = chrome.i18n.getMessage;
-var API = 'http://www.shanbay.com/api/word/';
+var API = 'http://www.shanbay.com/api/v1/bdc/search/?word=';
 
 
 function isUserSignedOn(callback) {
@@ -137,7 +160,7 @@ function isUserSignedOn(callback) {
 
 function getClickHandler(term, tab) {
   console.log('signon');
-  var url = 'http://www.shanbay.com/api/word/' + singularize(normalize(term));//normalize it then sigularize
+  var url = API + singularize(normalize(term));//normalize it then sigularize
 
   $.ajax({
     url: url,
@@ -146,7 +169,7 @@ function getClickHandler(term, tab) {
     contentType: "application/json; charset=utf-8",
     success: function(data) {
       console.log('success');
-      if((data.learning_id == 0&&data.voc == "")||localStorage['search_webster']=='yes')
+      if((1==data.status_code)||localStorage['search_webster']=='yes')
         getOnlineWebsterCollegiate(term,function(word,json){
             var defs=json.fls.map(function(i){
                 return "<span class='web_type'>"+json.fls[i].textContent+'</span>, '+json.defs[i].textContent
@@ -185,80 +208,7 @@ function singularize(word) {
     'match': /s$/,
     'replace': ''
   }];
-  // , {
-  //   'match': /(ss)$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(n)ews$/,
-  //   'replace': /$1ews/
-  // }, {
-  //   'match': /([ti])a$/,
-  //   'replace': /$1um/
-  // }, {
-  //   'match': /([^f])ves$/,
-  //   'replace': /$1fe/
-  // }, {
-  //   'match': /(hive)s$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(tive)s$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /([lr])ves$/,
-  //   'replace': /$1f/
-  // }, {
-  //   'match': /([^aeiouy]|qu|famil|librar)ies$/,
-  //   'replace': /$1y/
-  // }, {
-  //   'match': /(s)eries$/,
-  //   'replace': /$1eries/
-  // }, {
-  //   'match': /(m)ovies$$/,
-  //   'replace': /$1ovie/
-  // }, {
-  //   'match': /(x|ch|ss|sh)es$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /^(m|l)ice$/,
-  //   'replace': /$1ouse/
-  // }, {
-  //   'match': /(bus)(es)?$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(o)es$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(shoe)s$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(cris|test)(is|es)$/,
-  //   'replace': /$1is/
-  // }, {
-  //   'match': /^(a)x[ie]s$/,
-  //   'replace': /$1xis/
-  // }, {
-  //   'match': /(octop|vir)(us|i)$/,
-  //   'replace': /$1us/
-  // }, {
-  //   'match': /(alias|status)(es)?$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /^(ox)en/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(vert|ind)ices$/,
-  //   'replace': /$1ex/
-  // }, {
-  //   'match': /(matr)ices$/,
-  //   'replace': /$1ix/
-  // }, {
-  //   'match': /(quiz)zes$/,
-  //   'replace': /$1/
-  // }, {
-  //   'match': /(database)s$/,
-  //   'replace': /$1/
-  // }];
-
+ 
   for(var j=0; j<pluralRule.length; j++) {
     if(word.match(pluralRule[j].match)) {
       return word.replace(pluralRule[j].match, pluralRule[j].replace);
