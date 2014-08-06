@@ -37,14 +37,23 @@ function check_in(){
         }
         else if(m>0) {
             chrome.browserAction.setBadgeText({text: m+''});
-            var notification = webkitNotifications.createNotification("icon_48.png", "背单词读文章练句子", "少壮不努力，老大背单词！");
-            notification.addEventListener('click', function () {
-                notification.cancel();
+            var url="http://www.shanbay.com/"
+            var opt={
+                type: "basic",
+                title: "背单词读文章练句子",
+                message: "少壮不努力，老大背单词！",
+                iconUrl: "icon_48.png"
+            }
+            var notification = chrome.notifications.create(url,opt,function(notifyId){return notifyId});
+            chrome.notifications.onClicked.addListener( function (notifyId) {
+                chrome.notifications.clear(notifyId,function(){});
                 chrome.tabs.create({
-                    url:"http://www.shanbay.com/"
+                    url:url
                 })
             });
-            notification.show();
+            setTimeout(function(){
+                chrome.notifications.clear(url,function(){});
+            },5000);
         }
     });
 }
@@ -143,17 +152,23 @@ function isUserSignedOn(callback) {
             callback();
         } else {
             localStorage.removeItem('shanbay_cookies');
-            var notification = webkitNotifications.createNotification("icon_48.png", "登陆", "登陆扇贝网后方可划词查义");
-            notification.addEventListener('click', function () {
-                notification.cancel();
+            var url="http://www.shanbay.com/accounts/login/"
+            var opt={
+                type: "basic",
+                title: "登陆",
+                message: "登陆扇贝网后方可划词查义",
+                iconUrl: "icon_48.png"
+            }
+            var notification = chrome.notifications.create(url,opt,function(notifyId){return notifyId});
+            chrome.notifications.onClicked.addListener( function (notifyId) {
+                chrome.notifications.clear(notifyId,function(){});
                 chrome.tabs.create({
-                    url:"http://www.shanbay.com/accounts/login/"
+                    url:url
                 })
             });
             setTimeout(function(){
-                notification.cancel();
+                chrome.notifications.clear(url,function(){});
             },5000);
-            notification.show();
         }
     });
 }

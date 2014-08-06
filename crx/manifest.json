@@ -1,6 +1,6 @@
 {
     "name": "扇贝助手增强版",
-    "version": "1.12.2",
+    "version": "1.12.3",
     "manifest_version": 2,
     "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
     "icons": {
@@ -26,7 +26,8 @@
         {
             "css": [ "css/shanbay.css" ],
             "js": [ "js/jquery-2.0.3.min.js", "js/howler.min.js", "js/shanbay.js" ],
-            "matches": [ "*://*/*" ]
+            "matches": [ "*://*/*" ],
+            "all_frames": true
         },
         {
             "js": [ "js/jquery-2.0.3.min.js", "js/popup.js" ],

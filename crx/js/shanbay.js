@@ -9,6 +9,7 @@ function ls(){
 $(function () {
     $(document).on('dblclick', function () {
         var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/)
+        console.info("selected "+text)
         if (undefined != text && null!=text&&0<text.length&&ls()["click2s"]!='no'){
             console.log("searching "+text)
             chrome.extension.sendMessage({
@@ -114,13 +115,18 @@ function hidePopover() {
 }
 
 function getSelectionOffset(callback) {
-	var range = window.getSelection().getRangeAt(0);
-   	var dummy = document.createElement('span');
-   	range.insertNode(dummy);
-	var left = getLeft(dummy) - 50;
-	var top = getTop(dummy) + 25;
-	dummy.remove();
+  var left = window.innerWidth/2;
+  var top = window.innerHeight/2;
+  var selection = window.getSelection();
+  if(0<selection.rangeCount){
+  	var range = window.getSelection().getRangeAt(0);
+    var dummy = document.createElement('span');
+    range.insertNode(dummy);
+  	left = getLeft(dummy) - 50;
+  	top = getTop(dummy) + 25;
+  	dummy.remove();
     window.getSelection().addRange(range);
+  }
 	console.log(left + ':' + top);
 	callback(left, top);
 }
