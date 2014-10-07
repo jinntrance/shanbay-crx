@@ -40,8 +40,8 @@ function check_in(){
             var url="http://www.shanbay.com/"
             var opt={
                 type: "basic",
-                title: "背单词读文章练句子",
-                message: "少壮不努力，老大背单词！",
+                title: "You Know",
+                message: "It's time to read！",
                 iconUrl: "icon_48.png"
             }
             var notification = chrome.notifications.create(url,opt,function(notifyId){return notifyId});
@@ -53,7 +53,7 @@ function check_in(){
             });
             setTimeout(function(){
                 chrome.notifications.clear(url,function(){});
-            },5000);
+            },3000);
         }
     });
 }
@@ -86,6 +86,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         case 'addWord':
             addNewWordInBrgd(request.data,sendResponse);
             break;
+        case 'relearnWord':
+            relearnWordInBrgd(request.data,sendResponse);
+            break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html")+'#'+request.anchor});
             sendResponse({data:{tabid:sender.tab.id}})
@@ -113,28 +116,51 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 
 function addNewWordInBrgd(word_id,sendResponse) {
 	chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
-	$.ajax({
-		url: 'http://www.shanbay.com/api/v1/bdc/learning/',
-		type: 'POST',
-	    dataType: 'JSON',
-	    contentType: "application/json; charset=utf-8",
-	    data:JSON.stringify({
-	      content_type: "vocabulary",
-	      id: word_id
-	    }),
-	    success: function(data) {
-	      sendResponse({data: {msg:'success',rsp:data.data}});
-	      console.log('success');
-	    },
-	    error: function() {
-	      sendResponse({data: {msg:'error',rsp:{}}});
-	      console.log('error');
-	    },
-	    complete: function() {
-	      console.log('complete');
-	    }
+    	$.ajax({
+    		url: 'http://www.shanbay.com/api/v1/bdc/learning/',
+    		type: 'POST',
+    	    dataType: 'JSON',
+    	    contentType: "application/json; charset=utf-8",
+    	    data:JSON.stringify({
+    	      content_type: "vocabulary",
+    	      id: word_id
+    	    }),
+    	    success: function(data) {
+    	      sendResponse({data: {msg:'success',rsp:data.data}});
+    	      console.log('success');
+    	    },
+    	    error: function() {
+    	      sendResponse({data: {msg:'error',rsp:{}}});
+    	      console.log('error');
+    	    },
+    	    complete: function() {
+    	      console.log('complete');
+    	    }
+    	});
 	});
-	});
+}
+
+function relearnWordInBrgd(learning_id,sendResponse) {
+    chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
+        $.ajax({
+            url: 'http://www.shanbay.com/api/v1/bdc/learning/'+ learning_id,
+            type: 'PUT',
+            dataType: 'JSON',
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify({retention:1}),
+            success: function(data) {
+              sendResponse({data: {msg:'success',rsp:data.data}});
+              console.log('success');
+            },
+            error: function() {
+              sendResponse({data: {msg:'error',rsp:{}}});
+              console.log('error');
+            },
+            complete: function() {
+              console.log('complete');
+            }
+        });
+    });
 }
 
 function normalize(word){

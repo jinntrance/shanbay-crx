@@ -50,36 +50,37 @@ function popover(alldata) {
     if(ls()['webster_search']=='yes') defs=webster.defs
 	console.log('popover');
 	var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">';
-      if(true == data.loading) { //loading notification
+    if(true == data.loading) { //loading notification
        html += '<p><span class="word">'+data.msg+'</span></p>';
-      }else if(data.data==undefined||data.data.learning_id == undefined) {
-      if(1==data.status_code) {// word not exist
-      	if(undefined==webster||webster.term=="") html += '未找到单词</h3></div>';
-      	else html += '<p><span class="word">'+webster.term+'</span></p></h3>' +
-            '<div class="popover-content"><p>'+webster.defs+"</p></div>";
-      } else {// word exist, but not recorded
-      	html += '<p><span class="word">'+data.data.content+'</span>'
-      		+'<small class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</small></p>'
-			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-			+'<div class="popover-content">'
-			+'<p>'+data.data.definition.split('\n').join("<br/>")+"<br/>"+defs+'</p>'
-			+'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
-			+'<p class="success hide">成功添加！</p>'
-			+'<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a></div>'
-			+'</div>';
-      }
+    }else if(data.data==undefined||data.data.learning_id == undefined) {
+        if(1==data.status_code) {// word not exist
+        	if(undefined==webster||webster.term=="") {
+            html += '未找到单词</h3></div>';
+          }
+        	else{
+            html += '<p><span class="word">'+webster.term+'</span></p></h3>' +
+              '<div class="popover-content"><p>'+webster.defs+"</p></div>";
+          }
+        } else {// word exist, but not recorded
+        	html += '<p><span class="word">'+data.data.content+'</span>'
+        		+'<small class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</small></p>'
+      			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
+      			+'<div class="popover-content">'
+            + getWordContent(data.data, defs)
+      			+'</div>';
+        }
     } else {// word recorded
-    	html += '<p><span class="word">'+data.data.content+'</span>'
-      		+'<span class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</span></p>'
-			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-			+'<div class="popover-content">'
-			+'<p>'+data.data.definition.split('\n').join("<br/>")+'</p>'
-			+'</div>';
+      	html += '<p><span class="word">'+data.data.content+'</span>'
+        		+'<span class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</span></p>'
+      			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
+      			+'<div class="popover-content">'
+      			+ getWordContent(data.data)
+      			+'</div>';
     }
 
     html += '</div></div>'
     $('#shanbay_popover').remove()
-	$('body').append(html);
+	  $('body').append(html);
 
    	getSelectionOffset(function(left, top) {
 		setPopoverPosition(left, top);
@@ -89,6 +90,11 @@ function popover(alldata) {
    		e.preventDefault();
    		addNewWord(data.data.id);
    	});
+
+    $('#shanbay-relearn-btn').click(function(e) {
+      e.preventDefault();
+      relearnWord(data.data.learning_id);
+    });
 
    	$('#shanbay_popover .speak.us').click(function(e) {
    		e.preventDefault();
@@ -108,6 +114,37 @@ function popover(alldata) {
     $('body').on('click', '#shanbay_popover', function (e) {
       e.stopPropagation();
     });
+}
+
+function getWordContent(data, defs) {
+    var html = '<p>'+data.definition.split('\n').join("<br/>")+'</p>';
+
+    var en_definitions = data.en_definitions;
+    for (var i in en_definitions) {
+      html += '<div class="definition-label">' + i + '</div>' ;
+      html += '<ol>'
+      for (var j = 0; j < en_definitions[i].length; j++) {
+          html += '<li>' + en_definitions[i][j]+ "</li>";
+      }
+      html += "</ol>";
+    }
+
+    if(data.learning_id && data.learning_id != 0){
+      html += '<div class="add-btn">'
+        +'<a href="#" class="btn" id="shanbay-relearn-btn">我忘了</a>'
+        +'<a href="http://www.shanbay.com/review/learning/'+ data.learning_id+'" target="_blank" class="btn" id="shanbay-check-btn">查看</a>'
+        +'<p class="success hide">处理成功！</p>'
+        +'</div>';
+    }else{      
+      html += '<p>'+defs+'</p>'
+        +'<div class="add-btn">'
+        +'<a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
+        +'<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a>'         
+        +'<p class="success hide">成功添加！</p>'
+        +'</div>';
+    }
+
+    return html;
 }
 
 function hidePopover() {
@@ -160,6 +197,21 @@ function addNewWord(word_id) {
             break;
       case "error":
         $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
+        break;
+      default:
+    }});
+}
+
+function relearnWord(learning_id) {
+  chrome.extension.sendRequest({method: "relearnWord",data:learning_id}, function (rsp) {
+    switch(rsp.data.msg){
+      case "success":
+        $('#shanbay-relearnWord-btn').addClass('hide');
+        $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
+        //$('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + learning_id);
+            break;
+      case "error":
+        $('#shanbay_popover .success').text('处理失败，请重试。').removeClass().addClass('failed');
         break;
       default:
     }});
