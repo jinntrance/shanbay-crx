@@ -6,7 +6,7 @@ This is a Chrome extension for www.shanbay.com , which helps users learn English
 
 扇贝的Chrome插件，添加词根，帮助记忆。
 
-安装 https://chrome.google.com/webstore/detail/aibonellgbdkldghjgbnapgjblebfkbl/
+安装 https://github.com/coolcode/shanbay-crx/blob/master/shanbay-chromium-extension.crx?raw=true
 
 在扇贝网背单词时使用。
 <pre>
@@ -23,7 +23,7 @@ This is a Chrome extension for www.shanbay.com , which helps users learn English
 </pre>
 
 如果有兴趣一起完善，乐意参与。
-反馈意见，给我留言 http://weibo.com/jinntrance
+反馈意见，给作者留言 http://weibo.com/jinntrance
 
 
 
