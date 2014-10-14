@@ -143,9 +143,9 @@ function checkLoginStatus() {
                 loggedIn(response.nickname, response.avatar);
             }
             else {
-                alert("loggedOut");
+                //alert("loggedOut");
                 // user have not logged in
-               // loggedOut();
+               loggedOut();
             }
         }
     };
@@ -200,6 +200,7 @@ function showViewLink(learning_id){
     check.setAttribute('id', 'jump_a');
     check.setAttribute('href', check_link + learning_id);
     check.setAttribute('target', '_newtab');
+    check.setAttribute('class', 'btn');
     check.appendChild(document.createTextNode('View'));
     var jump = document.getElementById('jump');    
     jump.appendChild(check);    
@@ -285,6 +286,7 @@ function queryOk(response) {
         add.setAttribute('id', 'reviewWord_a');
         add.setAttribute('href', '#');
         add.setAttribute('title', learning_id);
+        add.setAttribute('class', 'btn');
         add.appendChild(document.createTextNode('Forgot'));
         var span_reviewWord = document.getElementById('reviewWord');
         span_reviewWord.appendChild(add);
@@ -297,6 +299,7 @@ function queryOk(response) {
         add.setAttribute('href', '#');
         // let addWord function can access the word name by title name
         add.setAttribute('title', response.object_id);
+        add.setAttribute('class', 'btn');
         add.appendChild(document.createTextNode('Learn'));
         var span_addWord = document.getElementById('addWord');
         span_addWord.appendChild(add);
