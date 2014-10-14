@@ -16,7 +16,7 @@ $(function(){
 
     checkLoginStatus();
     document.querySelector('#search').addEventListener('click', search);
-    document.querySelector('#input').addEventListener('keydown', keydown);
+    document.querySelector('#word').addEventListener('keydown', keydown);
     document.querySelector('#addWord').addEventListener('click', addWord);
     document.querySelector('#reviewWord').addEventListener('click', reviewWord);
     document.querySelector('#sound').addEventListener('click', playSound);
@@ -126,7 +126,7 @@ function loggedOut() {
 
 function checkLoginStatus() {
     // focus on input area
-    document.getElementById('input').focus();
+    document.getElementById('word').focus();
     // status area
     var status = document.getElementById('status');
     status.innerHTML = '正在检查...';
@@ -311,7 +311,7 @@ function queryNotFound(word) {
 
 function query(word) {
     // show this let user don't panic
-    document.getElementById("input").value = word;
+    document.getElementById("word").value = word;
     showTips('Doing...');
     clearArea('jump');
     clearArea('definition');
@@ -344,7 +344,7 @@ function parse(input) {
 }
 
 function search() {
-    var input = document.getElementById('input').value;
+    var input = document.getElementById('word').value;
     var word = parse(input);
     if (word == null) {
     clearArea('jump');
@@ -353,12 +353,12 @@ function search() {
     }
     else
     query(word);
-    document.getElementById('input').focus();
+    document.getElementById('word').focus();
 }
 
 function keydown() {
     if (event.keyCode == 13) {
-        var input = document.getElementById('input').value;
+        var input = document.getElementById('word').value;
     var word = parse(input);
     if (word == null) {
         clearArea('jump');
@@ -386,6 +386,6 @@ function playSound() {
     audio.setAttribute('autoplay', 'true');
     var sound = document.getElementById('sound');
     sound.appendChild(audio);
-    document.getElementById('input').focus();
+    document.getElementById('word').focus();
 }
 

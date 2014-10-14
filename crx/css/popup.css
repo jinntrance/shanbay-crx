@@ -1,7 +1,12 @@
 body {
-    padding-top: 3px;
-    width: 330px;
-    font-size: 0.8em;
+   /* padding-top: 3px;*/
+    width: 500px;
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+}
+
+* {
+    font-size: 14px;
 }
 
 ol {
@@ -9,6 +14,23 @@ ol {
     padding-left: 30px;
 }
 
+input[type=text], textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDDDDD;
+}
+ 
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
 
 /* all about link */
 a {
@@ -30,18 +52,17 @@ a:hover {
     background-color: #E6E6E6;
 }
 
-#search_area span{
+#search_area span, button{
     margin-left: 5px;
 }
 
 /* search area */
-#input {
-    width: 150px;
+#word {
+    width: 250px;
 }
 
 #jump {
     position: relative;
-    font-size: 1em;
 }
 
 .invisible {
@@ -52,12 +73,11 @@ a:hover {
 /* definition area */
 #definition {
     margin-top: 0.8em;
-    font-size: 1em;
     line-height: 1.5;
 }
 
 .word {
-    font-size: 1.4em;
+    font-size: 18px;
     font-weight: bold;
 }
 
