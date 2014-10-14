@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <style type="text/css">
-        ul {
-            padding: 0px;
-        }
-        li{
-          list-style-type: none;
-          white-space: nowrap;
-          margin: 10px ;
-          padding: 6px 12px;
-          border-radius: 4px;
-          background: #209e85;
-          text-align: center;
-        }
-        a{
-            color: #ffffff;
-            text-decoration: none;
-            outline: none;
-        }
-        a.hover{
-            /*text-decoration: underline;*/
-        }
-
-    </style>
-</head>
-<body >
-   <div >
-    <ul>
-        <li><a href="javascript:void(0)" id="batch-add">批量添加单词</a></li>
-        <li><a href="javascript:void(0)" id="begin-learning">开始背单词</a></li>
-        <li><a href="javascript:void(0)" id="options">高级设置</a></li>
-    </ul>
-   </div>
-<!--   <input type="button" id="batch-add" value="">
-   <textarea id="words" cols="40" rows="60"></textarea>-->
-</body>
+  <head>
+    <title>扇贝查词</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <link rel="stylesheet" type="text/css" href="css/popup.css" >
+  </head>
+  <body>
+    <p id="header"><span id="logo"></span><span id="status"></span></p>
+    <hr />
+    <div id="search_area">
+      <input id="input" type="text" name="query" /><button id="search">Search</button>
+      <span id="jump"></span><span id="addWord"></span><span id="reviewWord"></span>
+    </div>
+    <div id="tips">
+    </div>
+    <div id="definition">
+      <span id="content" class="word"></span>
+      <span id="pron"></span>
+      <span id="sound"></span>
+      <div id="zh_trans"></div>
+      <div id="en_trans"></div>
+    </div>
+    <hr />
+    <div id="footer">
+      <span id="about">
+  <p>
+    <a href="#" id="options">Settings</a>
+    <span>-</span>
+    <a href="https://github.com/coolcode/shanbay-crx#readme" target="_newtab">About</a></p>
+      </span>
+    </div>
+  </body>
 <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="js/popup.js" charset="UTF-8"></script>
 </html>

@@ -1,0 +1,114 @@
+body {
+    padding-top: 3px;
+    width: 330px;
+    font-size: 0.8em;
+}
+
+ol {
+    margin: 0;
+    padding-left: 30px;
+}
+
+
+/* all about link */
+a {
+    text-decoration: none;
+    color: #51A351;
+}
+
+a:hover {
+    color: white;
+    background-color: #51A351;
+}
+
+#jump_a:hover {
+    background-color: #408140;
+}
+
+#horn:hover {
+    cursor: pointer;
+    background-color: #E6E6E6;
+}
+
+#search_area span{
+    margin-left: 5px;
+}
+
+/* search area */
+#input {
+    width: 150px;
+}
+
+#jump {
+    position: relative;
+    font-size: 1em;
+}
+
+.invisible {
+    display: none;
+}
+
+
+/* definition area */
+#definition {
+    margin-top: 0.8em;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.word {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.color, .word {
+    color: #C09;
+}
+
+#zh_trans {
+    margin-top: 0.3em;
+}
+
+.part-of-speech {
+    margin-top: 0.3em;
+}
+
+
+/* header and footer */
+#header, #about {
+    text-align: right;
+    line-height: 0;
+}
+
+#logo {
+    position: absolute;
+    top: 0.6em;
+    right: 16.5em;
+}
+
+
+/* options page */
+#options_content {
+    border-color: #ABD;
+    border-style: solid;
+    border-width: 4px;
+    padding: 8px;
+    margin: 0 auto 0 auto;
+    width: 300px;
+}
+
+#message {
+    position: absolute;
+    top: 1em;
+    background-color: #FEA;
+    font-size: 0.6em;
+}
+
+#return {
+    position: relative;
+    left: 8em;
+}
+
+h4 {
+    margin: 1em 0 1em 0;
+}
