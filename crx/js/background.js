@@ -172,7 +172,7 @@ var API = 'http://www.shanbay.com/api/v1/bdc/search/?word=';
 
 
 function isUserSignedOn(callback) {
-    chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'username'}, function (cookie) {
+    chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'userid'}, function (cookie) {
         if (cookie) {
             localStorage.setItem('shanbay_cookies', cookie);
             callback();
