@@ -23,7 +23,7 @@ This is a Chrome extension for www.shanbay.com , which helps users learn English
 </pre>
 
 如果有兴趣一起完善，乐意参与。
-反馈意见，给作者留言 http://weibo.com/jinntrance
+反馈意见，请给作者留言 http://weibo.com/jinntrance
 
 
 
