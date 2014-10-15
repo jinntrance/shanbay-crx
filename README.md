@@ -6,7 +6,7 @@ This is a Chrome extension for www.shanbay.com , which helps users learn English
 
 扇贝的Chrome插件，添加词根，帮助记忆。
 
-安装 https://github.com/coolcode/shanbay-crx/blob/master/shanbay-chromium-extension.crx?raw=true
+安装 https://github.com/coolcode/shanbay-crx/tree/master/release
 
 在扇贝网背单词时使用。
 <pre>
