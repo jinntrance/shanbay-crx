@@ -46,6 +46,8 @@
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 }
 #shanbay_popover .popover-title {
+	width: auto!important;
+	font-size: 20px!important;
 	padding: 9px 15px!important;
 	background-color: #f5f5f5;
 	border-bottom: 1px solid #eee;
