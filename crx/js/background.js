@@ -2,13 +2,14 @@
  * @author Joseph
  */
 
+checked = false;
 
 $(function() {
     check_in();
     setTimeout(function(){
+      checked = false;	    
       check_in();
     },3*60*60*1000);//每3h提醒一次
-
 
     chrome.contextMenus.removeAll(function() {
         chrome.contextMenus.create({
@@ -23,20 +24,7 @@ $(function() {
     });
 });
 
-
-function check_in(){
-    var check_in="http://www.shanbay.com/api/v1/checkin/";
-    $.getJSON(check_in,function(json){
-        var arry=json.data.tasks.map(function(task){
-            return task.meta.num_left;
-        });
-        var m=max(arry);
-        localStorage['checkin']=m;
-        if(0==m){
-            chrome.browserAction.setBadgeText({text: ''});
-        }
-        else if(m>0) {
-            chrome.browserAction.setBadgeText({text: m+''});
+function notify(){
             var url="http://www.shanbay.com/"
             var opt={
                 type: "basic",
@@ -54,10 +42,29 @@ function check_in(){
             setTimeout(function(){
                 chrome.notifications.clear(url,function(){});
             },5000);
+}
+
+
+
+function check_in(){
+    var check_in_url="http://www.shanbay.com/api/v1/checkin/";
+    $.getJSON(check_in_url,function(json){
+        var arry=json.data.tasks.map(function(task){
+            return task.meta.num_left;
+        });
+        var m=max(arry);
+        localStorage['checkin']=m;
+        if(0==m){
+            chrome.browserAction.setBadgeText({text: ''});
         }
+        else if(m>0) {
+            chrome.browserAction.setBadgeText({text: m+''});
+	    notify();	
+	}
     }).fail(function(){
-    	check_in();
+	    notify();
     });
+    checked = true;
 }
 
 function max(array){
