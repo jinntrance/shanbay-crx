@@ -55,6 +55,8 @@ function check_in(){
                 chrome.notifications.clear(url,function(){});
             },5000);
         }
+    }).fail(function(){
+    	check_in();
     });
 }
 
