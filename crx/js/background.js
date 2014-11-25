@@ -161,23 +161,7 @@ function isUserSignedOn(callback) {
             callback();
         } else {
             localStorage.removeItem('shanbay_cookies');
-            var url="http://www.shanbay.com/accounts/login/"
-            var opt={
-                type: "basic",
-                title: "登陆",
-                message: "登陆扇贝网后方可划词查义",
-                iconUrl: "icon_48.png"
-            }
-            var notification = chrome.notifications.create(url,opt,function(notifyId){return notifyId});
-            chrome.notifications.onClicked.addListener( function (notifyId) {
-                chrome.notifications.clear(notifyId,function(){});
-                chrome.tabs.create({
-                    url:url
-                })
-            });
-            setTimeout(function(){
-                chrome.notifications.clear(url,function(){});
-            },5000);
+            notify();
         }
     });
 }
