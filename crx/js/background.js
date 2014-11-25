@@ -24,6 +24,8 @@ $(function() {
     });
 });
 
+var notified = false
+
 function notify(){
             var url="http://www.shanbay.com/"
             var opt={
@@ -32,12 +34,22 @@ function notify(){
                 message: "少壮不努力，老大背单词！",
                 iconUrl: "icon_48.png"
             }
-            var notification = chrome.notifications.create(url,opt,function(notifyId){return notifyId});
+            var notId = Math.random().toString(36)
+            if (! notified) {
+                notification = chrome.notifications.create(notId,opt,function(notifyId){
+                    console.info(notifyId + " was created.")
+                    notified = true
+                });
+            }
             chrome.notifications.onClicked.addListener( function (notifyId) {
+                console.info("notification was clicked")
                 chrome.notifications.clear(notifyId,function(){});
-                chrome.tabs.create({
-                    url:url
-                })
+                if (notId == notifyId) {
+                    chrome.tabs.create({
+                        url:url
+                    })
+                }
+                notified = false 
             });
             setTimeout(function(){
                 chrome.notifications.clear(url,function(){});
