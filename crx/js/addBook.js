@@ -20,38 +20,38 @@ $(function(){
         var lines=$add.val().trim().split('\n');
         $add.val('');
         if(lines.length>0){
-            var defs={}
+            var defs={};
             var words=[];
             lines.map(function(line){
-                var index=line.trim().indexOf(',')
-                var word=''
+                var index=line.trim().indexOf(',');
+                var word='';
                 if(-1==index) {
                     word=line;
                 }
                 else {
-                    word=line.substr(0,index).trim()
-                    var meaning=line.substr(index+1).trim()
+                    word=line.substr(0,index).trim();
+                    var meaning=line.substr(index+1).trim();
                     defs[word]=meaning;
                 }
                 words.push(word)
-            })
-            var s=words
-            var all=s.length
-            var len=Math.ceil(s.length/200)
-            var book_id=location.href.split('/')[4]
-            var size=$('td.wordbook-wordlist-name a').size()
-            var init=0
+            });
+            var s=words;
+            var all=s.length;
+            var len=Math.ceil(s.length/200);
+            var book_id=location.href.split('/')[4];
+            var size=$('td.wordbook-wordlist-name a').size();
+            var init=0;
             if(size>0){
-                var list=$('td.wordbook-wordlist-name a')[size-1].innerHTML
+                var list=$('td.wordbook-wordlist-name a')[size-1].innerHTML;
                 if(-1<list.search("list ")) {
-                    var num=list.substr(5)
+                    var num=list.substr(5);
                     init=num++
                 }
             }
-            $('#add-status').html("添加中...")
+            $('#add-status').html("添加中...");
             for(var i=init+1;i<=init+len;i++){
-                var li="http://www.shanbay.com/api/v1/wordbook/wordlist/"
-                var word_num=all<i*200?all-(i-1)*200:200
+                var li="http://www.shanbay.com/api/v1/wordbook/wordlist/";
+                var word_num=all<i*200?all-(i-1)*200:200;
                 $.ajax({
                     type:"POST",
                     url:li,
@@ -59,10 +59,10 @@ $(function(){
                     async: false,
                     data:{name:"list "+i ,description:word_num+" words",wordbook_id:book_id},
                     success:function (resp){
-                        data=resp.data
-                        var li_id=data.wordlist.id
-                        var index=data.wordlist.name.split(' ')[1]++
-                        var words=s.slice((index-1)*200,index*200)
+                        data=resp.data;
+                        var li_id=data.wordlist.id;
+                        var index=data.wordlist.name.split(' ')[1]++;
+                        var words=s.slice((index-1)*200,index*200);
                         words.forEach(function(e){
                                 $.ajax({
                                     type:"POST",
@@ -72,9 +72,9 @@ $(function(){
                                     data:{id:li_id,word:e},
                                     success:function(data){
                                         if(404==data.status_code){
-                                            console.log(e)
+                                            console.log(e);
                                             if(defs[e])
-                                               $add.val($add.val()+e+","+defs[e]+'\n')
+                                               $add.val($add.val()+e+","+defs[e]+'\n');
                                             else $add.val($add.val()+e+'\n')
                                         }else {
                                             if(defs[e]&& data.data.vocabulary.definition.search(defs[e])==-1){
@@ -95,4 +95,4 @@ $(function(){
         $('#add-status').html("添加完成")
         }
     })
-})
+});

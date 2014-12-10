@@ -8,10 +8,10 @@ function ls(){
 
 $(function () {
     $(document).on('dblclick', function () {
-        var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/)
-        console.info("selected "+text)
+        var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
+        console.info("selected "+text);
         if (undefined != text && null!=text&&0<text.length&&ls()["click2s"]!='no'){
-            console.log("searching "+text)
+            console.log("searching "+text);
             chrome.extension.sendMessage({
                 method: 'lookup',
                 action: 'lookup',
@@ -34,8 +34,8 @@ $(function () {
 **/
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
-    console.log("received\n")
-    console.log(message.data)
+    console.log("received\n");
+    console.log(message.data);
 	switch(message.action) {
 		case 'popover':
 			popover(message.data);
@@ -44,10 +44,10 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 function popover(alldata) {
-    var data=alldata.shanbay
-    var webster=alldata.webster
-    var defs=""
-    if(ls()['webster_search']=='yes') defs=webster.defs
+    var data=alldata.shanbay;
+    var webster=alldata.webster;
+    var defs="";
+    if(ls()['webster_search']=='yes') defs=webster.defs;
 	console.log('popover');
 	var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">';
       if(true == data.loading) { //loading notification
@@ -77,8 +77,8 @@ function popover(alldata) {
 			+'</div>';
     }
 
-    html += '</div></div>'
-    $('#shanbay_popover').remove()
+    html += '</div></div>';
+    $('#shanbay_popover').remove();
 	$('body').append(html);
 
    	getSelectionOffset(function(left, top) {

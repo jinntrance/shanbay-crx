@@ -4,7 +4,7 @@
 
 noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>';
 
-chr=chrome
+chr=chrome;
 
 function getCurrentTerm() {
     return $('#current-learning-word').text();
@@ -19,7 +19,7 @@ function addToNote(add,term) {
     var notes =sib.text().trim();
     if(sib.has('#affix_word_tree_container').length>0) notes=sib.find('#affix_word_tree_container').text().trim();
     var hint = '加入成功';
-    var id = $('#learning-box').attr('data-id')
+    var id = $('#learning-box').attr('data-id');
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
 
     if (hint != $(add).text()&&$('#note-mine-box li').text().indexOf(notes)==-1&&(undefined==term||term==getCurrentTerm())) {
@@ -35,16 +35,16 @@ function wrapper(title){
 
 function addButtons(){
     if($('#roots .well').length==0)
-        $('#roots').html(wrapper('词根'))
+        $('#roots').html(wrapper('词根'));
     if($('#affix .word,#affix .well').length==0)
         $('#affix').html(wrapper('派生'))
 }
 
 function replaceButtons(){
     if($('#roots .exist').length==0)
-        $('#roots').html(wrapper('词根'))
+        $('#roots').html(wrapper('词根'));
     if($('#affix .exist').length==0)
-        $('#affix').html(wrapper('派生'))
+        $('#affix').html(wrapper('派生'));
     searchOnline()
 }
 
@@ -60,7 +60,7 @@ function searchOnline() {
 $(document).on("DOMNodeInserted", '#learning-box',function () {
 //    console.log('handling definitions')
     var $definitions = $('#review-definitions');
-    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>'
+    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>';
     if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
         $definitions.find('div.cndf').after(cn_anchor);
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
@@ -71,22 +71,22 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     console.log('retrieving English definitions');
     searchOnline();
     if (undefined != ls()['hider']) {
-        var ids = ls()['hider'].split(',')
+        var ids = ls()['hider'].split(',');
         for (var i in ids) {
             $('#' + ids[i]).hide()
         }
     }
 }).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper',function (e) {
-        console.log('#roots triggered')
+        console.log('#roots triggered');
         addNoteButton('#roots .alert,#roots .well')
     }).on("DOMNodeInserted", '#roots a.note-button',function (e) {
-        console.log('retrieving roots data')
+        console.log('retrieving roots data');
         if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
     }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word',function (e) {
-        console.log('#affix triggered')
+        console.log('#affix triggered');
         addNoteButton('#affix .alert,#affix .well')
     }).on("DOMNodeInserted", '#affix a.note-button',function (e) {
-        console.log('retrieving affix data')
+        console.log('retrieving affix data');
         if($('#affix .well').length>0&&  ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
     }).on("DOMNodeInserted", '#note-mine-box',function () {
 
@@ -94,7 +94,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         popupEtymology($(this));
         return;
     }).on("click", "a.note-button",function (e) {
-        console.log('clicking a note-button')
+        console.log('clicking a note-button');
         addToNote($(this))
     }).on("click", "a#settings",function (e) {
         chrome.extension.sendRequest({method: "openSettings",anchor:"webster_set"});
@@ -104,7 +104,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     }).on('mouseup', 'div.popover-crx', function (e) {
         return false;
     }).keyup(function (e) {
-    console.log(String.fromCharCode(e.keyCode)+" pressed")
+    console.log(String.fromCharCode(e.keyCode)+" pressed");
     switch (e.keyCode) {
         //退出浮框
         case 13:
@@ -140,7 +140,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 81:
         case 113:
             if(e.ctrlKey)
-                replaceButtons()
+                replaceButtons();
             return;
         //词根 E
         case 69:
@@ -163,12 +163,12 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         //A
         case 65:
         case 97:
-            $('.learning-speaker .us').click()
+            $('.learning-speaker .us').click();
             return;
         //B
         case 66:
         case 98:
-            $('.learning-speaker .uk').click()
+            $('.learning-speaker .uk').click();
             return;
         //衍生、同义X
         case 88:
@@ -187,14 +187,14 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 107:
         case 108:
         case 117:
-            var map={i:57,I:57,O:48,o:48,U:49,u:49,j:50,J:50,k:51,K:51,l:52,L:52}
-            var key=String.fromCharCode(e.keyCode)
+            var map={i:57,I:57,O:48,o:48,U:49,u:49,j:50,J:50,k:51,K:51,l:52,L:52};
+            var key=String.fromCharCode(e.keyCode);
 
             var $choices = $('#choices li.answer');
             switch(key){
                 case 'u':
                 case 'U':
-                    if(0== $choices.length) $('#review a.known')[0].click()
+                    if(0== $choices.length) $('#review a.known')[0].click();
                     else $choices[0].click();
                     return;
                 case 'j':
@@ -219,11 +219,11 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     return;//using "return" other attached events will execute
 }).on('keyup','input,textarea',function (event) {
     if(event.altKey && (event.which== 66 || event.which== 98)){
-        console.log("reading British English")
+        console.log("reading British English");
         $('.learning-speaker .uk').click()
     }
     else if(event.altKey && (event.which== 65 || event.which== 97)){
-        console.log("reading American English")
+        console.log("reading American English");
         $('.learning-speaker .us').click()
     }
 
