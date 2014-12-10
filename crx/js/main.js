@@ -2,7 +2,7 @@
  * @user Joseph
  **/
 
-noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>'
+noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>';
 
 chr=chrome
 
@@ -15,10 +15,10 @@ function addNoteButton(selector) {
 }
 
 function addToNote(add,term) {
-    var sib=$(add).siblings("div")
-    var notes =sib.text().trim()
-    if(sib.has('#affix_word_tree_container').length>0) notes=sib.find('#affix_word_tree_container').text().trim()
-    var hint = '加入成功'
+    var sib=$(add).siblings("div");
+    var notes =sib.text().trim();
+    if(sib.has('#affix_word_tree_container').length>0) notes=sib.find('#affix_word_tree_container').text().trim();
+    var hint = '加入成功';
     var id = $('#learning-box').attr('data-id')
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
 
@@ -62,12 +62,13 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
     var $definitions = $('#review-definitions');
     var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>'
     if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
-        $definitions.find('div.cndf').after(cn_anchor)
+        $definitions.find('div.cndf').after(cn_anchor);
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
-        $definitions.find('div.endf').show()
+        $definitions.find('div.endf').show();
+        $definitions.find('div.cndf').hide();
     }
 }).on("DOMNodeInserted", '#learning_word a#show_cn_df',function () {
-    console.log('retrieving English definitions')
+    console.log('retrieving English definitions');
     searchOnline();
     if (undefined != ls()['hider']) {
         var ids = ls()['hider'].split(',')
