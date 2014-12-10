@@ -10,6 +10,7 @@ function save_options() {
     localStorage["afx2note"] = $("input[name=afx2note]:checked").val();
     localStorage["hide_cn"] = $("input[name=hide_cn]:checked").val();
     localStorage["web_en"] = $("input[name=web_en]:checked").val();
+    localStorage["ctx_menu"] = $("input[name=ctx_menu]:checked").val();
     localStorage["web_dict"] = $("input[name=web_dict]:checked").val();
     localStorage["skip_easy"] = $("input[name=skip_easy]:checked").val();
     localStorage["show_syllabe"] = $("input[name=show_syllabe]:checked").val();
@@ -35,6 +36,7 @@ function restore_options() {
     $("input[name=afx2note][value="+localStorage["afx2note"]+"]").attr("checked",true);
     $("input[name=hide_cn][value="+localStorage["hide_cn"]+"]").attr("checked",true);
     $("input[name=web_en][value="+localStorage["web_en"]+"]").attr("checked",true);
+    $("input[name=ctx_menu][value="+localStorage["ctx_menu"]+"]").attr("checked",true);
     $("input[name=web_dict][value="+localStorage["web_dict"]+"]").attr("checked",true);
     $("input[name=skip_easy][value="+localStorage["skip_easy"]+"]").attr("checked",true);
     $("input[name=show_syllabe][value="+localStorage["show_syllabe"]+"]").attr("checked",true);

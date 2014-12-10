@@ -11,38 +11,40 @@ $(function() {
       check_in();
     },3*60*60*1000);//每3h提醒一次
 
-    chrome.contextMenus.removeAll(function() {
-        chrome.contextMenus.create({
-            "title": '在扇贝网中查找"%s"',
-            "contexts":["selection"],
-            "onclick": function(info, tab) {
-                isUserSignedOn(function() {
-                    getClickHandler(info.selectionText, tab);
-                });
-            }
-        });
+    chrome.contextMenus.removeAll(function () {
+        if(localStorage['ctx_menu']!='no') {
+            chrome.contextMenus.create({
+                "title": '在扇贝网中查找"%s"',
+                "contexts": ["selection"],
+                "onclick": function (info, tab) {
+                    isUserSignedOn(function () {
+                        getClickHandler(info.selectionText, tab);
+                    });
+                }
+            });
+        }
     });
 });
 
-var notified = false
+var notified = false;
 
 function notify(){
-            var url="http://www.shanbay.com/"
+            var url="http://www.shanbay.com/";
             var opt={
                 type: "basic",
                 title: "背单词读文章练句子",
                 message: "少壮不努力，老大背单词！",
                 iconUrl: "icon_48.png"
-            }
-            var notId = Math.random().toString(36)
+            };
+            var notId = Math.random().toString(36);
             if (! notified) {
                 notification = chrome.notifications.create(notId,opt,function(notifyId){
-                    console.info(notifyId + " was created.")
+                    console.info(notifyId + " was created.");
                     notified = true
                 });
             }
             chrome.notifications.onClicked.addListener( function (notifyId) {
-                console.info("notification was clicked")
+                console.info("notification was clicked");
                 chrome.notifications.clear(notifyId,function(){});
                 if (notId == notifyId) {
                     chrome.tabs.create({
@@ -89,7 +91,7 @@ function max(array){
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    console.log("received method: "+request.method)
+    console.log("received method: "+request.method);
     switch(request.method){
         case "getLocalStorage":
             sendResponse({data: localStorage});
@@ -102,14 +104,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             isUserSignedOn(function() {
                 getClickHandler(request.data, sender.tab);
             });
-            sendResponse({data:{tabid:sender.tab.id}})
+            sendResponse({data:{tabid:sender.tab.id}});
             break;
         case 'addWord':
             addNewWordInBrgd(request.data,sendResponse);
             break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html")+'#'+request.anchor});
-            sendResponse({data:{tabid:sender.tab.id}})
+            sendResponse({data:{tabid:sender.tab.id}});
             break;
         default :
             sendResponse({data:[]}); // snub them.
@@ -118,7 +120,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     var tabid = sender.tab.id;
-    console.log("received "+message.data)
+    console.log("received "+message.data);
     switch(message.action) {
         case 'is_user_signed_on':
             isUserSignedOn();
@@ -193,12 +195,12 @@ function getClickHandler(term, tab) {
         getOnlineWebsterCollegiate(term,function(word,json){
             var defs=json.fls.map(function(i){
                 return "<span class='web_type'>"+json.fls[i].textContent+'</span>, '+json.defs[i].textContent
-            }).toArray().join('<br/>')
+            }).toArray().join('<br/>');
             chrome.tabs.sendMessage(tab.id, {
                 action: 'popover',
                 data: {shanbay:data,webster:{term:json.hw[0].textContent.replace(/\*/g, '·'),defs:defs}}
             });
-        })
+        });
       else chrome.tabs.sendMessage(tab.id, {
         action: 'popover',
         data: {shanbay:data}
