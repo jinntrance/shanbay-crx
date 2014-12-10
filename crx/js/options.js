@@ -39,27 +39,27 @@ function restore_options() {
     $("input[name=skip_easy][value="+localStorage["skip_easy"]+"]").attr("checked",true);
     $("input[name=show_syllabe][value="+localStorage["show_syllabe"]+"]").attr("checked",true);
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
-    var hider=localStorage["hider"]
-    if(undefined==hider) hider=[]
-    else hider=hider.split(',')
-    $("input[name=hider]:checkbox").val(hider)
-    var keys= localStorage["web_key"]
-    if(undefined==keys) keys=''
-    else keys=keys.replace(/,/g,'\n')
+    var hider=localStorage["hider"];
+    if(undefined==hider) hider=[];
+    else hider=hider.split(',');
+    $("input[name=hider]:checkbox").val(hider);
+    var keys= localStorage["web_key"];
+    if(undefined==keys) keys='';
+    else keys=keys.replace(/,/g,'\n');
     $("textarea[name=web_key]").val(keys)
 }
 
 function test_keys(){
     var $textarea = $('textarea[name=web_key]');
     $textarea.val().trim().split('\n').forEach(function(e){
-        var term='conduct'
-        var url='http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key='+e
+        var term='conduct';
+        var url='http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key='+e;
         getOnlineWebster(term,url,function(data){
           if(0<data.length){
               $textarea.val(($textarea.val()+'\n'+e).trim());
           }
         })
-    })
+    });
     $textarea.val('')
 
 }
