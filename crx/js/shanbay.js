@@ -69,11 +69,15 @@ function popover(alldata) {
 			+'</div>';
       }
     } else {// word recorded
+      var forgotUrl="http://www.shanbay.com/api/v1/bdc/learning/"+data.learning_id
     	html += '<p><span class="word">'+data.data.content+'</span>'
       		+'<span class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</span></p>'
 			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
 			+'<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+'</p>'
+      +'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">我忘了</a>'
+      +'<p class="success hide">成功添加！</p>'
+      +'<a href="'+forgotUrl+'" target="_blank" class="btn" id="shanbay-check-btn">查看</a></div>'
 			+'</div>';
     }
 
