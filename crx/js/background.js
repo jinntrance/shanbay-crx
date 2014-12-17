@@ -182,7 +182,7 @@ function isUserSignedOn(callback) {
 
 function getClickHandler(term, tab) {
   console.log('signon');
-  var url = API + singularize(normalize(term));//normalize it then sigularize
+  var url = API + normalize(term);//normalize it only 
 
   $.ajax({
     url: url,
