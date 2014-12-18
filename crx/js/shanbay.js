@@ -75,7 +75,7 @@ function popover(alldata) {
 			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
 			+'<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+'</p>'
-      +'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">我忘了</a>'
+      +'<div class="add-btn"><a href="#" class="btn" id="shanbay-forget-btn">我忘了</a>'
       +'<p class="success hide">成功添加！</p>'
       +'<a href="'+forgotUrl+'" target="_blank" class="btn" id="shanbay-check-btn">查看</a></div>'
 			+'</div>';
@@ -93,6 +93,11 @@ function popover(alldata) {
    		e.preventDefault();
    		addNewWord(data.data.id);
    	});
+
+    $('#shanbay-forget-btn').click(function(e) {
+      e.preventDefault();
+      forgetWord(data.data.id);
+    });
 
    	$('#shanbay_popover .speak.us').click(function(e) {
    		e.preventDefault();
@@ -161,6 +166,21 @@ function addNewWord(word_id) {
 	      $('#shanbay-add-btn').addClass('hide');
 	      $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
 	      $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
+            break;
+      case "error":
+        $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
+        break;
+      default:
+    }});
+}
+
+function forgetWord(word_id) {
+  chrome.extension.sendRequest({method: "forgetWord",data:word_id}, function (rsp) {
+    switch(rsp.data.msg){
+      case "success":
+        $('#shanbay-add-btn').addClass('hide');
+        $('#shanbay_popover .success, #shanbay-forget-btn').removeClass('hide');
+        $('#shanbay-forget-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
             break;
       case "error":
         $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
