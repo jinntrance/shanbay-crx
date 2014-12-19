@@ -96,7 +96,7 @@ function popover(alldata) {
 
     $('#shanbay-forget-btn').click(function(e) {
       e.preventDefault();
-      forgetWord(data.data.id);
+      forgetWord(data.id);
     });
 
    	$('#shanbay_popover .speak.us').click(function(e) {
