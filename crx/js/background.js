@@ -109,6 +109,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         case 'addWord':
             addNewWordInBrgd(request.data,sendResponse);
             break;
+        case 'forgetWord':
+            forgetWordInBrgd(request.data,sendResponse);
+            break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html")+'#'+request.anchor});
             sendResponse({data:{tabid:sender.tab.id}});
@@ -158,6 +161,31 @@ function addNewWordInBrgd(word_id,sendResponse) {
 	    }
 	});
 	});
+}
+
+function forgetWordInBrgd(learning_id,sendResponse) {
+    chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
+    $.ajax({
+        url: 'http://www.shanbay.com/api/v1/bdc/learning/' + learning_id,
+        type: 'PUT',
+        dataType: 'JSON',
+        contentType: "application/json; charset=utf-8",
+        data:JSON.stringify({
+          retention: 1
+        }),
+        success: function(data) {
+          sendResponse({data: {msg:'success',rsp:data.data}});
+          console.log('success');
+        },
+        error: function() {
+          sendResponse({data: {msg:'error',rsp:{}}});
+          console.log('error');
+        },
+        complete: function() {
+          console.log('complete');
+        }
+    });
+    });
 }
 
 function normalize(word){
