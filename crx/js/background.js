@@ -37,7 +37,7 @@ function notify(){
                 iconUrl: "icon_48.png"
             };
             var notId = Math.random().toString(36);
-            if (! notified && ls()['not_pop'] != 'yes') {
+            if (! notified && ls()['not_pop'] != 'no') {
                 notification = chrome.notifications.create(notId,opt,function(notifyId){
                     console.info(notifyId + " was created.");
                     notified = true
