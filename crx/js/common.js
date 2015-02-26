@@ -4,10 +4,12 @@
 
 var etho_pre_url = 'http://www.etymonline.com/index.php?term=';
 
-var keys=['4d8125eb-c2a2-441a-8eae-3210da24ed94','b724c154-a86b-4c8e-a48d-22c85d391428','822c717c-3bbe-40b4-9b46-bcab7f76ff88','e2a54c04-201b-4605-99e6-a872ec27130d','e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8','d283a343-d2ba-45fb-b3b7-fd542a0c25c8','a232cef0-720f-414c-a27e-a32648bbc977'];
+var keys=['4d8125eb-c2a2-441a-8eae-3210da24ed94','e2a54c04-201b-4605-99e6-a872ec27130d','e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8','d283a343-d2ba-45fb-b3b7-fd542a0c25c8','a232cef0-720f-414c-a27e-a32648bbc977'];
 
 function ls(){
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
+        console.info(response)
+        if(undefined != response)
         for (var k in response.data)
             localStorage[k] = response.data[k];
     });
