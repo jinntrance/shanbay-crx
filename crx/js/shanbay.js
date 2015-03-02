@@ -131,8 +131,8 @@ function getSelectionOffset(callback) {
   	var range = window.getSelection().getRangeAt(0);
     var dummy = document.createElement('span');
     range.insertNode(dummy);
-  	left = getLeft(dummy) - 50;
-  	top = getTop(dummy) + 25;
+  	left = getLeft(dummy) - 50 - dummy.offsetLeft+ $(dummy).position().left;
+  	top = getTop(dummy) + 25 - dummy.offsetTop + $(dummy).position().top; ;
   	dummy.remove();
     window.getSelection().addRange(range);
   }
