@@ -178,13 +178,15 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         //Y 打开用户共享    
         case 89:
         case 121:
-            $('a.note-user-box-tab').click();
-            return;
+            if(0 < $('a.note-user-box-tab').length)
+              $('a.note-user-box-tab')[0].click();
+            return true;
         //Z 作笔记 码字
         case 90:
         case 122:
-            $('a[href="#note-create"]').click();
-            return;
+            if(0 < $('a[href="#note-create"]').length)
+              $('a[href="#note-create"]')[0].click();
+            return true;
         //I to ignore
         case 73:
         case 74:
