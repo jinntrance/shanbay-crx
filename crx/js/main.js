@@ -175,6 +175,16 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 120:
             $('div#affix').toggle();
             return;
+        //Y 打开用户共享    
+        case 89:
+        case 121:
+            $('a.note-user-box-tab').click();
+            return;
+        //Z 作笔记 码字
+        case 90:
+        case 122:
+            $('a[href="#note-create"]').click();
+            return;
         //I to ignore
         case 73:
         case 74:

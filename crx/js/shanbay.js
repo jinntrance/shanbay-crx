@@ -60,8 +60,11 @@ function popover(alldata) {
       } else {// word exist, but not recorded
       	html += '<p><span class="word">'+data.data.content+'</span>'
       		+'<small class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</small></p>'
-			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-			+'<div class="popover-content">'
+      if(window.location.protocol.indexOf('https') < 0) 
+        html += '<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
+      else html += '</h3>'
+			
+      html += '<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+"<br/>"+defs+'</p>'
 			+'<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
 			+'<p class="success hide">成功添加！</p>'
@@ -72,8 +75,11 @@ function popover(alldata) {
       var forgotUrl="http://www.shanbay.com/review/learning/"+data.data.learning_id
     	html += '<p><span class="word">'+data.data.content+'</span>'
       		+'<span class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</span></p>'
-			+'<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-			+'<div class="popover-content">'
+      if(window.location.protocol.indexOf('https') < 0) 
+        html += '<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
+      else html += '</h3>'
+			
+      html += '<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+'</p>'
       +'<div class="add-btn"><a href="#" class="btn" id="shanbay-forget-btn">我忘了</a></div>'
       +'<p class="success hide">成功添加！</p>'
