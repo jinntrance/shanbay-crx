@@ -47,7 +47,7 @@ Basic features include:
 
 热忱欢迎有兴趣者一起完善。
 
-
+<script type="text/javascript" src="http://www.josephjctang.com/assets/js/analytics.js" async="async"></script>
 
 
 
