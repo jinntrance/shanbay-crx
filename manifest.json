@@ -1,6 +1,6 @@
 {
     "name": "扇贝助手增强版",
-    "version": "1.12.11",
+    "version": "1.12.12",
     "manifest_version": 2,
     "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
     "icons": {
@@ -9,7 +9,7 @@
         "128": "icon_128.png"
     },
     "background": {
-        "scripts": ["js/jquery-2.1.4.min.js", "js/common.js", "js/background.js"]
+        "scripts": ["js/jquery.min.js", "js/howler.min.js", "js/common.js", "js/background.js"]
     },
     "options_page": "options.html",
     "browser_action": {
@@ -21,25 +21,25 @@
         {
             "matches": ["http://*.shanbay.com/**review**"],
             "css": ["css/style.css"],
-            "js": ["js/jquery-2.1.4.min.js", "js/common.js", "js/etymology.js", "js/webster.js", "js/main.js"]
+            "js": ["js/jquery.min.js", "js/common.js", "js/etymology.js", "js/webster.js", "js/main.js"]
         },
         {
             "css": [ "css/shanbay.css" ],
-            "js": [ "js/jquery-2.1.4.min.js", "js/howler.min.js", "js/shanbay.js" ],
+            "js": [ "js/jquery.min.js", "js/shanbay.js" ],
             "matches": [ "*://*/*" ],
             "all_frames": true
         },
         {
-            "js": [ "js/jquery-2.1.4.min.js", "js/popup.js" ],
+            "js": [ "js/jquery.min.js", "js/popup.js" ],
             "matches": [ "http://*.shanbay.com/**vocabulary/add/batch/*" ],
             "css": ["css/style.css"]
         },
         {
-            "js": [ "js/jquery-2.1.4.min.js", "js/vocabulary.js" ],
+            "js": [ "js/jquery.min.js", "js/vocabulary.js" ],
             "matches": [ "http://*.shanbay.com/**learnings/library/*" ]
         },
         {
-            "js": [ "js/jquery-2.1.4.min.js", "js/addBook.js" ],
+            "js": [ "js/jquery.min.js", "js/addBook.js" ],
             "matches": [ "http://*.shanbay.com/wordbook/*" ],
             "css": ["css/style.css"]
         }
