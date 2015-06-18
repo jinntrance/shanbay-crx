@@ -116,6 +116,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             chrome.tabs.create({url: chrome.runtime.getURL("options.html")+'#'+request.anchor});
             sendResponse({data:{tabid:sender.tab.id}});
             break;
+        case 'playAudio':
+        	playAudio(request.data['audio_url']);
+        	break;
         default :
             sendResponse({data:[]}); // snub them.
     }
@@ -268,3 +271,10 @@ function singularize(word) {
   return word;
 }
 
+function playAudio(audio_url) {
+	if(audio_url) {
+		new Howl({
+			urls: [audio_url]
+		}).play();
+	}
+}

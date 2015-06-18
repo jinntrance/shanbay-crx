@@ -60,9 +60,7 @@ function popover(alldata) {
       } else {// word exist, but not recorded
       	html += '<p><span class="word">'+data.data.content+'</span>'
       		+'<small class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</small></p>'
-      if(window.location.protocol.indexOf('https') < 0) 
         html += '<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-      else html += '</h3>'
 			
       html += '<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+"<br/>"+defs+'</p>'
@@ -75,9 +73,7 @@ function popover(alldata) {
       var forgotUrl="http://www.shanbay.com/review/learning/"+data.data.learning_id
     	html += '<p><span class="word">'+data.data.content+'</span>'
       		+'<span class="pronunciation">'+(data.data.pron.length ? ' ['+data.data.pron+'] ': '')+'</span></p>'
-      if(window.location.protocol.indexOf('https') < 0) 
         html += '<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
-      else html += '</h3>'
 			
       html += '<div class="popover-content">'
 			+'<p>'+data.data.definition.split('\n').join("<br/>")+'</p>'
@@ -196,9 +192,5 @@ function forgetWord(learning_id) {
 
 
 function playAudio(audio_url) {
-	if(audio_url) {
-		new Howl({
-			urls: [audio_url]
-		}).play();
-	}
+	chrome.extension.sendRequest({method: "playAudio",data:{audio_url:audio_url}})
 }
