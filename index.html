@@ -6,10 +6,10 @@
     <title>Shanbay-crx by jinntrance</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="//cdn.jsdelivr.net/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -60,13 +60,13 @@
 <p><a href="http://www.shanbay.com">扇贝网</a>的Chrome扩展：</p>
 
 <ul>
-<li>扇贝单词详细页面添加词根词缀，帮助记忆；</li>
-<li>扇贝网记单词时添加键盘快捷键；</li>
+<li>扇贝单词详细页面添加词根词缀(<a href="http://www.etymonline.com">Online Etymology</a> 或<a href="http://www.dictionaryapi.com/">Merriam Webster</a> )，帮助记忆；</li>
+<li>扇贝网记单词时添加键盘<a href="#shortcuts">快捷键</a>；</li>
 <li>任意网页查词并收藏到扇贝账户。</li>
 </ul>
 
-<h2>
-<a id="安装" class="anchor" href="#%E5%AE%89%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装</h2>
+<h1>
+<a id="安装" class="anchor" href="#%E5%AE%89%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装</h1>
 
 <h3>
 <a id="chrome-web-store" class="anchor" href="#chrome-web-store" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chrome Web Store</h3>
@@ -76,7 +76,7 @@
 <h3>
 <a id="手动安装" class="anchor" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>手动安装</h3>
 
-<p>如果你因为众所周知的某种原因无法访问<em>Chrome Web Store</em> ，可以安装如下方式安装和更新扩展。</p>
+<p>如果你因为众所周知的某种原因无法访问<em>Chrome Web Store</em> ，可以按照如下方式安装和更新扩展。</p>
 
 <ol>
 <li>下载扩展压缩包 <a href="https://codeload.github.com/jinntrance/shanbay-crx/zip/master">zip</a>，解压到某个文件夹，比如文件夹叫<code>shanbay-crx-master</code>；</li>
@@ -84,8 +84,8 @@
 <li>选择 "Load Unpacked Extension"，并找到先前叫<code>shanbay-crx-master</code> 的文件夹。</li>
 </ol>
 
-<h2>
-<a id="功能" class="anchor" href="#%E5%8A%9F%E8%83%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>功能</h2>
+<h1>
+<a id="功能" class="anchor" href="#%E5%8A%9F%E8%83%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>功能</h1>
 
 <p>扇贝网用户使用：</p>
 
@@ -97,10 +97,62 @@
 <li>可以通过设置“选项”隐藏、显示中文释义C、英文G、词根E、派生X、例句M、笔记N区域。快捷键不区分大小写。</li>
 <li>词根可选择使用Etymology或是Webster Collegiate的。</li>
 <li>可方便设置，默认将词根收藏为笔记(快捷鍵T)、默认不显示中文释义。</li>
-<li>任意页面(非扇贝网站)查词、加入生词本,双击选词即可，查词组请选择后邮件选择“在扇贝网查找”。</li>
+<li>任意页面(非扇贝网站)查词、加入生词本,双击选词即可，查词组请划词选择右键选择“在扇贝网查找”。</li>
 <li>可选加入Webster全英文释义。</li>
-<li>UJKL分別對对应1234选项，I太简单，O忘记。</li>
 </ol>
+
+<h2>
+<a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shortcuts</h2>
+
+<p>快捷键不区分大小写。</p>
+
+<ul>
+<li>全局快捷键
+
+<ul>
+<li>W 全屏切换(Window)</li>
+</ul>
+</li>
+<li>背单词快捷键
+
+<ul>
+<li>T 添加词根到笔记noTes</li>
+<li>Y 打开用Y户分享笔记, Z 作笔记、码字Z, </li>
+<li>发音: A美音/B英音(拼写单词时请使用Alt+A/B)</li>
+<li>显示隐藏: C中文释义Chinese、G英文释义enGlish、M例句exaMple、N笔记Notes、E词根(Etymology)、X派生affiX</li>
+<li>U,J,K,L分別可选1,2,3,4 </li>
+<li>I太简单(Ignore)、O/o不认识(No)，U,J选择“认识”/“不认识”</li>
+<li>若觉着扇贝自带词根不全，可按Ctrl+q 再网上查词源、派生</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="webster-app-key-注册" class="anchor" href="#webster-app-key-%E6%B3%A8%E5%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Webster App Key 注册</h2>
+
+<p>非常感谢之前用户的贡献，本Chrome 扩展有几个公用的keys，但每个key 在Webster 上有每天1000次查询的限制。
+超过限制通常数天之后，Webster 官方会勒令封key，而且无法保证用公有keys 的用户仍然能够使用英文释义、词根等功能。</p>
+
+<p>所以建议，特别是使用扇贝背单词的用户自己申请key，并在扩展设置中填写自己申请的key 。具体步骤如下：</p>
+
+<ul>
+<li>选择官方注册链接<a href="http://www.dictionaryapi.com/register/index.htm">www.dictionaryapi.com</a> </li>
+<li>以个人名义申请App Key ，所以需要填写个人相关注册信息。
+
+<ul>
+<li>Unique Users 可以尽量写大一些比如100000</li>
+<li>Company Name 写自己学校或公司即可</li>
+<li>Application Name 任意写，比如<code>My app for English Learning</code>
+</li>
+<li>Launch Date 随意写一个未来的时间，格式为月日年如 <code>02/12/2016</code>
+</li>
+<li>Role/Occupation 填职业，根据自己情况填Student, Engineer etc.</li>
+</ul>
+</li>
+<li>选择最后的“同意协议”，并提交注册。</li>
+<li>注册成功后，登录可在左面Account Info 中的"<a href="http://www.dictionaryapi.com/account/my-keys.htm">My Keys</a>" 查看到自己的 <code>Key (Dictionary)</code>
+</li>
+</ul>
 
 <p>热忱欢迎有兴趣者一起完善。</p>
 
