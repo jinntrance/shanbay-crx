@@ -4,7 +4,7 @@
 
 noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>';
 
-chr=chrome;
+chr = chrome;
 
 function getCurrentTerm() {
     return $('#current-learning-word').text();
@@ -14,50 +14,50 @@ function addNoteButton(selector) {
     if ($(selector).siblings('a.note-button').length == 0) $(selector).before(noteString)
 }
 
-function addToNote(add,term) {
-    var sib=$(add).siblings("div");
-    var notes =sib.text().trim();
-    if(sib.has('#affix_word_tree_container').length>0) notes=sib.find('#affix_word_tree_container').text().trim();
+function addToNote(add, term) {
+    var sib = $(add).siblings("div");
+    var notes = sib.text().trim();
+    if (sib.has('#affix_word_tree_container').length > 0) notes = sib.find('#affix_word_tree_container').text().trim();
     var hint = '加入成功';
     var id = $('#learning-box').attr('data-id');
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
 
-    if (hint != $(add).text()&&$('#note-mine-box li').text().indexOf(notes)==-1&&(undefined==term||term==getCurrentTerm())) {
+    if (hint != $(add).text() && $('#note-mine-box li').text().indexOf(notes) == -1 && (undefined == term || term == getCurrentTerm())) {
         $('textarea[name=note]').val(notes);
         $('input[type=submit]').click();
         $(add).html(hint);
     }
 }
 
-function wrapper(title){
-    return $('<div><div class="span1"><h6 class="pull-right">'+title+' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中打开Webster功能</div></div></div>').html()
+function wrapper(title) {
+    return $('<div><div class="span1"><h6 class="pull-right">' + title + ' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中打开Webster功能</div></div></div>').html()
 }
 
-function addButtons(){
-    if($('#roots .well').length==0)
+function addButtons() {
+    if ($('#roots .well').length == 0)
         $('#roots').html(wrapper('词根'));
-    if($('#affix .word,#affix .well').length==0)
+    if ($('#affix .word,#affix .well').length == 0)
         $('#affix').html(wrapper('派生'))
 }
 
-function replaceButtons(){
-    if($('#roots .exist').length==0)
+function replaceButtons() {
+    if ($('#roots .exist').length == 0)
         $('#roots').html(wrapper('词根'));
-    if($('#affix .exist').length==0)
+    if ($('#affix .exist').length == 0)
         $('#affix').html(wrapper('派生'));
     searchOnline()
 }
 
 function searchOnline() {
-    if ($('#roots .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
+    if ($('#roots .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
         if (ls()['etym'] != 'webster')
             getEthology();
     }
-    if (ls()['web_dict']=='yes' && $('#affix .exist').length==0&&(undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+    if (ls()['web_dict'] == 'yes' && $('#affix .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
         findDerivatives();
     }
 }
-$(document).on("DOMNodeInserted", '#learning-box',function () {
+$(document).on("DOMNodeInserted", '#learning-box', function () {
 //    console.log('handling definitions')
     var $definitions = $('#review-definitions');
     var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>';
@@ -67,7 +67,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         $definitions.find('div.endf').show();
         $definitions.find('div.cndf').hide();
     }
-}).on("DOMNodeInserted", '#learning_word a#show_cn_df',function () {
+}).on("DOMNodeInserted", '#learning_word a#show_cn_df', function () {
     console.log('retrieving English definitions');
     searchOnline();
     if (undefined != ls()['hider']) {
@@ -76,35 +76,35 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
             $('#' + ids[i]).hide()
         }
     }
-}).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper',function (e) {
-        console.log('#roots triggered');
-        addNoteButton('#roots .alert,#roots .well')
-    }).on("DOMNodeInserted", '#roots a.note-button',function (e) {
-        console.log('retrieving roots data');
-        if ($("#roots .well").length>0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
-    }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word',function (e) {
-        console.log('#affix triggered');
-        addNoteButton('#affix .alert,#affix .well')
-    }).on("DOMNodeInserted", '#affix a.note-button',function (e) {
-        console.log('retrieving affix data');
-        if($('#affix .well').length>0&&  ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
-    }).on("DOMNodeInserted", '#note-mine-box',function () {
+}).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper', function (e) {
+    console.log('#roots triggered');
+    addNoteButton('#roots .alert,#roots .well')
+}).on("DOMNodeInserted", '#roots a.note-button', function (e) {
+    console.log('retrieving roots data');
+    if ($("#roots .well").length > 0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
+}).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word', function (e) {
+    console.log('#affix triggered');
+    addNoteButton('#affix .alert,#affix .well')
+}).on("DOMNodeInserted", '#affix a.note-button', function (e) {
+    console.log('retrieving affix data');
+    if ($('#affix .well').length > 0 && ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
+}).on("DOMNodeInserted", '#note-mine-box', function () {
 
-    }).on("mouseover", "a.etymology",function (e) {
-        popupEtymology($(this));
-        return;
-    }).on("click", "a.note-button",function (e) {
-        console.log('clicking a note-button');
-        addToNote($(this))
-    }).on("click", "a#settings",function (e) {
-        chrome.extension.sendRequest({method: "openSettings",anchor:"webster_set"});
-    }).on('mouseup',function (e) {
-        if($(this).parents('div.popover-crx').length==0)
-            $('div.popover-crx').remove()
-    }).on('mouseup', 'div.popover-crx', function (e) {
-        return false;
-    }).keyup(function (e) {
-    console.log(String.fromCharCode(e.keyCode)+" pressed");
+}).on("mouseover", "a.etymology", function (e) {
+    popupEtymology($(this));
+    return;
+}).on("click", "a.note-button", function (e) {
+    console.log('clicking a note-button');
+    addToNote($(this))
+}).on("click", "a#settings", function (e) {
+    chrome.extension.sendRequest({method: "openSettings", anchor: "webster_set"});
+}).on('mouseup', function (e) {
+    if ($(this).parents('div.popover-crx').length == 0)
+        $('div.popover-crx').remove()
+}).on('mouseup', 'div.popover-crx', function (e) {
+    return false;
+}).keyup(function (e) {
+    console.log(String.fromCharCode(e.keyCode) + " pressed");
     switch (e.keyCode) {
         //退出浮框
         case 13:
@@ -139,7 +139,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         // Q
         case 81:
         case 113:
-            if(e.ctrlKey)
+            if (e.ctrlKey)
                 replaceButtons();
             return;
         //词根 E
@@ -150,7 +150,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         //notes T
         case 84:
         case 116:
-            $('a.note-button').each(function(e){
+            $('a.note-button').each(function (e) {
                 addToNote($(this));
             });
             return;
@@ -159,7 +159,7 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 118:
             $('#review-definitions .endf').toggle();
             return;
-                   //webster definition V
+        //webster definition V
         //A
         case 65:
         case 97:
@@ -178,14 +178,14 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         //Y 打开用户共享    
         case 89:
         case 121:
-            if(0 < $('a.note-user-box-tab').length)
-              $('a.note-user-box-tab')[0].click();
+            if (0 < $('a.note-user-box-tab').length)
+                $('a.note-user-box-tab')[0].click();
             return true;
         //Z 作笔记 码字
         case 90:
         case 122:
-            if(0 < $('a[href="#note-create"]').length)
-              $('a[href="#note-create"]')[0].click();
+            if (0 < $('a[href="#note-create"]').length)
+                $('a[href="#note-create"]')[0].click();
             return true;
         //I to ignore
         case 73:
@@ -199,42 +199,63 @@ $(document).on("DOMNodeInserted", '#learning-box',function () {
         case 107:
         case 108:
         case 117:
-            var map={i:57,I:57,O:48,o:48,U:49,u:49,j:50,J:50,k:51,K:51,l:52,L:52};
-            var key=String.fromCharCode(e.keyCode);
+            var map = {
+                i: 57,
+                I: 57,
+                O: 48,
+                o: 48,
+                U: 49,
+                u: 49,
+                j: 50,
+                J: 50,
+                k: 51,
+                K: 51,
+                l: 52,
+                L: 52
+            };
+            var key = String.fromCharCode(e.keyCode);
 
             var $choices = $('#choices li.answer');
-            switch(key){
+            switch (key) {
                 case 'u':
                 case 'U':
-                    if(0== $choices.length) $('#review a.known')[0].click();
+                    if (0 == $choices.length) $('#review a.known')[0].click();
                     else $choices[0].click();
                     return;
                 case 'j':
                 case 'J':
-                    if(1<$choices.length)$choices[1].click();
+                    if (1 < $choices.length)$choices[1].click();
                     else {
-                        if($('#review a.unknown').length>0) $('#review a.unknown')[0].click();
-                        if($('a.btn-forget').length>0)$('a.btn-forget')[0].click();
+                        if ($('#review a.unknown').length > 0) $('#review a.unknown')[0].click();
+                        if ($('a.btn-forget').length > 0)$('a.btn-forget')[0].click();
                     }
                     return;
                 case 'k':
-                case 'K':if(4==$choices.length)$choices[2].click() ;return;
+                case 'K':
+                    if (4 == $choices.length)$choices[2].click();
+                    return;
                 case 'l':
-                case 'L':if(4==$choices.length)$choices[3].click();return;
+                case 'L':
+                    if (4 == $choices.length)$choices[3].click();
+                    return;
                 case 'O':
-                case 'o':$('#choices li.forget').click();return;
+                case 'o':
+                    $('#choices li.forget').click();
+                    return;
                 case 'i':
-                case 'I':$('#learning_word a.pass span').click();return;
+                case 'I':
+                    $('#learning_word a.pass span').click();
+                    return;
             }
             return;
     }
     return;//using "return" other attached events will execute
-}).on('keyup','input,textarea',function (event) {
-    if(event.altKey && (event.which== 66 || event.which== 98)){
+}).on('keyup', 'input,textarea', function (event) {
+    if (event.altKey && (event.which == 66 || event.which == 98)) {
         console.log("reading British English");
         $('.learning-speaker .uk').click()
     }
-    else if(event.altKey && (event.which== 65 || event.which== 97)){
+    else if (event.altKey && (event.which == 65 || event.which == 97)) {
         console.log("reading American English");
         $('.learning-speaker .us').click()
     }
