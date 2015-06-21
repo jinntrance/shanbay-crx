@@ -7,7 +7,7 @@ checked = false;
 $(function() {
     check_in();
     setTimeout(function(){
-      checked = false;	    
+      checked = false;        
       check_in();
     },3*60*60*1000);//每3h提醒一次
 
@@ -28,12 +28,20 @@ $(function() {
 
 var notified = false;
 
-function notify(){
-            var url="http://www.shanbay.com/";
+function notify(title, message, url){
+			if(! title) {
+				title = "背单词读文章练句子"
+			}
+			if(! message) {
+				message = "少壮不努力，老大背单词！";
+			}
+			if(! url) {
+                url="http://www.shanbay.com/";
+            }
             var opt={
                 type: "basic",
-                title: "背单词读文章练句子",
-                message: "少壮不努力，老大背单词！",
+                title: title,
+                message: message,
                 iconUrl: "icon_48.png"
             };
             var notId = Math.random().toString(36);
@@ -58,6 +66,9 @@ function notify(){
             },5000);
 }
 
+function notify_login() {
+	notify("", "请登录……", "http://shanbay.com/accounts/login/" );
+}
 
 
 function check_in(){
@@ -73,10 +84,12 @@ function check_in(){
         }
         else if(m>0) {
             chrome.browserAction.setBadgeText({text: m+''});
-	    notify();	
-	}
+            //notified = false;
+            notify();    
+        }
     }).fail(function(){
-	    notify();
+        //notified = false;
+        notify();
     });
     checked = true;
 }
@@ -117,8 +130,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             sendResponse({data:{tabid:sender.tab.id}});
             break;
         case 'playAudio':
-        	playAudio(request.data['audio_url']);
-        	break;
+            playAudio(request.data['audio_url']);
+            break;
         default :
             sendResponse({data:[]}); // snub them.
     }
@@ -141,29 +154,29 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 
 
 function addNewWordInBrgd(word_id,sendResponse) {
-	chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
-	$.ajax({
-		url: 'http://www.shanbay.com/api/v1/bdc/learning/',
-		type: 'POST',
-	    dataType: 'JSON',
-	    contentType: "application/json; charset=utf-8",
-	    data:JSON.stringify({
-	      content_type: "vocabulary",
-	      id: word_id
-	    }),
-	    success: function(data) {
-	      sendResponse({data: {msg:'success',rsp:data.data}});
-	      console.log('success');
-	    },
-	    error: function() {
-	      sendResponse({data: {msg:'error',rsp:{}}});
-	      console.log('error');
-	    },
-	    complete: function() {
-	      console.log('complete');
-	    }
-	});
-	});
+    chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies){
+    $.ajax({
+        url: 'http://www.shanbay.com/api/v1/bdc/learning/',
+        type: 'POST',
+        dataType: 'JSON',
+        contentType: "application/json; charset=utf-8",
+        data:JSON.stringify({
+          content_type: "vocabulary",
+          id: word_id
+        }),
+        success: function(data) {
+          sendResponse({data: {msg:'success',rsp:data.data}});
+          console.log('success');
+        },
+        error: function() {
+          sendResponse({data: {msg:'error',rsp:{}}});
+          console.log('error');
+        },
+        complete: function() {
+          console.log('complete');
+        }
+    });
+    });
 }
 
 function forgetWordInBrgd(learning_id,sendResponse) {
@@ -206,7 +219,8 @@ function isUserSignedOn(callback) {
             callback();
         } else {
             localStorage.removeItem('shanbay_cookies');
-            notify();
+            notified = false;
+            notify_login();
         }
     });
 }
@@ -272,9 +286,9 @@ function singularize(word) {
 }
 
 function playAudio(audio_url) {
-	if(audio_url) {
-		new Howl({
-			urls: [audio_url]
-		}).play();
-	}
+    if(audio_url) {
+        new Howl({
+            urls: [audio_url]
+        }).play();
+    }
 }
