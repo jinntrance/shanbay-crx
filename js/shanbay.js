@@ -1,3 +1,9 @@
+/**
+ * 任意网页扇贝查词
+ *
+ */
+
+
 function ls() {
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
         for (k in response.data)
