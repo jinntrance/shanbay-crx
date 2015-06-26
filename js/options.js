@@ -1,5 +1,5 @@
 /**
- * 设置页面保存与回复设置相关的js 
+ * 设置页面保存与回复设置相关的js
  *@user Joseph
  */
 // Saves options to localStorage.
