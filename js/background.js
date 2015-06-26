@@ -294,6 +294,6 @@ function playAudio(audio_url) {
     if (audio_url) {
         new Howl({
             urls: [audio_url]
-        }).play();
+        }).play().volume(1.0);
     }
 }
