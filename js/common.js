@@ -1,4 +1,5 @@
 /**
+ * 基本的函数，包括Webster 及 在线词源的获取
  * @user Joseph
  */
 
