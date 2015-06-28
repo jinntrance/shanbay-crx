@@ -17,7 +17,7 @@ function ls() {
     return localStorage;
 }
 
-function getOnlineEthology(term, callback) {
+function getOnlineEtymology(term, callback) {
     var url = etho_pre_url + term.toLowerCase();
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);

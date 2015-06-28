@@ -6,7 +6,7 @@ var originAnchor = undefined;
 function getEthology() {
     originAnchor = undefined;
     var term = getCurrentTerm();
-    getOnlineEthology(term, function (roots) {
+    getOnlineEtymology(term, function (roots) {
         if (getCurrentTerm() == term) {
             addButtons();
             if (undefined != roots && roots.trim() != "" && $('#roots .exist').length == 0)
