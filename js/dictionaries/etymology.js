@@ -6,8 +6,9 @@ var originAnchor = undefined;
 function getEthology() {
     originAnchor = undefined;
     var term = getCurrentTerm();
-    getOnlineEtymology(term, function (roots) {
+    getOnlineEtymology(term, function (obj) {
         if (getCurrentTerm() == term) {
+            var roots=obj.roots
             addButtons();
             if (undefined != roots && roots.trim() != "" && $('#roots .exist').length == 0)
                 $("#roots .alert").addClass("well exist").removeClass("alert").html($(roots.trim()));

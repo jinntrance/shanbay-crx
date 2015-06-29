@@ -24,7 +24,7 @@ function getOnlineEtymology(term, callback) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             var roots = parseEtymology(xhr.responseText);
-            callback(roots)
+            callback({roots: roots, ew: term})
         }
     };
     xhr.send();
