@@ -5,7 +5,7 @@
 
 var etho_pre_url = 'http://www.etymonline.com/index.php?term=';
 
-var keys = ['4d8125eb-c2a2-441a-8eae-3210da24ed94', 'e2a54c04-201b-4605-99e6-a872ec27130d', 'e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8', 'd283a343-d2ba-45fb-b3b7-fd542a0c25c8', 'a232cef0-720f-414c-a27e-a32648bbc977'];
+var keys = ['4d8125eb-c2a2-441a-8eae-3210da24ed94', 'e2a54c04-201b-4605-99e6-a872ec27130d', 'e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8', 'd283a343-d2ba-45fb-b3b7-fd542a0c25c8', 'a232cef0-720f-414c-a27e-a32648bbc977', 'b0d3d18c-cd69-46ca-bb62-bd5280ae87a7'];
 
 function ls() {
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
