@@ -7,6 +7,7 @@
 - 词根、词缀
 
 解析后单个单词对应的数据格式WORD 如后：
+
 ```json
 {
     derivatives: 派生词,
@@ -22,13 +23,15 @@
 ## 解析单词的函数
 
 [common.js] 中，获取Webster 及词源的两个函数。
-其中回调函数格式：callback(term, json)，term 为查询单词，json 为解析后如上面格式WORD 的数据对象。
-```
-getOnlineWebsterCollegiate(term, callback)
-getOnlineEtymology(term, callback)
+
+```javascript
+function getOnlineWebsterCollegiate(term, callback)
+function getOnlineEtymology(term, callback)
 ```
 
-# 添加新的字典替换
+其中回调函数格式：callback(term, json)，term 为查询单词，json 为解析后如上面格式WORD 的数据对象。
+
+# 添加新的字典
 
 - 在[common.js] 中添加如上格式的的解析函数F ，并将数据存在格式为WORD 的对象中。
 - 在设置页面 [options.html](../options.html) 的“Web Dictionary 使用” 处，添加对应的词典设置

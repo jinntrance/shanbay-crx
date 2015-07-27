@@ -76,7 +76,9 @@ Basic features include:
 - 选择最后的“同意协议”，并提交注册。
 - 注册成功后，登录可在左面Account Info 中的"[My Keys](http://www.dictionaryapi.com/account/my-keys.htm)" 查看到自己的 `Key (Dictionary)`
 
+## 添加新的字典
 
+请开发者阅读此[说明](./js/dictionaries/README.md) 。
 
 热忱欢迎有兴趣者一起完善。
 
