@@ -22,7 +22,7 @@
 
 ## 解析单词的函数
 
-[common.js] 中，获取Webster 及词源的两个函数。
+[common.js] 中，获取及解析Webster 及Etymology 词源的两个函数。
 
 ```javascript
 function getOnlineWebsterCollegiate(term, callback)
