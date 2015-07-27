@@ -30,7 +30,7 @@
         "js/jquery.min.js",
         "js/common.js",
         "js/dictionaries/etymology.js",
-        "js/dictionaries/webster.js",
+        "js/dictionaries/dict.js",
         "js/main.js"
       ]
     },
