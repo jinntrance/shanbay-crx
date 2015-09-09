@@ -95,6 +95,9 @@ function popover(alldata) {
 
     getSelectionOffset(function (left, top) {
         setPopoverPosition(left, top);
+        if ( $(window).scrollTop() + $(window).height() + 50 > top) {
+          $(window).scrollTop($(document).height());
+        }
     });
 
     $('#shanbay-add-btn').click(function (e) {
