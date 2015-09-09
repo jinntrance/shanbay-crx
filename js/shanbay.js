@@ -95,8 +95,8 @@ function popover(alldata) {
 
     getSelectionOffset(function (left, top) {
         setPopoverPosition(left, top);
-        if ( $(window).scrollTop() + $(window).height() + 50 > top) {
-          $(window).scrollTop($(document).height());
+        if ( $(window).scrollTop() + $(window).height() - 200 < top) {
+          $(window).scrollTop(top+200);
         }
     });
 
