@@ -147,9 +147,9 @@ function getSelectionOffset(callback) {
         top = $(dummy).offset().top + 25 - dummy.offsetTop + $(dummy).position().top;
         dummy.remove();
         window.getSelection().addRange(range);
+        console.log(left + ':' + top);
+        callback(left, top);
     }
-    console.log(left + ':' + top);
-    callback(left, top);
 }
 function getTop(e) {
     var offset = e.offsetTop;
