@@ -8,7 +8,7 @@ function findDerivatives() {
         // 设置使用Webster 字典
         getOnlineWebsterCollegiate(originalTerm, function (word, json) {
             if (getCurrentTerm() == originalTerm) {
-                showDerivatives();
+                showDerivatives(originalTerm, word, json);
             }
         });
     } else if (ls()['dict'] == 'oxford'){

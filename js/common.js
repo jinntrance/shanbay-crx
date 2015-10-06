@@ -109,7 +109,7 @@ function getOnlineWebster(term, url, callback) {
 /**
  * 通过在线词典查询，替换同义词、词根、词性、解释等。
  */
-function showDerivatives() {
+function showDerivatives(originalTerm, word, json) {
     var derivatives = json.derivatives;
     var syns = json.syns;
     var roots = json.roots;

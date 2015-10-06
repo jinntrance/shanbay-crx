@@ -12,7 +12,10 @@ function getCurrentTerm() {
 }
 
 function addNoteButton(selector) {
-    if ($(selector).siblings('a.note-button').length == 0) $(selector).before(noteString)
+    var addNoteButton = $(selector).siblings('a.note-button');
+    if (addNoteButton.length == 0 && !$(selector).hasClass("alert")) {
+        $(selector).before(noteString);
+    }
 }
 
 function addToNote(add, term) {
@@ -23,7 +26,10 @@ function addToNote(add, term) {
     var id = $('#learning-box').attr('data-id');
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
 
-    if (hint != $(add).text() && $('#note-mine-box li').text().indexOf(notes) == -1 && (undefined == term || term == getCurrentTerm())) {
+    if ( $(add).parent().find('.alert').length == 0 &&
+        hint != $(add).text() &&
+        $('#note-mine-box li').text().indexOf(notes) == -1 &&
+        (undefined == term || term == getCurrentTerm())) {
         $('textarea[name=note]').val(notes);
         $('input[type=submit]').click();
         $(add).html(hint);
@@ -31,7 +37,7 @@ function addToNote(add, term) {
 }
 
 function wrapper(title) {
-    return $('<div><div class="span1"><h6 class="pull-right">' + title + ' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中打开Webster功能</div></div></div>').html()
+    return $('<div><div class="span1" ><h6 class="pull-right">' + title + ' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....<br/>请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及<a target="_blank" href="http://josephjctang.com/shanbay-crx/#webster-app-key-"> 申请Webster Key</a>并在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中并打开Webster功能</div></div></div>').html()
 }
 
 function addButtons() {
@@ -54,7 +60,7 @@ function searchOnline() {
         if (ls()['etym'] != 'webster')
             getEthology();
     }
-    if (ls()['web_dict'] && ls()['web_dict'] != 'no' && $('#affix .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
+    if (ls()['dict'] && ls()['dict'] != 'no' && $('#affix .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
         findDerivatives();
     }
 }

@@ -13,7 +13,7 @@ function save_options() {
     localStorage["web_en"] = $("input[name=web_en]:checked").val();
     localStorage["not_pop"] = $("input[name=not_pop]:checked").val();
     localStorage["ctx_menu"] = $("input[name=ctx_menu]:checked").val();
-    localStorage["web_dict"] = $("input[name=web_dict]:checked").val();
+    localStorage["dict"] = $("input[name=dict]:checked").val();
     localStorage["skip_easy"] = $("input[name=skip_easy]:checked").val();
     localStorage["show_syllabe"] = $("input[name=show_syllabe]:checked").val();
     localStorage["hider"] = $("input[name=hider]:checkbox:checked").map(function (i, e) {
@@ -42,7 +42,7 @@ function restore_options() {
     $("input[name=web_en][value=" + localStorage["web_en"] + "]").attr("checked", true);
     $("input[name=not_pop][value=" + localStorage["not_pop"] + "]").attr("checked", true);
     $("input[name=ctx_menu][value=" + localStorage["ctx_menu"] + "]").attr("checked", true);
-    $("input[name=web_dict][value=" + localStorage["web_dict"] + "]").attr("checked", true);
+    $("input[name=dict][value=" + localStorage["dict"] + "]").attr("checked", true);
     $("input[name=skip_easy][value=" + localStorage["skip_easy"] + "]").attr("checked", true);
     $("input[name=show_syllabe][value=" + localStorage["show_syllabe"] + "]").attr("checked", true);
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
