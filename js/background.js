@@ -105,14 +105,30 @@ function max(array) {
     return max;
 }
 
+function saveToStorage() {
+    // Save it using the Chrome extension storage API.
+    chrome.storage.sync.set(localStorage, function() {
+        // Notify that we saved.
+        message('localStorage saved');
+    });
+}
+
 chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
     console.log("received method: " + request.method);
     switch (request.method) {
         case "getLocalStorage":
-            sendResponse({data: localStorage});
+            chrome.storage.sync.get(localStorage, function(items) {
+                // Notify that we saved.
+                for(var k in items){
+                    if(undefined != items[k])
+                        localStorage[k] = items[k];
+                }
+                sendResponse({data: localStorage});
+            });
             break;
         case "setLocalStorage":
             window.localStorage = request.data;
+            saveToStorage();
             sendResponse({data: localStorage});
             break;
         case 'lookup':

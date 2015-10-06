@@ -4,34 +4,39 @@
  */
 
 
-function ls() {
+function ls(callback) {
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
         for (k in response.data)
             localStorage[k] = response.data[k];
+        if(undefined != callback){
+            callback();
+        }
     });
     return localStorage;
 }
 
 $(function () {
-    $(document).on('dblclick', function () {
-        var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
-        console.info("selected " + text);
-        if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
-            console.log("searching " + text);
-            chrome.extension.sendMessage({
-                method: 'lookup',
-                action: 'lookup',
-                data: text[0]
-            }, function (resp) {
-                console.log(resp.data)
-            });
-            popover({
-                shanbay: {
-                    loading: true,
-                    msg: "查询中...."
-                }
-            })
-        }
+    ls(function() {
+        $(document).on('dblclick', function () {
+            var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
+            console.info("selected " + text);
+            if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
+                console.log("searching " + text);
+                chrome.extension.sendMessage({
+                    method: 'lookup',
+                    action: 'lookup',
+                    data: text[0]
+                }, function (resp) {
+                    console.log(resp.data)
+                });
+                popover({
+                    shanbay: {
+                        loading: true,
+                        msg: "查询中...."
+                    }
+                })
+            }
+        });
     });
 });
 

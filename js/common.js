@@ -7,12 +7,15 @@ var etho_pre_url = 'http://www.etymonline.com/index.php?term=';
 
 var keys = ['e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8', 'd283a343-d2ba-45fb-b3b7-fd542a0c25c8', 'a232cef0-720f-414c-a27e-a32648bbc977', 'b0d3d18c-cd69-46ca-bb62-bd5280ae87a7', '3d539f77-ab91-4839-8ba4-120776fc566e'];
 
-function ls() {
+function ls(callback) {
     chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
         console.info(response)
         if (undefined != response)
             for (var k in response.data)
                 localStorage[k] = response.data[k];
+        if(undefined != callback){
+            callback();
+        }
     });
     return localStorage;
 }
