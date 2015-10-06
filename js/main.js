@@ -111,125 +111,91 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
 }).on('mouseup', 'div.popover-crx', function (e) {
     return false;
 }).keyup(function (e) {
+    //keydown/keyup组合不区分英文字母大小写，检测他们的keycode属性时，都为大写码。
+    //keypress区分大小写。
     console.log(String.fromCharCode(e.keyCode) + " pressed");
-    switch (e.keyCode) {
-        //退出浮框
-        case 13:
-        case 27:
+    switch (String.fromCharCode(e.keyCode)) {
+        //退出浮框，esc return 等
+        case "\x0D":
+        case "\x1B":
             $('div.popover-crx').remove();
             return;
         //the chinese definitions C
-        case 67:
-        case 99:
+        case 'C':
             $('div.cndf').toggle();
             return;
         //the English definitions G
-        case 71:
-        case 103:
+        case 'G':
             $('div.endf').toggle();
             return;
         //全屏W
-        case 87:
-        case 119:
+        case 'W':
             $('div.navbar').toggle();
             return;
         //例句M
-        case 77:
-        case 109:
+        case 'M':
             $('div#learning-examples-box').toggle();
             return;
         //notes N
-        case 78:
-        case 110:
+        case 'N':
             $('div#notes-box').toggle();
             return;
         // Q
-        case 81:
-        case 113:
+        case 'Q':
             if (e.ctrlKey)
                 replaceButtons();
             return;
         //词根 E
-        case 69:
-        case 101:
+        case 'E':
             $('div#roots').toggle();
             return;
         //notes T
-        case 84:
-        case 116:
+        case 'T':
             $('a.note-button').each(function (e) {
                 addToNote($(this));
             });
             return;
         //webster definition V
-        case 86:
-        case 118:
+        case 'V':
             $('#review-definitions .endf').toggle();
             return;
-        //webster definition V
         //A
-        case 65:
-        case 97:
+        case 'A':
             $('.learning-speaker .us').click();
             return;
         //B
-        case 66:
-        case 98:
+        case 'B':
             $('.learning-speaker .uk').click();
             return;
         //衍生、同义X
-        case 88:
-        case 120:
+        case 'X':
             $('div#affix').toggle();
             return;
         //Y 打开用户共享    
-        case 89:
-        case 121:
+        case 'Y':
             if (0 < $('a.note-user-box-tab').length)
                 $('a.note-user-box-tab')[0].click();
             return true;
         //Z 作笔记 码字
-        case 90:
-        case 122:
+        case 'Z':
             if (0 < $('a[href="#note-create"]').length)
                 $('a[href="#note-create"]')[0].click();
             return true;
         //I to ignore
-        case 73:
-        case 74:
-        case 75:
-        case 76:
-        case 79:
-        case 85:
-        case 105:
-        case 106:
-        case 107:
-        case 108:
-        case 117:
-            var map = {
-                i: 57,
-                I: 57,
-                O: 48,
-                o: 48,
-                U: 49,
-                u: 49,
-                j: 50,
-                J: 50,
-                k: 51,
-                K: 51,
-                l: 52,
-                L: 52
-            };
+        case 'I':
+        case 'O':
+        case 'U':
+        case 'J':
+        case 'K':
+        case 'L':
             var key = String.fromCharCode(e.keyCode);
 
             var $choices = $('#choices li.answer');
             switch (key) {
-                case 'u':
                 case 'U':
                     if (0 == $choices.length) $('#review a.known')[0].click();
                     else $choices[0].click();
                     return;
-                case 'j':
                 case 'J':
                     if (1 < $choices.length)$choices[1].click();
                     else {
@@ -237,19 +203,15 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
                         if ($('a.btn-forget').length > 0)$('a.btn-forget')[0].click();
                     }
                     return;
-                case 'k':
                 case 'K':
                     if (4 == $choices.length)$choices[2].click();
                     return;
-                case 'l':
                 case 'L':
                     if (4 == $choices.length)$choices[3].click();
                     return;
                 case 'O':
-                case 'o':
                     $('#choices li.forget').click();
                     return;
-                case 'i':
                 case 'I':
                     $('#learning_word a.pass span').click();
                     return;
@@ -258,11 +220,11 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     }
     return;//using "return" other attached events will execute
 }).on('keyup', 'input,textarea', function (event) {
-    if (event.altKey && (event.which == 66 || event.which == 98)) {
+    if (event.altKey && ('B' == String.fromCharCode(event.which))) {
         console.log("reading British English");
         $('.learning-speaker .uk').click()
     }
-    else if (event.altKey && (event.which == 65 || event.which == 97)) {
+    else if (event.altKey && ('A' == String.fromCharCode(event.which))) {
         console.log("reading American English");
         $('.learning-speaker .us').click()
     }
