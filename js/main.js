@@ -10,14 +10,22 @@ chr = chrome;
 function getCurrentTerm() {
     return $('#current-learning-word').text();
 }
-
+/**
+ * “加入笔记”的按钮添加
+ * @param selector
+ */
 function addNoteButton(selector) {
-    var addNoteButton = $(selector).siblings('a.note-button');
-    if (addNoteButton.length == 0 && !$(selector).hasClass("alert")) {
+    var button = $(selector).siblings('a.note-button');
+    if (button.length == 0 && !$(selector).hasClass("alert")) {
         $(selector).before(noteString);
     }
 }
 
+/**
+ * 添加成个人笔记
+ * @param add
+ * @param term
+ */
 function addToNote(add, term) {
     var sib = $(add).siblings("div");
     var notes = sib.text().trim();
@@ -25,14 +33,31 @@ function addToNote(add, term) {
     var hint = '加入成功';
     var id = $('#learning-box').attr('data-id');
     var url = "http://www.shanbay.com/api/v1/bdc/note/";
+    var note_sim = 0;
+    // 查看个人笔记中与新笔记的相似度
+    $('#note-mine-box li').each(function () {
+        var sim = n_gram_similarity(4, notes, $(this).text());
+        if(sim>note_sim){
+            note_sim = sim;
+        }
+    });
+
+    if(note_sim>0) {
+        console.info("similarity between the new and old note is: " + note_sim);
+    }
 
     if ( $(add).parent().find('.alert').length == 0 &&
         hint != $(add).text() &&
-        $('#note-mine-box li').text().indexOf(notes) == -1 &&
         (undefined == term || term == getCurrentTerm())) {
-        $('textarea[name=note]').val(notes);
-        $('input[type=submit]').click();
+        if(note_sim<=0.25) {
+             // TODO 修改笔记相似度
+            $('textarea[name=note]').val(notes);
+            $('input[type=submit]').click();
+        }else{
+            hint = '已添加过'
+        }
         $(add).html(hint);
+
     }
 }
 
@@ -74,9 +99,29 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         $definitions.find('div.endf').show();
         $definitions.find('div.cndf').hide();
     }
-}).on("DOMNodeInserted", '#learning_word a#show_cn_df', function () {
-    console.log('retrieving English definitions');
-    searchOnline();
+
+    var name={
+        affix: '派生',
+        roots:'词根'
+    };
+    $('#affix, #roots').each(function (e) {
+            if ("" == $(this).html().trim()) {
+                var label = name[$(this).attr('id')];
+                if(label) {
+                    //TODO
+                    //$(this).html('<div class="span1"><h6 class="pull-right">' + label + '</h6></div><div class="roots-wrapper span9">' +
+                    //noteString + '<div class="alert"></div></div>');
+                    //console.log("roots/affix body inserted");
+                }
+            }
+        }
+    )
+}).on("DOMNodeInserted", '#learning_word a#show_cn_df, #learning_word', function () {
+    // TODO 改变在线搜索的触发条件
+    if($('#learning_word .word h1.content').length>0) {
+        console.log('retrieving English definitions');
+        searchOnline();
+    }
     if (undefined != ls()['hider']) {
         var ids = ls()['hider'].split(',');
         for (var i in ids) {

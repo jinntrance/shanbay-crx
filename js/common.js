@@ -150,3 +150,32 @@ function showDerivatives(originalTerm, word, json) {
         }
     } else if (ls()['etym'] == 'webster') getEthology()
 }
+
+/**
+ * have a look at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.67.9369&rep=rep1&type=pdf
+ * @param n number of grams
+ * @param str1
+ * @param str2
+ * @returns {number} between 0 and 1, as the similarity of str1 and str2
+ */
+function n_gram_similarity(n, str1, str2) {
+    if (str1 && str2) {
+        str1 = str1.replace(/\s+/g, " ");
+        str2 = str2.replace(/\s+/g, " ");
+
+        var common_count = 0;
+        var sets={};
+        for (var i = 0; i < str1.length - n; i++) {
+            sets[str1.substr(i, n)]=1;
+        }
+        for (var j = 0; j < str2.length - n; j++) {
+            var this_str = str2.substr(j, n);
+            if (1 == sets[this_str]) {
+                common_count += 1;
+                sets[this_str] +=1;
+            }
+        }
+        return 2.0*common_count / (str1.length + str2.length - 2*(n-1))
+    }
+    return 0;
+}
