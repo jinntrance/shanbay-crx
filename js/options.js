@@ -4,7 +4,7 @@
  */
 // Saves options to localStorage.
 function save_options() {
-//    test_keys();
+    test_keys();
     localStorage["etym"] = $("input[name=etym]:checked").val();
     localStorage["click2s"] = $("input[name=click2s]:checked").val();
     localStorage["root2note"] = $("input[name=root2note]:checked").val();
@@ -75,7 +75,9 @@ function mail_me() {
     window.open("mailto:jinntrance@gmail.com?subject=Webster Keys&body=" + $('textarea[name=web_key]').val().split('\n').join(','))
 }
 
-document.addEventListener('DOMContentLoaded', restore_options);
-document.querySelector('#save').addEventListener('click', save_options);
-document.querySelector('#test').addEventListener('click', test_keys);
-document.querySelector('#mail_me').addEventListener('click', mail_me);
+document.addEventListener('DOMContentLoaded', function(){
+	restore_options();
+	document.querySelector('#save').addEventListener('click', save_options);
+	document.querySelector('#test').addEventListener('click', test_keys);
+	document.querySelector('#mail_me').addEventListener('click', mail_me);
+});
