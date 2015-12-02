@@ -4,7 +4,6 @@
  */
 // Saves options to localStorage.
 function save_options() {
-    test_keys();
     localStorage["etym"] = $("input[name=etym]:checked").val();
     localStorage["click2s"] = $("input[name=click2s]:checked").val();
     localStorage["root2note"] = $("input[name=root2note]:checked").val();
@@ -64,6 +63,7 @@ function test_keys() {
         getOnlineWebster(term, url, function (data) {
             if (0 < data.length) {
                 $textarea.val(($textarea.val() + '\n' + e).trim());
+                save_options();
             }
         })
     });
@@ -77,7 +77,7 @@ function mail_me() {
 
 document.addEventListener('DOMContentLoaded', function(){
 	restore_options();
-	document.querySelector('#save').addEventListener('click', save_options);
+	document.querySelector('#save').addEventListener('click', test_keys);
 	document.querySelector('#test').addEventListener('click', test_keys);
 	document.querySelector('#mail_me').addEventListener('click', mail_me);
 });
