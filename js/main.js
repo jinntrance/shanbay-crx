@@ -116,7 +116,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
             }
         }
     )
-}).on("DOMNodeInserted", '#learning_word a#show_cn_df, #learning_word', function () {
+}).on("DOMNodeInserted", '#learning_word a#show_cn_df', function () {
     // TODO 改变在线搜索的触发条件
     if($('#learning_word .word h1.content').length>0) {
         console.log('retrieving English definitions');
