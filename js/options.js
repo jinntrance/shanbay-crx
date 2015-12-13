@@ -56,19 +56,21 @@ function restore_options() {
 }
 
 function test_keys() {
+    save_options();
     var $textarea = $('textarea[name=web_key]');
-    $textarea.val().trim().split('\n').forEach(function (e) {
-        var term = 'conduct';
-        var url = 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=' + e;
-        getOnlineWebster(term, url, function (data) {
-            if (0 < data.length) {
-                $textarea.val(($textarea.val() + '\n' + e).trim());
-                save_options();
-            }
-        })
-    });
+    var keys = $textarea.val().trim();
+    if (keys.length > 0)
+        keys.split('\n').forEach(function (e) {
+            var term = 'conduct';
+            var url = 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=' + e;
+            getOnlineWebster(term, url, function (data) {
+                if (0 < data.length) {
+                    $textarea.val(($textarea.val() + '\n' + e).trim());
+                    save_options();
+                }
+            })
+        });
     $textarea.val('')
-
 }
 
 function mail_me() {
