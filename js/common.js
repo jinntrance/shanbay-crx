@@ -6,6 +6,8 @@
 var etho_pre_url = 'http://www.etymonline.com/index.php?term=';
 
 var keys = [
+'62f54ac9-4791-4131-bfdd-1146af327107',
+'c0b8de2c-834c-4d08-818d-c7a5ee1cf1a9',
 'e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8',
 'd283a343-d2ba-45fb-b3b7-fd542a0c25c8',
 'a232cef0-720f-414c-a27e-a32648bbc977',
