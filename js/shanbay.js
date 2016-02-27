@@ -32,7 +32,7 @@ $(function () {
                 popover({
                     shanbay: {
                         loading: true,
-                        msg: "查询中...."
+                        msg: "查询中....（请确保已登录扇贝网）"
                     }
                 })
             }
