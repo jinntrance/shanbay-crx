@@ -88,6 +88,7 @@ function popover(alldata) {
 
         html += '<div class="popover-content">'
             + '<p>' + data.data.definition.split('\n').join("<br/>") + '</p>'
+            + '<p>' + data.data.en_definition.defn.split('\n').join("<br/>") + '</p>'
             + '<div class="add-btn"><a href="#" class="btn" id="shanbay-forget-btn">我忘了</a></div>'
             + '<p class="success hide">成功添加！</p>'
             + '<div class="add-btn"><a href="' + forgotUrl + '" target="_blank" class="btn" id="shanbay-check-btn">查看</a></div>'
