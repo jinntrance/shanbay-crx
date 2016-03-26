@@ -253,7 +253,7 @@ function getClickHandler(term, tab) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
                     chrome.tabs.sendMessage(tab.id, {
-                        action: 'popover',
+                        method: 'popover',
                         data: {
                             shanbay: data,
                             webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs}
@@ -261,7 +261,7 @@ function getClickHandler(term, tab) {
                     });
                 });
             else chrome.tabs.sendMessage(tab.id, {
-                action: 'popover',
+                method: 'popover',
                 data: {shanbay: data}
             });
         },

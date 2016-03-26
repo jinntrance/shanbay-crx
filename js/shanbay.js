@@ -24,7 +24,6 @@ $(function () {
                 console.log("searching " + text);
                 chrome.extension.sendMessage({
                     method: 'lookup',
-                    action: 'lookup',
                     data: text[0]
                 }, function (resp) {
                     console.log(resp.data);
@@ -44,6 +43,17 @@ $(function () {
 /**
  *@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
  **/
+
+
+chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
+    console.log("received\n");
+    console.log(message.data);
+    switch (message.method) {
+        case 'popover':
+            popover(message.data);
+            break;
+    }
+});
 
 function popover(alldata) {
     var data = alldata.shanbay;
