@@ -13,7 +13,7 @@
       "js/jquery.min.js",
       "js/howler.min.js",
       "js/common.js",
-      "js/dict.js",
+      "js/dictionaries/dict.js",
       "js/background.js"
     ]
   },
@@ -31,7 +31,6 @@
         "js/jquery.min.js",
         "js/common.js",
         "js/dictionaries/etymology.js",
-        "js/dictionaries/dict.js",
         "js/main.js"
       ]
     },
