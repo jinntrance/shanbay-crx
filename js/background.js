@@ -113,8 +113,9 @@ function saveToStorage() {
     });
 }
 
-chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("received method: " + request.method);
+    console.log("received data: " + request);
     switch (request.method) {
         case "getLocalStorage":
             chrome.storage.sync.get(localStorage, function(items) {
@@ -130,6 +131,9 @@ chrome.extension.onRequest.addListener(function (request, sender, sendResponse) 
             window.localStorage = request.data;
             saveToStorage();
             sendResponse({data: localStorage});
+            break;
+        case 'is_user_signed_on':
+            isUserSignedOn();
             break;
         case 'lookup':
             isUserSignedOn(function () {
@@ -150,23 +154,12 @@ chrome.extension.onRequest.addListener(function (request, sender, sendResponse) 
         case 'playAudio':
             playAudio(request.data['audio_url']);
             break;
+        case 'getEthology':
+            break;
+        case 'findDerivatives':
+            break;
         default :
             sendResponse({data: []}); // snub them.
-    }
-});
-
-chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
-    var tabid = sender.tab.id;
-    console.log("received " + message.data);
-    switch (message.action) {
-        case 'is_user_signed_on':
-            isUserSignedOn();
-            break;
-        case 'lookup':
-            isUserSignedOn(function () {
-                getClickHandler(message.data, sender.tab);
-            });
-            break;
     }
 });
 

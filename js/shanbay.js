@@ -5,7 +5,7 @@
 
 
 function ls(callback) {
-    chrome.extension.sendRequest({method: "getLocalStorage"}, function (response) {
+    chrome.extension.sendMessage({method: "getLocalStorage"}, function (response) {
         for (k in response.data)
             localStorage[k] = response.data[k];
         if(undefined != callback){
@@ -27,7 +27,8 @@ $(function () {
                     action: 'lookup',
                     data: text[0]
                 }, function (resp) {
-                    console.log(resp.data)
+                    console.log(resp.data);
+                    popover(message.data);
                 });
                 popover({
                     shanbay: {
@@ -43,16 +44,6 @@ $(function () {
 /**
  *@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
  **/
-
-chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log("received\n");
-    console.log(message.data);
-    switch (message.action) {
-        case 'popover':
-            popover(message.data);
-            break;
-    }
-});
 
 function popover(alldata) {
     var data = alldata.shanbay;
@@ -178,7 +169,7 @@ function setPopoverPosition(left, top) {
 }
 
 function addNewWord(word_id) {
-    chrome.extension.sendRequest({method: "addWord", data: word_id}, function (rsp) {
+    chrome.extension.sendMessage({method: "addWord", data: word_id}, function (rsp) {
         switch (rsp.data.msg) {
             case "success":
                 $('#shanbay-add-btn').addClass('hide');
@@ -194,7 +185,7 @@ function addNewWord(word_id) {
 }
 
 function forgetWord(learning_id) {
-    chrome.extension.sendRequest({method: "forgetWord", data: learning_id}, function (rsp) {
+    chrome.extension.sendMessage({method: "forgetWord", data: learning_id}, function (rsp) {
         switch (rsp.data.msg) {
             case "success":
                 $('#shanbay-forget-btn').addClass('hide');
@@ -210,5 +201,5 @@ function forgetWord(learning_id) {
 
 
 function playAudio(audio_url) {
-    chrome.extension.sendRequest({method: "playAudio", data: {audio_url: audio_url}})
+    chrome.extension.sendMessage({method: "playAudio", data: {audio_url: audio_url}})
 }
