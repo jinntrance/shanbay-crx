@@ -1,6 +1,6 @@
 {
   "name": "扇贝助手增强版",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "manifest_version": 2,
   "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
   "icons": {
@@ -24,7 +24,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*.shanbay.com/**review**"],
+      "matches": ["*://*.shanbay.com/**review**"],
       "css": ["css/style.css"],
       "js": [
         "js/jquery.min.js",
@@ -48,7 +48,7 @@
         "js/jquery.min.js",
         "js/popup.js"
       ],
-      "matches": ["http://*.shanbay.com/**vocabulary/add/batch/*"],
+      "matches": ["*://*.shanbay.com/**vocabulary/add/batch/*"],
       "css": ["css/style.css"]
     },
     {
@@ -56,14 +56,14 @@
         "js/jquery.min.js",
         "js/vocabulary.js"
       ],
-      "matches": ["http://*.shanbay.com/**learnings/library/*"]
+      "matches": ["*://*.shanbay.com/**learnings/library/*"]
     },
     {
       "js": [
         "js/jquery.min.js",
         "js/addBook.js"
       ],
-      "matches": ["http://*.shanbay.com/wordbook/*"],
+      "matches": ["*://*.shanbay.com/wordbook/*"],
       "css": ["css/style.css"]
     }
   ],
