@@ -107,14 +107,15 @@ function getOnlineWebster(term, url, callback) {
             var hw = word.children('hw'); // 音节划分
             var fls = word.children('fl'); //lexical class 词性
             var defs = word.children('def');
-            callback(word, {
+            callback(term, {
                 derivatives: derivatives,
                 syns: syns,
                 roots: roots,
                 fls: fls,
                 defs: defs,
                 hw: hw,
-                ew: resp_word
+                ew: resp_word,
+                responseText: xhr.responseText
             });
         }
     };

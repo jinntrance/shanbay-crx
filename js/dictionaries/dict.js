@@ -8,10 +8,9 @@
 function findDerivatives(originalTerm, callback) {
     if(localStorage['dict'] == 'webster') {
         // 设置使用Webster 字典
-        getOnlineWebsterCollegiate(originalTerm, function (word, json) {
+        getOnlineWebsterCollegiate(originalTerm, function (term, json) {
             callback({
-                originalTerm: originalTerm,
-                word: word,
+                term: term,
                 json: json
             });
         });

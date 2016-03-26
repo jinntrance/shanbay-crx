@@ -23,10 +23,10 @@ chrome.runtime.onMessage.addListener(function (resp, sender, sendResponse) {
     console.log(resp.data);
     switch (resp.callback) {
         case 'showEtymology':
-            showEtymology(resp.data.word, resp.data.json);
+            showEtymology(resp.data.term, resp.data.json);
             break;
         case 'showDerivatives':
-            showDerivatives(resp.data.originalTerm, resp.data.word, resp.data.json);
+            showDerivatives(resp.data.term, resp.data.json);
             break;
         case 'popupEtymology':
             popup(resp.data.originAnchor, resp.data.term, resp.data.roots);
@@ -65,8 +65,8 @@ function popupEtymology(anchor) {
     }
 }
 
-function showEtymology(word, json){
-    if (getCurrentTerm() == word) {
+function showEtymology(term, json){
+    if (getCurrentTerm() == term) {
         var roots=json.roots;
         addButtons();
         if (undefined != roots && roots.trim() != "" && $('#roots .exist').length == 0)
@@ -79,18 +79,31 @@ function showEtymology(word, json){
 /**
  * 通过在线词典查询，替换同义词、词根、词性、解释等。
  */
-function showDerivatives(originalTerm, word, json) {
+function showDerivatives(originalTerm, json) {
     if (getCurrentTerm() != originalTerm) {
         return;
     }
-    var derivatives = json.derivatives;
-    var syns = json.syns;
-    var roots = json.roots;
+
+    var word = $($.parseXML(json.responseText)).find('entry').filter(function () {
+        return $(this).find('ew').text().trim().length <= originalTerm.length
+    });
+    var derivatives = word.find('ure').map(function (i, e) {
+        return e.textContent.replace(/\*/g, '·')
+    });
+    if (undefined != derivatives) derivatives = derivatives.toArray().toString().replace(/,/g, ", ");
+    var syns = word.find('sx').map(function (i, e) {
+        return e.textContent.replace(/\*/g, '·')
+    });
+    if (undefined != syns) syns = syns.toArray().toString().replace(/,/g, ", ");
+
+    var roots = word.children('et');
+    var resp_word = word.children('ew');
+    var hw = word.children('hw'); // 音节划分
+    var fls = word.children('fl'); //lexical class 词性
+    var defs = word.children('def');
+
     var term = $('#learning_word .word .content.pull-left');
     var small = term.find('small')[0].outerHTML;
-    var hw = json.hw;
-    var fls = json.fls;
-    var defs = json.defs;
 
     var responseWord = word.find('ew').text();
     if (getCurrentTerm().length <= 4 + responseWord.length) {

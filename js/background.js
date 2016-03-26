@@ -153,11 +153,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             playAudio(request.data['audio_url']);
             break;
         case 'getEtymology':
-            getOnlineEtymology(request.data.term, function (word, obj) {
+            getOnlineEtymology(request.data.term, function (term, obj) {
                 sendResponse();
                 chrome.tabs.sendMessage(sender.tab.id, {
                     callback: 'showEtymology',
-                    data:{word:word, json:obj}
+                    data:{term:term, json:obj}
                 });
             });
             break;
@@ -277,7 +277,7 @@ function getClickHandler(term, tab) {
         success: function (data) {
             console.log('success');
             if ((1 == data.status_code) || localStorage['search_webster'] == 'yes')
-                getOnlineWebsterCollegiate(term, function (word, json) {
+                getOnlineWebsterCollegiate(term, function (term, json) {
                     var defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');

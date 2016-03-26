@@ -11,6 +11,7 @@
   "background": {
     "scripts": [
       "js/jquery.min.js",
+      "js/jquery.xml2json.js",
       "js/howler.min.js",
       "js/common.js",
       "js/dictionaries/dict.js",
