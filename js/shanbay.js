@@ -17,27 +17,27 @@ function ls(callback) {
     return localStorage;
 }
 
+function searchingSelectedText () {
+    var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
+    console.info("selected " + text);
+    if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
+        console.log("searching " + text);
+        chrome.runtime.sendMessage({
+            method: 'lookup',
+            data: text[0]
+        });
+        popover({
+            shanbay: {
+                loading: true,
+                msg: "查询中....（请确保已登录扇贝网）"
+            }
+        })
+    }
+}
+
 $(function () {
     ls(function() {
-        $(document).on('dblclick', function () {
-            var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
-            console.info("selected " + text);
-            if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
-                console.log("searching " + text);
-                chrome.runtime.sendMessage({
-                    method: 'lookup',
-                    data: text[0]
-                }, function (resp) {
-                    console.log(resp.data);
-                });
-                popover({
-                    shanbay: {
-                        loading: true,
-                        msg: "查询中....（请确保已登录扇贝网）"
-                    }
-                })
-            }
-        });
+        $(document).on('dblclick', searchingSelectedText);
     });
 });
 
@@ -52,6 +52,31 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     switch (message.callback) {
         case 'popover':
             popover(message.data);
+            break;
+        case 'forgetWord':
+            switch (message.data.msg) {
+                case "success":
+                    $('#shanbay-forget-btn').addClass('hide');
+                    $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
+                    break;
+                case "error":
+                    $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
+                    break;
+                default:
+            }
+            break;
+        case 'addWord':
+            switch (message.data.msg) {
+                case "success":
+                    $('#shanbay-add-btn').addClass('hide');
+                    $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
+                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
+                    break;
+                case "error":
+                    $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
+                    break;
+                default:
+            }
             break;
     }
 });
@@ -180,34 +205,11 @@ function setPopoverPosition(left, top) {
 }
 
 function addNewWord(word_id) {
-    chrome.runtime.sendMessage({method: "addWord", data: word_id}, function (rsp) {
-        switch (rsp.data.msg) {
-            case "success":
-                $('#shanbay-add-btn').addClass('hide');
-                $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-                $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
-                break;
-            case "error":
-                $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
-                break;
-            default:
-        }
-    });
+    chrome.runtime.sendMessage({method: "addWord", data: word_id});
 }
 
 function forgetWord(learning_id) {
-    chrome.runtime.sendMessage({method: "forgetWord", data: learning_id}, function (rsp) {
-        switch (rsp.data.msg) {
-            case "success":
-                $('#shanbay-forget-btn').addClass('hide');
-                $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-                break;
-            case "error":
-                $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
-                break;
-            default:
-        }
-    });
+    chrome.runtime.sendMessage({method: "forgetWord", data: learning_id});
 }
 
 

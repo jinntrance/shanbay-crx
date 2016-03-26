@@ -114,8 +114,10 @@ function saveToStorage() {
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("received method: " + request.method);
-    console.log(request);
+    if(request.method != 'getLocalStorage') {
+        console.log("received method: " + request.method);
+        console.log(request);
+    }
     switch (request.method) {
         case "getLocalStorage":
             chrome.storage.sync.get(localStorage, function(items) {
@@ -141,10 +143,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             });
             break;
         case 'addWord':
-            addNewWordInBrgd(request.data, sendResponse);
+            addNewWordInBrgd(request.data, sender.tab);
             break;
         case 'forgetWord':
-            forgetWordInBrgd(request.data, sendResponse);
+            forgetWordInBrgd(request.data, sender.tab);
             break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html") + '#' + request.anchor});
@@ -193,7 +195,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 
-function addNewWordInBrgd(word_id, sendResponse) {
+function addNewWordInBrgd(word_id, tab) {
     chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies) {
         $.ajax({
             url: 'http://www.shanbay.com/api/v1/bdc/learning/',
@@ -205,11 +207,17 @@ function addNewWordInBrgd(word_id, sendResponse) {
                 id: word_id
             }),
             success: function (data) {
-                sendResponse({data: {msg: 'success', rsp: data.data}});
+                chrome.tabs.sendMessage(tab.id, {
+                    callback: 'addWord',
+                    data: {msg: 'success', rsp: data.data}
+                });
                 console.log('success');
             },
             error: function () {
-                sendResponse({data: {msg: 'error', rsp: {}}});
+                chrome.tabs.sendMessage(tab.id, {
+                    callback: 'addWord',
+                    data: {msg: 'error', rsp: {}}
+                });
                 console.log('error');
             },
             complete: function () {
@@ -219,7 +227,7 @@ function addNewWordInBrgd(word_id, sendResponse) {
     });
 }
 
-function forgetWordInBrgd(learning_id, sendResponse) {
+function forgetWordInBrgd(learning_id, tab) {
     chrome.cookies.getAll({"url": 'http://www.shanbay.com'}, function (cookies) {
         $.ajax({
             url: 'http://www.shanbay.com/api/v1/bdc/learning/' + learning_id,
@@ -230,11 +238,17 @@ function forgetWordInBrgd(learning_id, sendResponse) {
                 retention: 1
             }),
             success: function (data) {
-                sendResponse({data: {msg: 'success', rsp: data.data}});
+                chrome.tabs.sendMessage(tab.id, {
+                    callback: 'forgetWord',
+                    data: {msg: 'success', rsp: data.data}
+                });
                 console.log('success');
             },
             error: function () {
-                sendResponse({data: {msg: 'error', rsp: {}}});
+                chrome.tabs.sendMessage(tab.id, {
+                    callback: 'forgetWord',
+                    data: {msg: 'error', rsp: {}}
+                });
                 console.log('error');
             },
             complete: function () {
