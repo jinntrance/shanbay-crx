@@ -13,6 +13,7 @@
       "js/jquery.min.js",
       "js/howler.min.js",
       "js/common.js",
+      "js/dict.js",
       "js/background.js"
     ]
   },

@@ -155,8 +155,12 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
             playAudio(request.data['audio_url']);
             break;
         case 'getEthology':
+            getOnlineEtymology(request.data.term, function (word, obj) {
+                sendResponse({data:{word:word, obj:obj}});
+            });
             break;
         case 'findDerivatives':
+            findDerivatives(sendResponse);
             break;
         default :
             sendResponse({data: []}); // snub them.
