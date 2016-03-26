@@ -3,15 +3,33 @@
  */
 var originAnchor = undefined;
 
-function getEthology() {
+function getEtymology() {
     originAnchor = undefined;
-    chrome.extension.sendMessage({
-        method: 'getEthology',
+    chrome.runtime.sendMessage({
+        method: 'getEtymology',
         data: {term: getCurrentTerm()}
-    }, function (resp) {
-        showEtymology(resp.data.word, resp.data.obj)
     });
 }
+
+function findDerivativesInContentPage(){
+    chrome.runtime.sendMessage({
+        method: 'findDerivatives',
+        data: {term: getCurrentTerm()}
+    });
+}
+
+chrome.runtime.onMessage.addListener(function (resp, sender, sendResponse) {
+    console.log("received\n");
+    console.log(resp.data);
+    switch (resp.callback) {
+        case 'showEtymology':
+            showEtymology(resp.data.word, resp.data.obj)
+            break;
+        case 'showDerivatives':
+            showDerivatives(resp.data.originalTerm, resp.data.word, resp.data.obj)
+            break;
+    }
+});
 
 function popup(anchor, term, text) {
     $('.popover-crx').remove();
@@ -81,7 +99,7 @@ function showDerivatives(originalTerm, word, json) {
             if (0 < r.length) r.html(r.html().replace(/<\/it>/g, "</span>").replace(/<it>/g, "<span class='foreign'>"));
             r.removeClass("alert");
             if (!$("#roots .alert").length > 0 && ls()['root2note'] == 'YES') addToNote("#roots a.note-button");
-        } else if (ls()['etym'] == 'webster') getEthology();
+        } else if (ls()['etym'] == 'webster') getEtymology();
         if (undefined != derivatives && "" != derivatives.trim() && $('#affix .exist').length == 0)
             $("#affix .alert").addClass("well exist").removeClass("alert").html(derivatives + "; <br/>" + derivatives.replace(/·/g, '') + "; <br/>" + syns);
         else if ($('#affix .word').length == 0)$("#affix").hide();
@@ -98,6 +116,6 @@ function showDerivatives(originalTerm, word, json) {
                 endef.append(def)
             })
         }
-    } else if (ls()['etym'] == 'webster') getEthology()
+    } else if (ls()['etym'] == 'webster') getEtymology()
 }
 

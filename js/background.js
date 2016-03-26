@@ -113,9 +113,11 @@ function saveToStorage() {
     });
 }
 
-chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("received method: " + request.method);
-    console.log("received data: " + request);
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if(request.method != 'getLocalStorage') {
+        console.log("received method: " + request.method);
+        console.log(request);
+    }
     switch (request.method) {
         case "getLocalStorage":
             chrome.storage.sync.get(localStorage, function(items) {
@@ -139,7 +141,6 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
             isUserSignedOn(function () {
                 getClickHandler(request.data, sender.tab);
             });
-            sendResponse({data: {tabid: sender.tab.id}});
             break;
         case 'addWord':
             addNewWordInBrgd(request.data, sendResponse);
@@ -149,18 +150,27 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
             break;
         case 'openSettings':
             chrome.tabs.create({url: chrome.runtime.getURL("options.html") + '#' + request.anchor});
-            sendResponse({data: {tabid: sender.tab.id}});
             break;
         case 'playAudio':
             playAudio(request.data['audio_url']);
             break;
-        case 'getEthology':
+        case 'getEtymology':
             getOnlineEtymology(request.data.term, function (word, obj) {
-                sendResponse({data:{word:word, obj:obj}});
+                sendResponse();
+                chrome.tabs.sendMessage(sender.tab.id, {
+                    callback: 'showEtymology',
+                    data:{word:word, obj:obj}
+                });
             });
             break;
         case 'findDerivatives':
-            findDerivatives(sendResponse);
+            function showDerivatiresCallback(data) {
+                chrome.tabs.sendMessage(sender.tab.id, {
+                    callback: 'showDerivatives',
+                    data: data
+                });
+            }
+            findDerivatives(showDerivatiresCallback);
             break;
         default :
             sendResponse({data: []}); // snub them.
@@ -257,7 +267,7 @@ function getClickHandler(term, tab) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
                     chrome.tabs.sendMessage(tab.id, {
-                        method: 'popover',
+                        callback: 'popover',
                         data: {
                             shanbay: data,
                             webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs}
@@ -265,7 +275,7 @@ function getClickHandler(term, tab) {
                     });
                 });
             else chrome.tabs.sendMessage(tab.id, {
-                method: 'popover',
+                callback: 'popover',
                 data: {shanbay: data}
             });
         },

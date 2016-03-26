@@ -5,9 +5,11 @@
 
 
 function ls(callback) {
-    chrome.extension.sendMessage({method: "getLocalStorage"}, function (response) {
-        for (k in response.data)
-            localStorage[k] = response.data[k];
+    chrome.runtime.sendMessage({method: "getLocalStorage"}, function (response) {
+        if(undefined != response) {
+            for (var k in response.data)
+                localStorage[k] = response.data[k];
+        }
         if(undefined != callback){
             callback();
         }
@@ -22,12 +24,11 @@ $(function () {
             console.info("selected " + text);
             if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
                 console.log("searching " + text);
-                chrome.extension.sendMessage({
+                chrome.runtime.sendMessage({
                     method: 'lookup',
                     data: text[0]
                 }, function (resp) {
                     console.log(resp.data);
-                    popover(message.data);
                 });
                 popover({
                     shanbay: {
@@ -45,10 +46,10 @@ $(function () {
  **/
 
 
-chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log("received\n");
     console.log(message.data);
-    switch (message.method) {
+    switch (message.callback) {
         case 'popover':
             popover(message.data);
             break;
@@ -179,7 +180,7 @@ function setPopoverPosition(left, top) {
 }
 
 function addNewWord(word_id) {
-    chrome.extension.sendMessage({method: "addWord", data: word_id}, function (rsp) {
+    chrome.runtime.sendMessage({method: "addWord", data: word_id}, function (rsp) {
         switch (rsp.data.msg) {
             case "success":
                 $('#shanbay-add-btn').addClass('hide');
@@ -195,7 +196,7 @@ function addNewWord(word_id) {
 }
 
 function forgetWord(learning_id) {
-    chrome.extension.sendMessage({method: "forgetWord", data: learning_id}, function (rsp) {
+    chrome.runtime.sendMessage({method: "forgetWord", data: learning_id}, function (rsp) {
         switch (rsp.data.msg) {
             case "success":
                 $('#shanbay-forget-btn').addClass('hide');
@@ -211,5 +212,5 @@ function forgetWord(learning_id) {
 
 
 function playAudio(audio_url) {
-    chrome.extension.sendMessage({method: "playAudio", data: {audio_url: audio_url}})
+    chrome.runtime.sendMessage({method: "playAudio", data: {audio_url: audio_url}})
 }

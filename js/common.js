@@ -20,7 +20,7 @@ var keys = [
 ];
 
 function ls(callback) {
-    chrome.extension.sendMessage({method: "getLocalStorage"}, function (response) {
+    chrome.runtime.sendMessage({method: "getLocalStorage"}, function (response) {
         console.info(response);
         if (undefined != response)
             for (var k in response.data)

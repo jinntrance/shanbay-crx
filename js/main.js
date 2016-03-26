@@ -83,15 +83,10 @@ function replaceButtons() {
 function searchOnline() {
     if ($('#roots .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("roots") == -1)) {
         if (ls()['etym'] != 'webster')
-            getEthology();
+            getEtymology();
     }
     if (ls()['dict'] && ls()['dict'] != 'no' && $('#affix .exist').length == 0 && (undefined == ls()['hider'] || ls()['hider'].search("affix") == -1)) {
-        chrome.extension.sendMessage({
-            method: 'findDerivatives',
-            data: {term: getCurrentTerm()}
-        }, function (resp) {
-            showDerivatives(resp.data.originalTerm, resp.data.word, resp.data.obj)
-        });
+        findDerivativesInContentPage();
     }
 }
 $(document).on("DOMNodeInserted", '#learning-box', function () {
@@ -154,7 +149,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     console.log('clicking a note-button');
     addToNote($(this))
 }).on("click", "a#settings", function (e) {
-    chrome.extension.sendMessage({method: "openSettings", anchor: "webster_set"});
+    chrome.runtime.sendMessage({method: "openSettings", anchor: "webster_set"});
 }).on('mouseup', function (e) {
     if ($(this).parents('div.popover-crx').length == 0)
         $('div.popover-crx').remove()

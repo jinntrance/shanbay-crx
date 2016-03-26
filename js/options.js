@@ -27,7 +27,7 @@ function save_options() {
     setTimeout(function () {
         status.innerHTML = "";
     }, 750);
-    chrome.extension.sendMessage({method: "setLocalStorage", data: localStorage});
+    chrome.runtime.sendMessage({method: "setLocalStorage", data: localStorage});
 
 }
 

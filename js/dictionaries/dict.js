@@ -3,11 +3,13 @@
  * @user Joseph
  */
 
-function findDerivatives(sendResponse) {
+
+
+function findDerivatives(callback) {
     if(ls()['dict'] == 'webster') {
         // 设置使用Webster 字典
         getOnlineWebsterCollegiate(originalTerm, function (word, json) {
-            sendResponse({
+            callback({
                 data: {
                     originalTerm: originalTerm,
                     word: word,
