@@ -23,10 +23,13 @@ chrome.runtime.onMessage.addListener(function (resp, sender, sendResponse) {
     console.log(resp.data);
     switch (resp.callback) {
         case 'showEtymology':
-            showEtymology(resp.data.word, resp.data.obj)
+            showEtymology(resp.data.word, resp.data.json);
             break;
         case 'showDerivatives':
-            showDerivatives(resp.data.originalTerm, resp.data.word, resp.data.obj)
+            showDerivatives(resp.data.originalTerm, resp.data.word, resp.data.json);
+            break;
+        case 'popupEtymology':
+            popup(resp.data.originAnchor, resp.data.term, resp.data.roots);
             break;
     }
 });
@@ -51,21 +54,20 @@ function popupEtymology(anchor) {
         if ($(anchor).parents("#roots").length > 0) originAnchor = $(anchor);
         //var url = pre_url + $(anchor).text()
         var url = $(anchor).attr('href');
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                var roots = parseEtymology(xhr.responseText);
-                popup(originAnchor, $(anchor).text(), roots)
+        chrome.runtime.sendMessage({
+            method: 'popupEtymology',
+            data: {
+                originAnchor: originAnchor,
+                term: $(anchor).text(),
+                url: url
             }
-        };
-        xhr.send();
+        });
     }
 }
 
-function showEtymology(word, obj){
+function showEtymology(word, json){
     if (getCurrentTerm() == word) {
-        var roots=obj.roots;
+        var roots=json.roots;
         addButtons();
         if (undefined != roots && roots.trim() != "" && $('#roots .exist').length == 0)
             $("#roots .alert").addClass("well exist").removeClass("alert").html($(roots.trim()));

@@ -109,15 +109,13 @@ function saveToStorage() {
     // Save it using the Chrome extension storage API.
     chrome.storage.sync.set(localStorage, function() {
         // Notify that we saved.
-        message('localStorage saved');
+        console.log('localStorage saved');
     });
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if(request.method != 'getLocalStorage') {
-        console.log("received method: " + request.method);
-        console.log(request);
-    }
+    console.log("received method: " + request.method);
+    console.log(request);
     switch (request.method) {
         case "getLocalStorage":
             chrome.storage.sync.get(localStorage, function(items) {
@@ -159,7 +157,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 sendResponse();
                 chrome.tabs.sendMessage(sender.tab.id, {
                     callback: 'showEtymology',
-                    data:{word:word, obj:obj}
+                    data:{word:word, json:obj}
                 });
             });
             break;
@@ -170,8 +168,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     data: data
                 });
             }
-            findDerivatives(showDerivatiresCallback);
+            findDerivatives(request.data.term, showDerivatiresCallback);
             break;
+        case 'popupEtymology':
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", request.data.url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    var roots = parseEtymology(xhr.responseText);
+                    chrome.tabs.sendMessage(sender.tab.id, {
+                        callback: 'popupEtymology',
+                        data: {
+                            originAnchor: request.data.originAnchor,
+                            term: request.data.term,
+                            roots: roots
+                        }
+                    });
+                }
+            };
+            xhr.send();
         default :
             sendResponse({data: []}); // snub them.
     }

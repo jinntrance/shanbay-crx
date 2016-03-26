@@ -5,19 +5,17 @@
 
 
 
-function findDerivatives(callback) {
-    if(ls()['dict'] == 'webster') {
+function findDerivatives(originalTerm, callback) {
+    if(localStorage['dict'] == 'webster') {
         // 设置使用Webster 字典
         getOnlineWebsterCollegiate(originalTerm, function (word, json) {
             callback({
-                data: {
-                    originalTerm: originalTerm,
-                    word: word,
-                    json: json
-                }
+                originalTerm: originalTerm,
+                word: word,
+                json: json
             });
         });
-    } else if (ls()['dict'] == 'oxford'){
+    } else if (localStorage['dict'] == 'oxford'){
         // 设置使用Oxford 字典
         //TODO add oxford dictionary here
     }
