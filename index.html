@@ -1,46 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Shanbay-crx by jinntrance</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="//cdn.jsdelivr.net/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Shanbay-crx : Chrome extension for shanbay.com">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Shanbay-crx</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Shanbay-crx</h1>
-        <p>Chrome extension for shanbay.com</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/jinntrance/shanbay-crx">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Shanbay-crx</h1>
+          <h2 id="project_tagline">Chrome extension for shanbay.com</h2>
 
-        <a href="https://github.com/jinntrance/shanbay-crx" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/jinntrance/shanbay-crx/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/jinntrance/shanbay-crx/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/jinntrance/shanbay-crx/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/jinntrance/shanbay-crx/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
-<a id="shanbay-crx" class="anchor" href="#shanbay-crx" aria-hidden="true"><span class="octicon octicon-link"></span></a>shanbay-crx</h1>
+<a id="shanbay-crx" class="anchor" href="#shanbay-crx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>shanbay-crx</h1>
 
 <p>This is a Chrome extension for <a href="http://www.shanbay.com">www.shanbay.com</a> , which helps users learn English much more conveniently and more efficiently. </p>
 
@@ -55,7 +47,7 @@
 <h1></h1>
 
 <h1>
-<a id="扇贝助手增强版" class="anchor" href="#%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B%E5%A2%9E%E5%BC%BA%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>扇贝助手增强版</h1>
+<a id="扇贝助手增强版" class="anchor" href="#%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B%E5%A2%9E%E5%BC%BA%E7%89%88" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>扇贝助手增强版</h1>
 
 <p><a href="http://www.shanbay.com">扇贝网</a>的Chrome扩展：</p>
 
@@ -66,15 +58,15 @@
 </ul>
 
 <h1>
-<a id="安装" class="anchor" href="#%E5%AE%89%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装</h1>
+<a id="安装" class="anchor" href="#%E5%AE%89%E8%A3%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>安装</h1>
 
 <h3>
-<a id="chrome-web-store" class="anchor" href="#chrome-web-store" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chrome Web Store</h3>
+<a id="chrome-web-store" class="anchor" href="#chrome-web-store" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chrome Web Store</h3>
 
 <p>访问 <a href="https://chrome.google.com/webstore/detail/aibonellgbdkldghjgbnapgjblebfkbl/">扇贝助手增强版</a> 即可安装。</p>
 
 <h3>
-<a id="手动安装" class="anchor" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>手动安装</h3>
+<a id="手动安装" class="anchor" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>手动安装</h3>
 
 <p>如果你因为众所周知的某种原因无法访问<em>Chrome Web Store</em> ，可以按照如下方式安装和更新扩展。</p>
 
@@ -85,7 +77,7 @@
 </ol>
 
 <h1>
-<a id="功能" class="anchor" href="#%E5%8A%9F%E8%83%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>功能</h1>
+<a id="功能" class="anchor" href="#%E5%8A%9F%E8%83%BD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>功能</h1>
 
 <p>扇贝网用户使用：</p>
 
@@ -102,7 +94,7 @@
 </ol>
 
 <h2>
-<a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shortcuts</h2>
+<a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shortcuts</h2>
 
 <p>快捷键不区分大小写。</p>
 
@@ -128,7 +120,7 @@
 </ul>
 
 <h2>
-<a id="webster-app-key-注册" class="anchor" href="#webster-app-key-%E6%B3%A8%E5%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Webster App Key 注册</h2>
+<a id="webster-app-key-注册" class="anchor" href="#webster-app-key-%E6%B3%A8%E5%86%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webster App Key 注册</h2>
 
 <p>非常感谢之前用户的贡献，本Chrome 扩展有几个公用的keys，但每个key 在Webster 上有每天1000次查询的限制。
 超过限制通常数天之后，Webster 官方会勒令封key，而且无法保证用公有keys 的用户仍然能够使用英文释义、词根等功能。</p>
@@ -158,13 +150,16 @@
 
 
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/jinntrance">jinntrance</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Shanbay-crx maintained by <a href="https://github.com/jinntrance">jinntrance</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-<script type="text/javascript" src="http://www.josephjctang.com/assets/js/analytics.js" async="async"></script>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -175,6 +170,7 @@
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
