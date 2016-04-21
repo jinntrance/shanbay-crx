@@ -69,12 +69,13 @@ Basic features include:
 - 选择官方注册链接[www.dictionaryapi.com](http://www.dictionaryapi.com/register/index.htm) 
 - 以个人名义申请App Key ，所以需要填写个人相关注册信息。
     - Unique Users 可以尽量写大一些比如100000
+    - Request API Key 写 `Collegiate Dictionary`
     - Company Name 写自己学校或公司即可
     - Application Name 任意写，比如`My app for English Learning`
     - Launch Date 随意写一个未来的时间，格式为月日年如 `02/12/2016`
     - Role/Occupation 填职业，根据自己情况填Student, Engineer etc.
 - 选择最后的“同意协议”，并提交注册。
-- 注册成功后，登录可在左面Account Info 中的"[My Keys](http://www.dictionaryapi.com/account/my-keys.htm)" 查看到自己的 `Key (Dictionary)`
+- 注册成功后，登录可在左面Account Info 中的"[My Keys](http://www.dictionaryapi.com/account/my-keys.htm)" 查看到自己的 `Key (Dictionary)` （这里实际上是用Collegiate Dictionary，其他key 暂不可用）。
 
 ## 添加新的字典
 
