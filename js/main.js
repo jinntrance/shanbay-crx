@@ -62,7 +62,7 @@ function addToNote(add, term) {
 }
 
 function wrapper(title) {
-    return $('<div><div class="span1" ><h6 class="pull-right">' + title + ' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....<br/>请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及<a target="_blank" href="http://josephjctang.com/shanbay-crx/#webster-app-key-"> 申请Webster Key</a>并在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中并打开Webster功能</div></div></div>').html()
+    return $('<div><div class="span1" ><h6 class="pull-right">' + title + ' </h6></div> <div class="roots-wrapper span9"><div class="alert">"扇贝助手"努力查询中.....<br/>请确保能访问<a target="_blank" href="http://www.etymonline.com/">词源</a>和<a target="_blank" href="http://www.dictionaryapi.com/">派生、音节划分</a>及<a target="_blank" href="http://josephjctang.com/shanbay-crx/#webster-app-key-注册"> 申请Webster Key</a>并在扇贝插件<a target="_blank" href="javascript:void(0);" id="settings">设置</a>中并打开Webster功能</div></div></div>').html()
 }
 
 function addButtons() {
