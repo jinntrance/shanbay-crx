@@ -107,9 +107,9 @@ function max(array) {
 
 function saveToStorage() {
     // Save it using the Chrome extension storage API.
-    chrome.storage.sync.set(localStorage, function() {
+    chrome.storage.sync.set({ls:JSON.stringify(localStorage)}, function() {
         // Notify that we saved.
-        console.log('localStorage saved');
+        console.log('localStorage saved in chrome.storage.sync');
     });
 }
 
@@ -120,14 +120,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     switch (request.method) {
         case "getLocalStorage":
-            chrome.storage.sync.get(localStorage, function(items) {
+            chrome.storage.sync.get("ls", function(valueString) {
                 // Notify that we saved.
+                var items = JSON.parse(valueString);
                 for(var k in items){
                     if(undefined != items[k])
                         localStorage[k] = items[k];
                 }
-                sendResponse({data: localStorage});
+                console.log("fetched local storage from chrome.storage.sync");
             });
+            sendResponse({data: localStorage});
             break;
         case "setLocalStorage":
             window.localStorage = request.data;
