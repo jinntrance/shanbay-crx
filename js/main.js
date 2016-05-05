@@ -128,6 +128,14 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
             $('#' + ids[i]).hide()
         }
     }
+
+    setTimeout(function () {
+        // 如果没有我的笔记, 则默认显示共享笔记.
+        if($('#note-mine-box').find('li').size() == 0) {
+            if (0 < $('a.note-user-box-tab').length)
+                $('a.note-user-box-tab')[0].click();
+        }
+    }, 3000);
 }).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper', function (e) {
     console.log('#roots triggered');
     addNoteButton('#roots .alert,#roots .well')
@@ -140,8 +148,6 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
 }).on("DOMNodeInserted", '#affix a.note-button', function (e) {
     console.log('retrieving affix data');
     if ($('#affix .well').length > 0 && ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
-}).on("DOMNodeInserted", '#note-mine-box', function () {
-
 }).on("mouseover", "a.etymology", function (e) {
     popupEtymology($(this));
     return;
