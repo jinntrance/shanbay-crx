@@ -17,21 +17,26 @@ function ls(callback) {
     return localStorage;
 }
 
-function searchingSelectedText () {
+function searchingSelectedText (event) {
     var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
     console.info("selected " + text);
+    var pos = {
+        left: event.clientX + window.pageXOffset,
+        top: event.clientY + window.pageYOffset
+    };
     if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
         console.log("searching " + text);
         chrome.runtime.sendMessage({
             method: 'lookup',
-            data: text[0]
+            data: text[0],
+            position: pos
         });
         popover({
             shanbay: {
                 loading: true,
                 msg: "查询中....（请确保已登录扇贝网）"
             }
-        })
+        }, pos);
     }
 }
 
@@ -51,7 +56,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message.data);
     switch (message.callback) {
         case 'popover':
-            popover(message.data);
+            popover(message.data, message.position);
             break;
         case 'forgetWord':
             switch (message.data.msg) {
@@ -81,7 +86,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 });
 
-function popover(alldata) {
+function popover(alldata, position) {
     var data = alldata.shanbay;
     var webster = alldata.webster;
     var defs = "";
@@ -126,7 +131,7 @@ function popover(alldata) {
     $('#shanbay_popover').remove();
     $('body').append(html);
 
-    getSelectionOffset(function (left, top) {
+    getSelectionOffset(position, function (left, top) {
         setPopoverPosition(left, top);
         var h =  $(window).scrollTop() + $(window).height();
         if ( h -200 < top && h >= top) {
@@ -168,10 +173,16 @@ function hidePopover() {
     $('#shanbay_popover').remove();
 }
 
-function getSelectionOffset(callback) {
+function getSelectionOffset(position, callback) {
+
+    if(undefined != position && position.left && position.top){
+        callback(position.left, position.top);
+    }
+
     var left = window.innerWidth / 2;
     var top = window.innerHeight / 2;
     var selection = window.getSelection();
+
     if (0 < selection.rangeCount) {
         var range = window.getSelection().getRangeAt(0);
         var dummy = document.createElement('span');
