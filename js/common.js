@@ -18,6 +18,7 @@ var keys = [
 '762c2f8c-87ac-481e-ba21-5ae6ebd85b21',
 '30de8a01-22b1-446b-b51a-2b0c62fdefdc',
 '0627fb80-2ae7-4ce1-82e1-c2a0bcdf3317',
+'d9b1eeac-4a10-42b3-8683-70a17bbe04af',
 '45b94f06-9d11-4049-9a23-ab80f95dd57e'
 ];
 
