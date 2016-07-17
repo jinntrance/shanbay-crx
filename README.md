@@ -85,6 +85,16 @@ Basic features include:
 
 <script type="text/javascript" src="http://www.josephjctang.com/assets/js/analytics.js" async="async"></script>
 
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 扇贝页面 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7339457836147536"
+     data-ad-slot="5722834363"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 
 
