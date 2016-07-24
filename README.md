@@ -83,6 +83,17 @@ Basic features include:
 
 热忱欢迎有兴趣者一起完善。
 
+
+## 捐赠
+
+不少朋友之前提到捐赠以支持我持续开发及更新这个扩展。但是后来考虑到：
+
+- 实际上用这个扩展的很多都是学生党。
+- 通过支付宝或微信捐赠账户管理麻烦，及针对这个应用实际用户多少及捐赠不好统计。
+
+于是乎，决定让大家把当前页面最下端的位置捐赠出来当作广告位：一者捐赠门槛也低，二者真正感兴趣才会点击（于本扩展用户及广告主双赢）。
+
+
 <script type="text/javascript" src="http://www.josephjctang.com/assets/js/analytics.js" async="async"></script>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -90,7 +101,7 @@ Basic features include:
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-7339457836147536"
-     data-ad-slot="5722834363"
+     data-ad-slot="3581463164"
      data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
