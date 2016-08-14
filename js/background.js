@@ -120,14 +120,20 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     switch (request.method) {
         case "getLocalStorage":
-            chrome.storage.sync.get("ls", function(valueString) {
+            chrome.storage.sync.get("ls", function(value) {
                 // Notify that we saved.
-                var items = JSON.parse(valueString);
-                for(var k in items){
-                    if(undefined != items[k])
-                        localStorage[k] = items[k];
+                try {
+                    var valueString = value.ls;
+                    var items = JSON.parse(valueString);
+                    for (var k in items) {
+                        if (undefined != items[k])
+                            localStorage[k] = items[k];
+                    }
+                    console.log("fetched local storage from chrome.storage.sync");
+                } catch (e) {
+                    saveToStorage();
+                    console.warn(e);
                 }
-                console.log("fetched local storage from chrome.storage.sync");
             });
             sendResponse({data: localStorage});
             break;
