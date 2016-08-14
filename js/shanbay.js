@@ -176,23 +176,31 @@ function getSelectionOffset(callback) {
         var range = window.getSelection().getRangeAt(0);
         var dummy = document.createElement('span');
         range.insertNode(dummy);
-        left = $(dummy).offset().left - 50 - dummy.offsetLeft + $(dummy).position().left;
-        top = $(dummy).offset().top + 25 - dummy.offsetTop + $(dummy).position().top;
+        left = getLeft(dummy) - 50 - getLeft(dummy, true) + $(dummy).position().left;
+        top = getTop(dummy) + 25 - getTop(dummy, true) + $(dummy).position().top;
         dummy.remove();
         window.getSelection().addRange(range);
         console.log(left + ':' + top);
         callback(left, top);
     }
 }
-function getTop(e) {
-    var offset = e.offsetTop;
-    if (e.offsetParent != null) offset += getTop(e.offsetParent);
+function getTop(e, currentNode) {
+    var offset = $(e).offset().top;
+    if($(e).parents("table").size() > 0) {
+        return offset;
+    }
+    // var offset = e.offsetTop;
+    if (e.offsetParent != null && !currentNode) offset += getTop(e.offsetParent);
     return offset;
 }
 
-function getLeft(e) {
+function getLeft(e, currentNode) {
+    // var offset = $(e).offset().left;
     var offset = e.offsetLeft;
-    if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+    if($(e).parents("table").size() > 0) {
+        return offset;
+    }
+    if (e.offsetParent != null && !currentNode) offset += getLeft(e.offsetParent);
     return offset;
 }
 
