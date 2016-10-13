@@ -353,7 +353,8 @@ function singularize(word) {
 function playAudio(audio_url) {
     if (audio_url) {
         new Howl({
-            urls: [audio_url]
-        }).play().volume(1.0);
+            src: [audio_url],
+            volume: 1.0
+        }).play();
     }
 }
