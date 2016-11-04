@@ -176,43 +176,27 @@ function getSelectionOffset(callback) {
         var range = window.getSelection().getRangeAt(0);
         var dummy = document.createElement('span');
         range.insertNode(dummy);
-        left = getLeft(dummy) - 50 - getLeft(dummy, true) + $(dummy).position().left;
-        top = getTop(dummy) + 25 - getTop(dummy, true) + $(dummy).position().top;
         var off = getOffset(dummy);
         dummy.remove();
         window.getSelection().addRange(range);
-        console.log(left + ':' + top);
-        callback(left, top);
-        // callback(off.left - 50, off.top + 3);
+        console.log(off.left + ':' + off.top);
+        callback(off.left, off.top);
     }
 }
 
 function getOffset(el) {
     el = el.getBoundingClientRect();
-    return {
-        left: (el.left + el.right) / 2 + window.scrollX,
-        top: el.bottom + window.scrollY
-    }
-}
+    var off = {
+        left: (el.left + el.right) / 2 + window.scrollX - 50,
+        top: el.bottom + window.scrollY + 5
+    };
 
-function getTop(e, currentNode) {
-    var offset = $(e).offset().top;
-    if($(e).parents("table").size() > 0) {
-        return offset;
+    if (el.bottom == el.top) {
+        // 行首字母选择后会出现这种情况
+        off.top += 20;
     }
-    // var offset = e.offsetTop;
-    if (e.offsetParent != null && !currentNode) offset += getTop(e.offsetParent);
-    return offset;
-}
 
-function getLeft(e, currentNode) {
-    // var offset = $(e).offset().left;
-    var offset = e.offsetLeft;
-    if($(e).parents("table").size() > 0) {
-        return offset;
-    }
-    if (e.offsetParent != null && !currentNode) offset += getLeft(e.offsetParent);
-    return offset;
+    return off;
 }
 
 function setPopoverPosition(left, top) {
