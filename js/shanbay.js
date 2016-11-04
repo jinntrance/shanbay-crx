@@ -70,7 +70,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 case "success":
                     $('#shanbay-add-btn').addClass('hide');
                     $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
+                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + message.data.rsp.id);
                     break;
                 case "error":
                     $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
@@ -178,12 +178,23 @@ function getSelectionOffset(callback) {
         range.insertNode(dummy);
         left = getLeft(dummy) - 50 - getLeft(dummy, true) + $(dummy).position().left;
         top = getTop(dummy) + 25 - getTop(dummy, true) + $(dummy).position().top;
+        var off = getOffset(dummy);
         dummy.remove();
         window.getSelection().addRange(range);
         console.log(left + ':' + top);
         callback(left, top);
+        // callback(off.left - 50, off.top + 3);
     }
 }
+
+function getOffset(el) {
+    el = el.getBoundingClientRect();
+    return {
+        left: (el.left + el.right) / 2 + window.scrollX,
+        top: el.bottom + window.scrollY
+    }
+}
+
 function getTop(e, currentNode) {
     var offset = $(e).offset().top;
     if($(e).parents("table").size() > 0) {
