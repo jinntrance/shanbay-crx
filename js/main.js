@@ -64,7 +64,7 @@ function renderWordChangesAndPhrase(response) {
         }).join("");
         var $phrase = response.netmean.RelatedPhrase.map(function (one) {
             return "<p>"+ one.word + " " + one.list.map(function (subOne) {
-                    return subOne.exp + " K"
+                    return subOne.exp + " "
                 }) +"</p>"
         }).join("");
 
