@@ -6,6 +6,8 @@
 function save_options() {
     localStorage["etym"] = $("input[name=etym]:checked").val();
     localStorage["click2s"] = $("input[name=click2s]:checked").val();
+    localStorage["exchanges"] = $("input[name=exchanges]:checked").val();
+    localStorage["phrases"] = $("input[name=phrases]:checked").val();
     localStorage["root2note"] = $("input[name=root2note]:checked").val();
     localStorage["afx2note"] = $("input[name=afx2note]:checked").val();
     localStorage["hide_cn"] = $("input[name=hide_cn]:checked").val();
@@ -35,6 +37,8 @@ function save_options() {
 function restore_options() {
     $("input[name=etym][value=" + localStorage["etym"] + "]").attr("checked", true);
     $("input[name=click2s][value=" + localStorage["click2s"] + "]").attr("checked", true);
+    $("input[name=exchanges][value=" + localStorage["exchanges"] + "]").attr("checked", true);
+    $("input[name=phrases][value=" + localStorage["phrases"] + "]").attr("checked", true);
     $("input[name=root2note][value=" + localStorage["root2note"] + "]").attr("checked", true);
     $("input[name=afx2note][value=" + localStorage["afx2note"] + "]").attr("checked", true);
     $("input[name=hide_cn][value=" + localStorage["hide_cn"] + "]").attr("checked", true);
