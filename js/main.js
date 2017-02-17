@@ -52,7 +52,7 @@ function formatString(origin) {
  */
 function renderWordChangesAndPhrase(response) {
     if(response){
-        if(ls()['exchanges'] == 'yes'){
+        if(ls()['exchanges'] == 'yes' && response.exchanges.length > 1){
             var exchanges = [
                 "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
                 "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
@@ -68,8 +68,8 @@ function renderWordChangesAndPhrase(response) {
             // insert to dom
             $('#learning_word').after($exchanges);
         }
-        
-        if(ls()['phrases'] == 'yes'){
+
+        if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
             var $phrase = response.netmean.RelatedPhrase.map(function (one) {
                 return "<p>"+ one.word + " " + one.list.map(function (subOne) {
                         return subOne.exp + " "
