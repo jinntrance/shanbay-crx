@@ -52,27 +52,32 @@ function formatString(origin) {
  */
 function renderWordChangesAndPhrase(response) {
     if(response){
-        var exchanges = [
-            "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
-            "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
-            "过去分词："+formatString(response.baesInfo.exchange.word_done[0]),
-            "现在分词："+formatString(response.baesInfo.exchange.word_ing[0]),
-            "第三人称单数："+formatString(response.baesInfo.exchange.word_third[0])
-        ];
-        var $exchanges = exchanges.map(function (exchange) {
-            return "<p>"+exchange+"<p/>"
-        }).join("");
-        var $phrase = response.netmean.RelatedPhrase.map(function (one) {
-            return "<p>"+ one.word + " " + one.list.map(function (subOne) {
-                    return subOne.exp + " "
-                }) +"</p>"
-        }).join("");
+        if(ls()['exchanges'] == 'yes' && response.exchanges.length > 1){
+            var exchanges = [
+                "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
+                "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
+                "过去分词："+formatString(response.baesInfo.exchange.word_done[0]),
+                "现在分词："+formatString(response.baesInfo.exchange.word_ing[0]),
+                "第三人称单数："+formatString(response.baesInfo.exchange.word_third[0])
+            ];
+            var $exchanges = exchanges.map(function (exchange) {
+                return "<p>"+exchange+"<p/>"
+            }).join("");
+            var $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
 
-        var $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
-        var $phrase = compileBoxHtml("phrase","常用短语",$phrase);
+            // insert to dom
+            $('#learning_word').after($exchanges);
+        }
 
-        // insert to dom
-        $('#learning_word').after($phrase).after($exchanges);
+        if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
+            var $phrase = response.netmean.RelatedPhrase.map(function (one) {
+                return "<p>"+ one.word + " " + one.list.map(function (subOne) {
+                        return subOne.exp + " "
+                    }) +"</p>"
+            }).join("");
+            var $phrase = compileBoxHtml("phrase","常用短语",$phrase);
+            $('#learning_word').after($phrase);
+        }
     }
 }
 
@@ -194,7 +199,15 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
 
         searchOnline();
 
-        getFromIciba(getCurrentTerm(),renderWordChangesAndPhrase);
+        /**
+         * phrases and exchanges need to fetch data from iciba API
+         */
+        if(ls()['phrases'] == 'yes' || ls()['exchanges'] == 'yes'){
+            getFromIciba(
+                getCurrentTerm(),
+                renderWordChangesAndPhrase
+            );
+        }
     }
     if (undefined != ls()['hider']) {
         var ids = ls()['hider'].split(',');
