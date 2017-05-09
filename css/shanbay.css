@@ -91,6 +91,13 @@
 	background-image: none;
   	background-color: #21a98d;
 }
+
+#shanbay_popover #shanbay-close-btn {
+	background-color: red;
+	background-image: none;
+	float: right;
+}
+
 #shanbay_popover .success{
 	color: #29c0a9!important;
 	margin-top: 10px!important;

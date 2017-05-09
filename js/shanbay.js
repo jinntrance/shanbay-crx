@@ -88,6 +88,7 @@ function popover(alldata) {
     if (ls()['webster_search'] == 'yes') defs = webster.defs;
     console.log('popover');
     var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">';
+    html += '<div class="close-btn"><a href="#" class="btn" id="shanbay-close-btn">关闭</a></div>';
     if (true == data.loading) { //loading notification
         html += '<p><span class="word">' + data.msg + '</span></p>';
     } else if (data.data == undefined || data.data.learning_id == undefined) {
@@ -156,6 +157,9 @@ function popover(alldata) {
         playAudio(audio_url);
     });
 
+    $('#shanbay_popover #shanbay-close-btn').click(function(){
+      hidePopover();
+    })
     $('html').click(function () {
         hidePopover();
     });
