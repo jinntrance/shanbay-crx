@@ -125,7 +125,7 @@ function addToNote(add, term) {
     if ( $(add).parent().find('.alert').length == 0 &&
         hint != $(add).text() &&
         (undefined == term || term == getCurrentTerm())) {
-        if(note_sim<=0.25) {
+        if(note_sim<=0.3) {
              // TODO 修改笔记相似度
             $('textarea[name=note]').val(notes);
             $('input[type=submit]').click();
