@@ -56,19 +56,6 @@
                         </div>
                     </div>
                     <div>
-                        <div class="option-set" id="webster_set">
-                            Webster Dictionary 使用(若使用英文释义词根派生，请选择对应词典)
-                            <label>
-                                <input name="dict" type="radio" value="webster">Webster Collegiate
-                            </label>
-<!--                            <label>
-                                <input name="dict" type="radio" value="oxford">Oxford Advanced
-                            </label>-->
-                            <label>
-                                <input name="dict" type="radio" value='no' checked="checked">不使用
-                            </label>
-
-                        </div>
                         <div class="option-set">打开"双击单词查义"
                             <label>
                                 <input name="click2s" type="radio" value="yes" checked="checked">
@@ -146,14 +133,6 @@
                                 <input name="hide_cn" type="radio" value='no' checked="checked">
                             </label>否
                         </div>
-                        <div class="option-set">默认使用Webster英文释义（派生需要打开此项）
-                            <label>
-                                <input name="web_en" type="radio" value="yes">
-                            </label>是
-                            <label>
-                                <input name="web_en" type="radio" value='no' checked="checked">
-                            </label>否
-                        </div>
                         <div class="option-set">默认开启小窗定时提醒
                             <label>
                                 <input name="not_pop" type="radio" value="yes" checked="checked">
@@ -161,6 +140,11 @@
                             <label>
                                 <input name="not_pop" type="radio" value='no'>
                             </label>否
+                        </div>
+                        <div class="option-set">小窗提醒内容
+                            <label>
+                                <input name="pop_msg" type="text" value="少壮不努力，老大背单词！" maxlength="80" style="width: 70%">
+                            </label>
                         </div>
                         <div class="option-set">我的词库翻页时默认过滤掉“太简单”单词
                             <label>
@@ -178,13 +162,38 @@
                                 <input name="ctx_menu" type="radio" value='no'>
                             </label>否
                         </div>
-                        <div class="option-set" style="vertical-align: top" id="reg_key">Webster
-                            Key:
+                        <div class="option-set" id="webster_set">
+                            第三方词典使用(展示派生、英文释义需选择)
                             <label>
-                                <textarea name="web_key" type="text" value="" cols="40"
-                                          rows="3"></textarea>
-                            </label><a href="javascript:void(0);" id="test">测试</a>
+                                <input name="dict" type="radio" value="webster">Webster Collegiate
+                            </label>
+                            <!-- <label>
+                                 <input name="dict" type="radio" value="oxford">Oxford Advanced
+                             </label>-->
+                            <label>
+                                <input name="dict" type="radio" value='no' checked="checked">不使用
+                            </label>
 
+                        </div>
+                        <div class="option-set">默认使用Webster英文释义（派生需要打开此项）
+                            <label>
+                                <input name="web_en" type="radio" value="yes">
+                            </label>是
+                            <label>
+                                <input name="web_en" type="radio" value='no' checked="checked">
+                            </label>否
+                        </div>
+                        <div class="option-set" id="reg_key">
+                            <span  style="vertical-align: top">
+                                Webster Key:
+                            </span> <a style="vertical-align: middle" href="javascript:void(0);" id="test">测试</a>
+                            <br/>
+
+                            <label>
+                                <textarea name="web_key" type="text" value="" cols="40" rows="3"></textarea>
+                            </label>
+                        </div>
+                        <div>
                             <p>Webster Key最好自己按照<a
                                     href="http://josephjctang.com/shanbay-crx/#webster-app-key-注册"
                                     target="_blank">Webster App Key 注册教程</a>注册并将Key 存于此处上述方框内。<br/>

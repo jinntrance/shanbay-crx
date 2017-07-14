@@ -33,7 +33,10 @@ function notify(title, message, url) {
         title = "背单词读文章练句子"
     }
     if (!message) {
-        message = "少壮不努力，老大背单词！";
+        message = localStorage['pop_msg'];
+        if(!message || message.trim().length == 0) {
+            message = "少壮不努力，老大背单词！";
+        }
     }
     if (!url) {
         url = "http://www.shanbay.com/";

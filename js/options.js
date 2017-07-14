@@ -4,9 +4,13 @@
  */
 // Saves options to localStorage.
 function save_options() {
-    $('input[type=radio]').each(function (index) {
-        var name = $(this).name();
-        localStorage[name] = $("input[name=" + name + "]:checked").val();
+    $('input[type=radio]:checked').each(function (index) {
+        var name = this.name;
+        localStorage[name] = this.value;
+    });
+    $('input[type=text]').each(function (index) {
+        var name = this.name;
+        localStorage[name] = this.value;
     });
     localStorage["hider"] = $("input[name=hider]:checkbox:checked").map(function (i, e) {
         return $(e).val()
@@ -27,8 +31,14 @@ function save_options() {
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     $('input[type=radio]').each(function (index) {
-       var name = $(this).name();
+       var name = this.name;
        $("input[name=" + name+ "][value=" + localStorage[name] + "]").attr("checked", true);
+    });
+    $('input[type=text]').each(function (index) {
+        var name = this.name;
+        if(localStorage[name]) {
+            $("input[name=" + name + "]").val(localStorage[name]);
+        }
     });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
     var hider = localStorage["hider"];
@@ -38,7 +48,15 @@ function restore_options() {
     var keys = localStorage["web_key"];
     if (undefined == keys) keys = '';
     else keys = keys.replace(/,/g, '\n');
-    $("textarea[name=web_key]").val(keys)
+
+    // 增加行数显示完 keys
+    var row = 3;
+    var keys_length = keys.split(/\n/).length;
+    if (keys_length > 3) {
+        row = keys_length;
+    }
+    $("textarea[name=web_key]").val(keys).attr("rows", row);
+
 }
 
 function test_keys() {
