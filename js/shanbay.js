@@ -104,7 +104,7 @@ function popover(alldata) {
             html += '<div class="popover-content">'
                 + '<p>' + data.data.definition.split('\n').join("<br/>") + "<br/>" + defs + '</p>'
                 + '<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
-                + '<p class="success hide">成功添加！</p>'
+                + '<p class="success hide">成功加入生词库！</p>'
                 + '<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a></div>'
                 + '</div>';
         }
@@ -118,7 +118,7 @@ function popover(alldata) {
             + '<p>' + data.data.definition.split('\n').join("<br/>") + '</p>'
             + '<p>' + data.data.en_definition.defn.split('\n').join("<br/>") + '</p>'
             + '<div class="add-btn"><a href="#" class="btn" id="shanbay-forget-btn">我忘了</a></div>'
-            + '<p class="success hide">成功添加！</p>'
+            + '<p class="success hide">成功加入生词库！</p>'
             + '<div class="add-btn"><a href="' + forgotUrl + '" target="_blank" class="btn" id="shanbay-check-btn">查看</a></div>'
             + '</div>';
     }
@@ -159,13 +159,25 @@ function popover(alldata) {
 
     $('#shanbay_popover #shanbay-close-btn').click(function(){
       hidePopover();
-    })
+    });
     $('html').click(function () {
         hidePopover();
     });
     $('body').on('click', '#shanbay_popover', function (e) {
         e.stopPropagation();
     });
+
+    // 自动加词、忘词、发音
+    ls(function () {
+        if (localStorage['pronounce_word']) {
+            $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click();
+        }
+
+        if (localStorage['forget_word'] != 'no') {
+            $('#shanbay-add-btn').click();
+            $('#shanbay-forget-btn').click();
+        }
+    })
 }
 
 function hidePopover() {
