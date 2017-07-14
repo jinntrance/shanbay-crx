@@ -157,8 +157,10 @@ function popover(alldata) {
         playAudio(audio_url);
     });
 
-    $('#shanbay_popover #shanbay-close-btn').click(function(){
-      hidePopover();
+    $('#shanbay_popover #shanbay-close-btn').click(function(e){
+        hidePopover();
+        e.preventDefault();
+        return false;
     });
     $('html').click(function () {
         hidePopover();
@@ -177,7 +179,17 @@ function popover(alldata) {
             $('#shanbay-add-btn').click();
             $('#shanbay-forget-btn').click();
         }
-    })
+
+        // 设置 popup 自动关闭时间
+        var waitSeconds = 30;
+        if (localStorage['close_wait'] > 0) {
+            waitSeconds = localStorage['close_wait'];
+        }
+        setTimeout(function () {
+            hidePopover();
+        }, waitSeconds * 1000);
+    });
+
 }
 
 function hidePopover() {
