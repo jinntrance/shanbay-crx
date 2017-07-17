@@ -32,11 +32,14 @@ function save_options() {
 function restore_options() {
     $('input[type=radio]').each(function (index) {
        var name = this.name;
-       $("input[name=" + name+ "][value=" + localStorage[name] + "]").attr("checked", true);
+       var value = localStorage[name];
+        if (value && value.trim().length > 0) {
+            $("input[name=" + name + "][value=" + +"]").attr("checked", true);
+        }
     });
     $('input[type=text]').each(function (index) {
         var name = this.name;
-        if(localStorage[name]) {
+        if(localStorage[name] && localStorage[name].trim().length > 0) {
             $("input[name=" + name + "]").val(localStorage[name]);
         }
     });
