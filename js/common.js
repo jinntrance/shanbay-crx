@@ -20,7 +20,8 @@ var keys = [
 '0627fb80-2ae7-4ce1-82e1-c2a0bcdf3317',
 'd9b1eeac-4a10-42b3-8683-70a17bbe04af',
 'e855f926-44f0-4be4-91bb-5c5f7d685eca',
-'45b94f06-9d11-4049-9a23-ab80f95dd57e'
+'45b94f06-9d11-4049-9a23-ab80f95dd57e',
+'cc49f0d8-5299-410c-9661-e88c9e2ca516'
 ];
 
 function ls(callback) {
