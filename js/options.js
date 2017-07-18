@@ -2,6 +2,9 @@
  * 设置页面保存与回复设置相关的js
  *@user Joseph
  */
+chrome.management.getSelf(function (info) {
+    console.log(info);
+})
 // Saves options to localStorage.
 function save_options() {
     $('input[type=radio]:checked').each(function (index) {
