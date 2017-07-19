@@ -1,39 +1,19 @@
 /**
  * 任意网页扇贝查词
- *
  */
-
-/*
- * */
 
 const devMode = !('update_url' in chrome.runtime.getManifest())
 
 
-const debugLog = (level, ...msg) => {
+const debugLog = (level = 'log', ...msg) => {
   /**
    * 在开发模式下打印日志
    * @param msg 可以为任何值
    * @param level console之下的任何函数名称
    * */
   if (devMode) {
-    console.info(level)
-    console[level](msg)
+    console[level](JSON.stringify(msg))
   }
-}
-
-console.log(localStorage.getItem)
-
-function ls (callback) {
-  chrome.runtime.sendMessage({method: 'getLocalStorage'}, function (response) {
-    if (response) {
-      for (var k in response.data)
-        localStorage[k] = response.data[k];
-    }
-    if (callback) {
-      return callback()
-    }
-  })
-  return localStorage
 }
 
 let parentBody = null
@@ -41,7 +21,7 @@ let parentBody = null
 function searchingSelectedText (e) {
   var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/)
   debugLog('info', 'selected ' + text)
-  if (text && ls()['click2s'] !== 'no') {
+  if (text && localStorage['click2s'] !== 'no') {
     debugLog('log', 'searching ' + text)
     chrome.runtime.sendMessage({
       method: 'lookup',
@@ -58,12 +38,8 @@ function searchingSelectedText (e) {
 }
 
 $(function () {
-  ls(function () {
-    $(document).on('dblclick', searchingSelectedText)
-  })
+  $(document).on('dblclick', searchingSelectedText)
 })
-
-console.log(chrome.runtime.getManifest())
 
 /**
  *@user https://chrome.google.com/webstore/detail/%E6%89%87%E8%B4%9D%E5%8A%A9%E6%89%8B/nmbcclhheehkbdepblmeclbahadcebhj/details
@@ -106,22 +82,26 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 })
 
 function popover (alldata) {
+  if (!parentBody) return
+  // debugLog('error', parentBody.get(0).localName)
   var data = alldata.shanbay
   var webster = alldata.webster
   var defs = ''
-  if (ls()['webster_search'] === 'yes') defs = webster.defs
+  if (localStorage['webster_search'] === 'yes') defs = webster.defs
   debugLog('log', 'popover')
   var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">'
   html += '<div class="close-btn"><a href="#" class="btn" id="shanbay-close-btn">关闭</a></div>'
   if (data.loading) {
     //loading notification
     html += '<p><span class="word">' + data.msg + '</span></p>'
-  } else if (data.data == undefined || data.data.learning_id == undefined) {
-    if (1 == data.status_code) {// word not exist
-      if (undefined == webster || webster.term == '') html += '未找到单词</h3></div>'
+  } else if (!data.data || !data.data.learning_id) {
+    if (1 === data.status_code) {
+      // word not exist
+      if (!webster || !webster.term) html += '未找到单词</h3></div>'
       else html += '<p><span class="word">' + webster.term + '</span></p></h3>' +
         '<div class="popover-content"><p>' + webster.defs + '</p></div>'
-    } else {// word exist, but not recorded
+    } else {
+      // word exist, but not recorded
       html += '<p><span class="word">' + data.data.content + '</span>'
         + '<small class="pronunciation">' + (data.data.pron.length ? ' [' + data.data.pron + '] ' : '') + '</small></p>'
       html += '<a href="#" class="speak uk">UK<i class="icon icon-speak"></i></a><a href="#" class="speak us">US<i class="icon icon-speak"></i></a></h3>'
@@ -196,15 +176,14 @@ function popover (alldata) {
   })
 
   // 自动加词、忘词、发音
-  ls(function () {
-    if (localStorage['pronounce_word']) {
-      $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click()
-    }
-
-    if (localStorage['forget_word'] != 'no') {
-      $('#shanbay-add-btn').click()
-      $('#shanbay-forget-btn').click()
-    }
+  //   if (localStorage['pronounce_word']) {
+  //     $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click()
+  //   }
+  //
+  //   if (localStorage['forget_word'] != 'no') {
+  //     $('#shanbay-add-btn').click()
+  //     $('#shanbay-forget-btn').click()
+  //   }
 
     // 设置 popup 自动关闭时间
     var waitSeconds = 30
@@ -214,7 +193,6 @@ function popover (alldata) {
     setTimeout(function () {
       hidePopover()
     }, waitSeconds * 1000)
-  })
 
 }
 

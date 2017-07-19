@@ -27,7 +27,9 @@ function save_options() {
     setTimeout(function () {
         status.innerHTML = "";
     }, 750);
-    chrome.runtime.sendMessage({method: "setLocalStorage", data: localStorage});
+    for (let key in localStorage) {
+        localStorage.setItem(key, localStorage[key])
+    }
 
 }
 
@@ -48,8 +50,11 @@ function restore_options() {
     });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
     var hider = localStorage["hider"];
-    if (undefined == hider) hider = [];
-    else hider = hider.split(',');
+    if (hider) {
+        hider = hider.split(',')
+    } else {
+      hider = []
+    }
     $("input[name=hider]:checkbox").val(hider);
     var keys = localStorage["web_key"];
     if (undefined == keys) keys = '';
