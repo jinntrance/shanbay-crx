@@ -5,6 +5,82 @@
 
 noteString = '<a href="javascript:void(0)"  class="note-button sblink pull-right">加入笔记</a>';
 
+/**
+ * The template for box snippet
+ */
+var boxTemplate = [
+    '<div id="{id}" class="row">',
+    '        <div class="word span10">',
+    '            <div class="row">',
+    '                <div class="span1">',
+    '                    <h6 class="pull-right">{title}</h6>',
+    '                </div>',
+    '                <div class="span9">',
+    '                    <div class="well">',
+    '                        {content}',
+    '                    </div>',
+    '                </div>',
+    '            </div>',
+    '        </div>',
+    '    </div>'
+].join("");
+
+/**
+ * Compile html string
+ * @param id
+ * @param title
+ * @param content
+ */
+function compileBoxHtml(id,title,content) {
+    var output = boxTemplate.replace("{content}",content);
+    output = output.replace("{id}",id);
+    output = output.replace("{title}",title);
+    return output;
+}
+
+function formatString(origin) {
+    if(origin === null || typeof origin === "undefined") {
+        return "-";
+    }else{
+        return origin;
+    }
+}
+
+/**
+ * Inject the view for words changes and phrase
+ * @param data
+ */
+function renderWordChangesAndPhrase(response) {
+    if(response){
+        if(ls()['exchanges'] == 'yes' && response.exchanges.length > 1){
+            var exchanges = [
+                "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
+                "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
+                "过去分词："+formatString(response.baesInfo.exchange.word_done[0]),
+                "现在分词："+formatString(response.baesInfo.exchange.word_ing[0]),
+                "第三人称单数："+formatString(response.baesInfo.exchange.word_third[0])
+            ];
+            var $exchanges = exchanges.map(function (exchange) {
+                return "<p>"+exchange+"<p/>"
+            }).join("");
+            var $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
+
+            // insert to dom
+            $('#learning_word').after($exchanges);
+        }
+
+        if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
+            var $phrase = response.netmean.RelatedPhrase.map(function (one) {
+                return "<p>"+ one.word + " " + one.list.map(function (subOne) {
+                        return subOne.exp + " "
+                    }) +"</p>"
+            }).join("");
+            var $phrase = compileBoxHtml("phrase","常用短语",$phrase);
+            $('#learning_word').after($phrase);
+        }
+    }
+}
+
 chr = chrome;
 
 function getCurrentTerm() {
@@ -49,7 +125,7 @@ function addToNote(add, term) {
     if ( $(add).parent().find('.alert').length == 0 &&
         hint != $(add).text() &&
         (undefined == term || term == getCurrentTerm())) {
-        if(note_sim<=0.25) {
+        if(note_sim<=0.3) {
              // TODO 修改笔记相似度
             $('textarea[name=note]').val(notes);
             $('input[type=submit]').click();
@@ -120,7 +196,18 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     // TODO 改变在线搜索的触发条件
     if($('#learning_word .word h1.content').length>0) {
         console.log('retrieving English definitions');
+
         searchOnline();
+
+        /**
+         * phrases and exchanges need to fetch data from iciba API
+         */
+        if(ls()['phrases'] == 'yes' || ls()['exchanges'] == 'yes'){
+            getFromIciba(
+                getCurrentTerm(),
+                renderWordChangesAndPhrase
+            );
+        }
     }
     if (undefined != ls()['hider']) {
         var ids = ls()['hider'].split(',');
@@ -283,3 +370,18 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     event.stopPropagation();
 });
 
+
+function getFromIciba(word, callback)
+{
+    $.ajax({
+        url:"https://www.iciba.com/index.php",
+        data:{
+            a:"getWordMean",
+            c:"search",
+            list:"1,3,4,8,9,12,13,15",
+            word:word,
+            _:Math.random()
+        },
+        success:callback
+    })
+}
