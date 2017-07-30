@@ -294,6 +294,18 @@ function getClickHandler(term, tab) {
     console.log('signon');
     var url = API + normalize(term);//normalize it only
 
+    if (tab.id <= 0) {
+        chrome.tabs.query({
+                              active: true,
+                              url: '*://*/*.pdf'
+                          },
+                          function (tabs) {
+                              if (tabs) {
+                                  tab = tabs[0];
+                              }
+                          });
+    }
+
     $.ajax({
         url: url,
         type: 'GET',

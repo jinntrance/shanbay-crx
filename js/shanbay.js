@@ -197,19 +197,21 @@ function hidePopover() {
 }
 
 function getSelectionOffset(callback) {
-    var left = window.innerWidth / 2;
-    var top = window.innerHeight / 2;
+    var off = {
+        left: window.innerWidth * 8 / 10,
+        top: window.innerHeight / 10
+    };
     var selection = window.getSelection();
     if (0 < selection.rangeCount) {
         var range = window.getSelection().getRangeAt(0);
         var dummy = document.createElement('span');
         range.insertNode(dummy);
-        var off = getOffset(dummy);
+        off = getOffset(dummy);
         dummy.remove();
         window.getSelection().addRange(range);
         console.log(off.left + ':' + off.top);
-        callback(off.left, off.top);
     }
+    callback(off.left, off.top);
 }
 
 function getOffset(el) {

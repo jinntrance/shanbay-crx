@@ -34,7 +34,7 @@ function restore_options() {
        var name = this.name;
        var value = localStorage[name];
         if (value && value.trim().length > 0) {
-            $("input[name=" + name + "][value=" + +"]").attr("checked", true);
+            $("input[name=" + name + "][value=" + "]").attr("checked", true);
         }
     });
     $('input[type=text]').each(function (index) {
@@ -45,11 +45,11 @@ function restore_options() {
     });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
     var hider = localStorage["hider"];
-    if (undefined == hider) hider = [];
+    if (!hider) hider = [];
     else hider = hider.split(',');
     $("input[name=hider]:checkbox").val(hider);
     var keys = localStorage["web_key"];
-    if (undefined == keys) keys = '';
+    if (!keys) keys = '';
     else keys = keys.replace(/,/g, '\n');
 
     // 增加行数显示完 keys
