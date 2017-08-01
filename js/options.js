@@ -34,7 +34,7 @@ function restore_options() {
        var name = this.name;
        var value = localStorage[name];
         if (value && value.trim().length > 0) {
-            $("input[name=" + name + "][value=" + "]").attr("checked", true);
+            $("input[name=" + name + "][value=" + value + "]").attr("checked", true);
         }
     });
     $('input[type=text]').each(function (index) {
