@@ -176,14 +176,14 @@ function popover (alldata) {
   })
 
   // 自动加词、忘词、发音
-  //   if (localStorage['pronounce_word']) {
-  //     $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click()
-  //   }
-  //
-  //   if (localStorage['forget_word'] != 'no') {
-  //     $('#shanbay-add-btn').click()
-  //     $('#shanbay-forget-btn').click()
-  //   }
+    if (localStorage['pronounce_word']) {
+      $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click()
+    }
+  
+    if (localStorage['forget_word'] != 'no') {
+      $('#shanbay-add-btn').click()
+      $('#shanbay-forget-btn').click()
+    }
 
     // 设置 popup 自动关闭时间
     var waitSeconds = 30
@@ -200,24 +200,22 @@ function hidePopover () {
   $('#shanbay_popover').remove()
 }
 
-function getSelectionOffset (callback) {
-  /**
-   * 先给选中区域添加一个span标签，然后获取span标签的offset。之后再删除span标签
-   * @param callback 处理选中区域position的函数
-   * */
-    // var left = window.innerWidth / 2;
-    // var top = window.innerHeight / 2;
-  var selection = window.getSelection()
-  if (0 < selection.rangeCount) {
-    var range = window.getSelection().getRangeAt(0)
-    var dummy = document.createElement('span')
-    range.insertNode(dummy)
-    var off = getOffset(dummy)
-    dummy.remove()
-    window.getSelection().addRange(range)
-    debugLog('info', 'pop position: ', off.left + ':' + off.top)
-    callback(off.left, off.top)
-  }
+  function getSelectionOffset(callback) {
+    var off = {
+      left: window.innerWidth * 8 / 10,
+      top: window.innerHeight / 10
+    };
+    var selection = window.getSelection();
+    if (0 < selection.rangeCount) {
+      var range = window.getSelection().getRangeAt(0);
+      var dummy = document.createElement('span');
+      range.insertNode(dummy);
+      off = getOffset(dummy);
+      dummy.remove();
+      window.getSelection().addRange(range);
+      console.log(off.left + ':' + off.top);
+    }
+    callback(off.left, off.top);
 }
 
 function getOffset (el) {

@@ -50,11 +50,8 @@ function restore_options() {
     });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
     var hider = localStorage["hider"];
-    if (hider) {
-        hider = hider.split(',')
-    } else {
-      hider = []
-    }
+    if (!hider) hider = [];
+    else hider = hider.split(',');
     $("input[name=hider]:checkbox").val(hider);
     var keys = localStorage["web_key"];
     if (undefined == keys) keys = '';
