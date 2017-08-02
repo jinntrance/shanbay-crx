@@ -97,7 +97,7 @@ function getOnlineWebster(term, url, callback) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             var word = $($.parseXML(xhr.responseText)).find('entry').filter(function () {
-                return $(this).find('ew').text().trim().length <= term.length
+                return $(this).find('ew').text().trim().length <= term.length + 2
             });
             var derivatives = word.find('ure').map(function (i, e) {
                 return e.textContent.replace(/\*/g, '·')
