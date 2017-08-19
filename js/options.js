@@ -4,17 +4,14 @@
  */
 // Saves options to localStorage.
 function save_options() {
-    localStorage["etym"] = $("input[name=etym]:checked").val();
-    localStorage["click2s"] = $("input[name=click2s]:checked").val();
-    localStorage["root2note"] = $("input[name=root2note]:checked").val();
-    localStorage["afx2note"] = $("input[name=afx2note]:checked").val();
-    localStorage["hide_cn"] = $("input[name=hide_cn]:checked").val();
-    localStorage["web_en"] = $("input[name=web_en]:checked").val();
-    localStorage["not_pop"] = $("input[name=not_pop]:checked").val();
-    localStorage["ctx_menu"] = $("input[name=ctx_menu]:checked").val();
-    localStorage["dict"] = $("input[name=dict]:checked").val();
-    localStorage["skip_easy"] = $("input[name=skip_easy]:checked").val();
-    localStorage["show_syllabe"] = $("input[name=show_syllabe]:checked").val();
+    $('input[type=radio]:checked').each(function (index) {
+        var name = this.name;
+        localStorage[name] = this.value;
+    });
+    $('input[type=text]').each(function (index) {
+        var name = this.name;
+        localStorage[name] = this.value;
+    });
     localStorage["hider"] = $("input[name=hider]:checkbox:checked").map(function (i, e) {
         return $(e).val()
     }).toArray();
@@ -33,26 +30,36 @@ function save_options() {
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-    $("input[name=etym][value=" + localStorage["etym"] + "]").attr("checked", true);
-    $("input[name=click2s][value=" + localStorage["click2s"] + "]").attr("checked", true);
-    $("input[name=root2note][value=" + localStorage["root2note"] + "]").attr("checked", true);
-    $("input[name=afx2note][value=" + localStorage["afx2note"] + "]").attr("checked", true);
-    $("input[name=hide_cn][value=" + localStorage["hide_cn"] + "]").attr("checked", true);
-    $("input[name=web_en][value=" + localStorage["web_en"] + "]").attr("checked", true);
-    $("input[name=not_pop][value=" + localStorage["not_pop"] + "]").attr("checked", true);
-    $("input[name=ctx_menu][value=" + localStorage["ctx_menu"] + "]").attr("checked", true);
-    $("input[name=dict][value=" + localStorage["dict"] + "]").attr("checked", true);
-    $("input[name=skip_easy][value=" + localStorage["skip_easy"] + "]").attr("checked", true);
-    $("input[name=show_syllabe][value=" + localStorage["show_syllabe"] + "]").attr("checked", true);
+    $('input[type=radio]').each(function (index) {
+       var name = this.name;
+       var value = localStorage[name];
+        if (value && value.trim().length > 0) {
+            $("input[name=" + name + "][value=" + value + "]").attr("checked", true);
+        }
+    });
+    $('input[type=text]').each(function (index) {
+        var name = this.name;
+        if(localStorage[name] && localStorage[name].trim().length > 0) {
+            $("input[name=" + name + "]").val(localStorage[name]);
+        }
+    });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
     var hider = localStorage["hider"];
-    if (undefined == hider) hider = [];
+    if (!hider) hider = [];
     else hider = hider.split(',');
     $("input[name=hider]:checkbox").val(hider);
     var keys = localStorage["web_key"];
-    if (undefined == keys) keys = '';
+    if (!keys) keys = '';
     else keys = keys.replace(/,/g, '\n');
-    $("textarea[name=web_key]").val(keys)
+
+    // 增加行数显示完 keys
+    var row = 3;
+    var keys_length = keys.split(/\n/).length;
+    if (keys_length > 3) {
+        row = keys_length;
+    }
+    $("textarea[name=web_key]").val(keys).attr("rows", row);
+
 }
 
 function test_keys() {

@@ -17,26 +17,21 @@ function ls(callback) {
     return localStorage;
 }
 
-function searchingSelectedText (event) {
+function searchingSelectedText () {
     var text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
     console.info("selected " + text);
-    var pos = {
-        left: event.clientX + window.pageXOffset,
-        top: event.clientY + window.pageYOffset
-    };
     if (undefined != text && null != text && 0 < text.length && ls()["click2s"] != 'no') {
         console.log("searching " + text);
         chrome.runtime.sendMessage({
             method: 'lookup',
-            data: text[0],
-            position: pos
+            data: text[0]
         });
         popover({
             shanbay: {
                 loading: true,
                 msg: "查询中....（请确保已登录扇贝网）"
             }
-        }, pos);
+        })
     }
 }
 
@@ -56,7 +51,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message.data);
     switch (message.callback) {
         case 'popover':
-            popover(message.data, message.position);
+            popover(message.data);
             break;
         case 'forgetWord':
             switch (message.data.msg) {
@@ -75,7 +70,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 case "success":
                     $('#shanbay-add-btn').addClass('hide');
                     $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + rsp.data.rsp.id);
+                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + message.data.rsp.id);
                     break;
                 case "error":
                     $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
@@ -86,13 +81,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 });
 
-function popover(alldata, position) {
+function popover(alldata) {
     var data = alldata.shanbay;
     var webster = alldata.webster;
     var defs = "";
     if (ls()['webster_search'] == 'yes') defs = webster.defs;
     console.log('popover');
     var html = '<div id="shanbay_popover"><div class="popover-inner"><h3 class="popover-title">';
+    html += '<div class="close-btn"><a href="#" class="btn" id="shanbay-close-btn">关闭</a></div>';
     if (true == data.loading) { //loading notification
         html += '<p><span class="word">' + data.msg + '</span></p>';
     } else if (data.data == undefined || data.data.learning_id == undefined) {
@@ -108,7 +104,7 @@ function popover(alldata, position) {
             html += '<div class="popover-content">'
                 + '<p>' + data.data.definition.split('\n').join("<br/>") + "<br/>" + defs + '</p>'
                 + '<div class="add-btn"><a href="#" class="btn" id="shanbay-add-btn">添加生词</a>'
-                + '<p class="success hide">成功添加！</p>'
+                + '<p class="success hide">成功加入生词库！</p>'
                 + '<a href="#" target="_blank" class="btn hide" id="shanbay-check-btn">查看</a></div>'
                 + '</div>';
         }
@@ -122,7 +118,7 @@ function popover(alldata, position) {
             + '<p>' + data.data.definition.split('\n').join("<br/>") + '</p>'
             + '<p>' + data.data.en_definition.defn.split('\n').join("<br/>") + '</p>'
             + '<div class="add-btn"><a href="#" class="btn" id="shanbay-forget-btn">我忘了</a></div>'
-            + '<p class="success hide">成功添加！</p>'
+            + '<p class="success hide">成功加入生词库！</p>'
             + '<div class="add-btn"><a href="' + forgotUrl + '" target="_blank" class="btn" id="shanbay-check-btn">查看</a></div>'
             + '</div>';
     }
@@ -131,7 +127,7 @@ function popover(alldata, position) {
     $('#shanbay_popover').remove();
     $('body').append(html);
 
-    getSelectionOffset(position, function (left, top) {
+    getSelectionOffset(function (left, top) {
         setPopoverPosition(left, top);
         var h =  $(window).scrollTop() + $(window).height();
         if ( h -200 < top && h >= top) {
@@ -161,50 +157,76 @@ function popover(alldata, position) {
         playAudio(audio_url);
     });
 
+    $('#shanbay_popover #shanbay-close-btn').click(function(e){
+        hidePopover();
+        e.preventDefault();
+        return false;
+    });
     $('html').click(function () {
         hidePopover();
     });
     $('body').on('click', '#shanbay_popover', function (e) {
         e.stopPropagation();
     });
+
+    // 自动加词、忘词、发音
+    ls(function () {
+        if (localStorage['pronounce_word']) {
+            $('#shanbay_popover').find('.speak.' + localStorage['pronounce_word']).click();
+        }
+
+        if (localStorage['forget_word'] != 'no') {
+            $('#shanbay-add-btn').click();
+            $('#shanbay-forget-btn').click();
+        }
+
+        // 设置 popup 自动关闭时间
+        var waitSeconds = 30;
+        if (localStorage['close_wait'] > 0) {
+            waitSeconds = localStorage['close_wait'];
+        }
+        setTimeout(function () {
+            hidePopover();
+        }, waitSeconds * 1000);
+    });
+
 }
 
 function hidePopover() {
     $('#shanbay_popover').remove();
 }
 
-function getSelectionOffset(position, callback) {
-
-    if(undefined != position && position.left && position.top){
-        callback(position.left, position.top);
-    }
-
-    var left = window.innerWidth / 2;
-    var top = window.innerHeight / 2;
+function getSelectionOffset(callback) {
+    var off = {
+        left: window.innerWidth * 8 / 10,
+        top: window.innerHeight / 10
+    };
     var selection = window.getSelection();
-
     if (0 < selection.rangeCount) {
         var range = window.getSelection().getRangeAt(0);
         var dummy = document.createElement('span');
         range.insertNode(dummy);
-        left = $(dummy).offset().left - 50 - dummy.offsetLeft + $(dummy).position().left;
-        top = $(dummy).offset().top + 25 - dummy.offsetTop + $(dummy).position().top;
+        off = getOffset(dummy);
         dummy.remove();
         window.getSelection().addRange(range);
-        console.log(left + ':' + top);
-        callback(left, top);
+        console.log(off.left + ':' + off.top);
     }
-}
-function getTop(e) {
-    var offset = e.offsetTop;
-    if (e.offsetParent != null) offset += getTop(e.offsetParent);
-    return offset;
+    callback(off.left, off.top);
 }
 
-function getLeft(e) {
-    var offset = e.offsetLeft;
-    if (e.offsetParent != null) offset += getLeft(e.offsetParent);
-    return offset;
+function getOffset(el) {
+    el = el.getBoundingClientRect();
+    var off = {
+        left: (el.left + el.right) / 2 + window.scrollX - 50,
+        top: el.bottom + window.scrollY + 5
+    };
+
+    if (el.bottom == el.top) {
+        // 行首字母选择后会出现这种情况
+        off.top += 20;
+    }
+
+    return off;
 }
 
 function setPopoverPosition(left, top) {

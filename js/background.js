@@ -33,7 +33,10 @@ function notify(title, message, url) {
         title = "背单词读文章练句子"
     }
     if (!message) {
-        message = "少壮不努力，老大背单词！";
+        message = localStorage['pop_msg'];
+        if(!message || message.trim().length == 0) {
+            message = "少壮不努力，老大背单词！";
+        }
     }
     if (!url) {
         url = "http://www.shanbay.com/";
@@ -120,14 +123,20 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     switch (request.method) {
         case "getLocalStorage":
-            chrome.storage.sync.get("ls", function(valueString) {
+            chrome.storage.sync.get("ls", function(value) {
                 // Notify that we saved.
-                var items = JSON.parse(valueString);
-                for(var k in items){
-                    if(undefined != items[k])
-                        localStorage[k] = items[k];
+                try {
+                    var valueString = value.ls;
+                    var items = JSON.parse(valueString);
+                    for (var k in items) {
+                        if (undefined != items[k])
+                            localStorage[k] = items[k];
+                    }
+                    console.log("fetched local storage from chrome.storage.sync");
+                } catch (e) {
+                    saveToStorage();
+                    console.warn(e);
                 }
-                console.log("fetched local storage from chrome.storage.sync");
             });
             sendResponse({data: localStorage});
             break;
@@ -269,7 +278,7 @@ var API = 'http://www.shanbay.com/api/v1/bdc/search/?word=';
 
 
 function isUserSignedOn(callback) {
-    chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'sessionid'}, function (cookie) {
+    chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'auth_token'}, function (cookie) {
         if (cookie) {
             localStorage.setItem('shanbay_cookies', cookie);
             callback();
@@ -284,6 +293,18 @@ function isUserSignedOn(callback) {
 function getClickHandler(term, tab, position) {
     console.log('signon');
     var url = API + normalize(term);//normalize it only
+
+    if (tab.id <= 0) {
+        chrome.tabs.query({
+                              active: true,
+                              url: '*://*/*.pdf'
+                          },
+                          function (tabs) {
+                              if (tabs) {
+                                  tab = tabs[0];
+                              }
+                          });
+    }
 
     $.ajax({
         url: url,
@@ -348,7 +369,8 @@ function singularize(word) {
 function playAudio(audio_url) {
     if (audio_url) {
         new Howl({
-            urls: [audio_url]
-        }).play().volume(1.0);
+            src: [audio_url],
+            volume: 1.0
+        }).play();
     }
 }
