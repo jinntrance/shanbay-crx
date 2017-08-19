@@ -127,7 +127,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             break;
         case 'lookup':
             isUserSignedOn(function () {
-                getClickHandler(request.data, sender.tab);
+                getClickHandler(request.data, sender.tab, request.position);
             });
             break;
         case 'addWord':
@@ -267,9 +267,21 @@ function isUserSignedOn(callback) {
     });
 }
 
-function getClickHandler(term, tab) {
+function getClickHandler(term, tab, position) {
     console.log('signon');
     var url = API + normalize(term);//normalize it only
+
+    if (tab.id <= 0) {
+        chrome.tabs.query({
+                              active: true,
+                              url: '*://*/*.pdf'
+                          },
+                          function (tabs) {
+                              if (tabs) {
+                                  tab = tabs[0];
+                              }
+                          });
+    }
 
     $.ajax({
         url: url,
@@ -287,13 +299,14 @@ function getClickHandler(term, tab) {
                         callback: 'popover',
                         data: {
                             shanbay: data,
-                            webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs}
+                            webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs},
+                            position: position
                         }
                     });
                 });
             else chrome.tabs.sendMessage(tab.id, {
                 callback: 'popover',
-                data: {shanbay: data}
+                data: {shanbay: data, position: position}
             });
         },
         error: function () {

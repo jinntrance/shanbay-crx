@@ -200,6 +200,7 @@ function hidePopover () {
   $('#shanbay_popover').remove()
 }
 
+<<<<<<< master
   function getSelectionOffset(callback) {
     var off = {
       left: window.innerWidth * 8 / 10,
