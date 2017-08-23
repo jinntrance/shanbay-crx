@@ -122,35 +122,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log(request);
     }
     switch (request.method) {
-        case "getLocalStorage":
-            chrome.storage.sync.get("ls", function(value) {
-                // Notify that we saved.
-                try {
-                    var valueString = value.ls;
-                    var items = JSON.parse(valueString);
-                    for (var k in items) {
-                        if (undefined != items[k])
-                            localStorage[k] = items[k];
-                    }
-                    console.log("fetched local storage from chrome.storage.sync");
-                } catch (e) {
-                    saveToStorage();
-                    console.warn(e);
-                }
-            });
-            sendResponse({data: localStorage});
-            break;
-        case "setLocalStorage":
-            window.localStorage = request.data;
-            saveToStorage();
-            sendResponse({data: localStorage});
-            break;
         case 'is_user_signed_on':
             isUserSignedOn();
             break;
         case 'lookup':
             isUserSignedOn(function () {
-                getClickHandler(request.data, sender.tab);
+                getClickHandler(request.data, sender.tab, request.position);
             });
             break;
         case 'addWord':
@@ -280,7 +257,7 @@ var API = 'http://www.shanbay.com/api/v1/bdc/search/?word=';
 function isUserSignedOn(callback) {
     chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'auth_token'}, function (cookie) {
         if (cookie) {
-            localStorage.setItem('shanbay_cookies', cookie);
+            localStorage.setItem('shanbay_cookies', JSON.stringify(cookie));
             callback();
         } else {
             localStorage.removeItem('shanbay_cookies');
@@ -290,7 +267,7 @@ function isUserSignedOn(callback) {
     });
 }
 
-function getClickHandler(term, tab) {
+function getClickHandler(term, tab, position) {
     console.log('signon');
     var url = API + normalize(term);//normalize it only
 
@@ -318,17 +295,19 @@ function getClickHandler(term, tab) {
                     var defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
+                    var term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
                     chrome.tabs.sendMessage(tab.id, {
                         callback: 'popover',
                         data: {
                             shanbay: data,
-                            webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs}
+                            webster: {term: term, defs: defs},
+                            position: position
                         }
                     });
                 });
             else chrome.tabs.sendMessage(tab.id, {
                 callback: 'popover',
-                data: {shanbay: data}
+                data: {shanbay: data, position: position}
             });
         },
         error: function () {
