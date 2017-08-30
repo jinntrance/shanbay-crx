@@ -12,7 +12,7 @@ const debugLog = (level = 'log', ...msg) => {
    * @param level console之下的任何函数名称
    * */
   if (devMode) {
-    console[level](JSON.stringify(msg))
+    console[level](...msg)
   }
 }
 
@@ -27,7 +27,11 @@ function searchingSelectedText (e) {
       method: 'lookup',
       data: text[0]
     })
-    parentBody = $(e.target).parents('body')
+    if (e.target.localName === 'body') {
+      parentBody = $(e.target)
+    } else {
+      parentBody = $(e.target).parents('body')
+    }
     popover({
       shanbay: {
         loading: true,
@@ -48,7 +52,6 @@ $(function () {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   debugLog('log', 'received\n')
-  debugLog('info', message.data)
   switch (message.callback) {
     case 'popover':
       popover(message.data)
@@ -82,8 +85,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 })
 
 function popover (alldata) {
-  if (!parentBody) return
-  // debugLog('error', parentBody.get(0).localName)
+  if (!parentBody || !parentBody.length) return
   var data = alldata.shanbay
   var webster = alldata.webster
   var defs = ''
@@ -199,7 +201,6 @@ function popover (alldata) {
 function hidePopover () {
   $('#shanbay_popover').remove()
 }
-
   function getSelectionOffset(callback) {
     var off = {
       left: window.innerWidth * 8 / 10,

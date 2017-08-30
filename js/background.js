@@ -295,11 +295,12 @@ function getClickHandler(term, tab, position) {
                     var defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
+                    var term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
                     chrome.tabs.sendMessage(tab.id, {
                         callback: 'popover',
                         data: {
                             shanbay: data,
-                            webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs},
+                            webster: {term: term, defs: defs},
                             position: position
                         }
                     });
