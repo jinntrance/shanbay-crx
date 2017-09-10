@@ -24,29 +24,42 @@ var keys = [
 'cc49f0d8-5299-410c-9661-e88c9e2ca516'
 ];
 
+const devMode = !('update_url' in chrome.runtime.getManifest());
+
 function ls(callback) {
     chrome.runtime.sendMessage({method: "getLocalStorage"}, function (response) {
-        console.info(response);
-        if (undefined != response)
-            for (var k in response.data)
+        if(response) {
+            for (let k in response.data)
                 localStorage[k] = response.data[k];
-        if(undefined != callback){
+        }
+        if(callback){
             callback();
         }
     });
     return localStorage;
 }
 
+const debugLog = (level = 'log', ...msg) => {
+    /**
+     * 在开发模式下打印日志
+     * @param msg 可以为任何值
+     * @param level console之下的任何函数名称
+     * */
+    if (devMode) {
+        console[level](...msg)
+    }
+};
+
 /**
  * 获取在线词源
  */
 function getOnlineEtymology(term, callback) {
-    var url = etho_pre_url + term.toLowerCase();
-    var xhr = new XMLHttpRequest();
+    let url = etho_pre_url + term.toLowerCase();
+    let xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            var roots = parseEtymology(xhr.responseText);
+            let roots = parseEtymology(xhr.responseText);
             callback(term, {roots: roots, ew: term})
         }
     };
@@ -54,10 +67,10 @@ function getOnlineEtymology(term, callback) {
 }
 
 function parseEtymology(text) {
-    var etym_url = 'http://www.etymonline.com/';
-    var data = $(text.replace(/<img[^>]*>/g, "")).find('#dictionary dl');
+    let etym_url = 'http://www.etymonline.com/';
+    let data = $(text.replace(/<img[^>]*>/g, "")).find('#dictionary dl');
     data.find('a').addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
-        //var anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
+        //let anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
         return $(this).attr('href', etym_url + $(this).attr('href'));
     });
     data.find('dt a').removeClass('etymology');
@@ -66,9 +79,9 @@ function parseEtymology(text) {
 }
 
 function getKey() {
-    var personal_keys = ls()['web_key'];
+    let personal_keys = ls()['web_key'];
     if (undefined != personal_keys && '' != personal_keys.trim()) {
-        var p_keys = personal_keys.split(',');
+        let p_keys = personal_keys.split(',');
         return p_keys[Math.floor(Math.random() * p_keys.length)];
     }
     return keys[Math.floor(Math.random() * keys.length)];
@@ -92,26 +105,26 @@ function getOnlineWebsterThesaurus(term, callback) {
  * 获取在线Webster 解释
  */
 function getOnlineWebster(term, url, callback) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            var word = $($.parseXML(xhr.responseText)).find('entry').filter(function () {
+            let word = $($.parseXML(xhr.responseText)).find('entry').filter(function () {
                 return $(this).find('ew').text().trim().length <= term.length + 2
             });
-            var derivatives = word.find('ure').map(function (i, e) {
+            let derivatives = word.find('ure').map(function (i, e) {
                 return e.textContent.replace(/\*/g, '·')
             });
             if (undefined != derivatives) derivatives = derivatives.toArray().toString().replace(/,/g, ", ");
-            var syns = word.find('sx').map(function (i, e) {
+            let syns = word.find('sx').map(function (i, e) {
                 return e.textContent.replace(/\*/g, '·')
             });
             if (undefined != syns) syns = syns.toArray().toString().replace(/,/g, ", ");
-            var roots = word.children('et');
-            var resp_word = word.children('ew');
-            var hw = word.children('hw'); // 音节划分
-            var fls = word.children('fl'); //lexical class 词性
-            var defs = word.children('def');
+            let roots = word.children('et');
+            let resp_word = word.children('ew');
+            let hw = word.children('hw'); // 音节划分
+            let fls = word.children('fl'); //lexical class 词性
+            let defs = word.children('def');
             callback(term, {
                 derivatives: derivatives,
                 syns: syns,
@@ -139,13 +152,13 @@ function n_gram_similarity(n, str1, str2) {
         str1 = str1.replace(/\s+/g, " ");
         str2 = str2.replace(/\s+/g, " ");
 
-        var common_count = 0;
-        var sets={};
-        for (var i = 0; i < str1.length - n; i++) {
+        let common_count = 0;
+        let sets={};
+        for (let i = 0; i < str1.length - n; i++) {
             sets[str1.substr(i, n)]=1;
         }
-        for (var j = 0; j < str2.length - n; j++) {
-            var this_str = str2.substr(j, n);
+        for (let j = 0; j < str2.length - n; j++) {
+            let this_str = str2.substr(j, n);
             if (1 == sets[this_str]) {
                 common_count += 1;
                 sets[this_str] +=1;
