@@ -40,7 +40,7 @@ function popup(anchor, term, text) {
     $('body').append('<div class="popover popover-crx fade bottom in" style=" display: none;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"><span class="word"></span></h3>' + noteString + '<div class="popover-content"></div></div></div>');
     $('.popover-title').html('<span class="word">' + term + '</span>');
     $('.popover-content').html('<p>' + text + '</p>');
-    var offset = $(anchor).offset();
+    let offset = $(anchor).offset();
     if (undefined != offset) $('.popover-crx').slideDown().offset({
         top: offset.top + 23,
         left: offset.left - 130
@@ -49,11 +49,11 @@ function popup(anchor, term, text) {
 }
 
 function popupEtymology(anchor) {
-    var pre_url = etho_pre_url;
+    let pre_url = etho_pre_url;
     if (undefined == originAnchor || originAnchor.text() != $(anchor).text()) {
         if ($(anchor).parents("#roots").length > 0) originAnchor = $(anchor);
-        //var url = pre_url + $(anchor).text()
-        var url = $(anchor).attr('href');
+        //let url = pre_url + $(anchor).text()
+        let url = $(anchor).attr('href');
         chrome.runtime.sendMessage({
             method: 'popupEtymology',
             data: {
@@ -67,7 +67,7 @@ function popupEtymology(anchor) {
 
 function showEtymology(term, json){
     if (getCurrentTerm() == term) {
-        var roots=json.roots;
+        let roots=json.roots;
         addButtons();
         if (undefined != roots && roots.trim() != "" && $('#roots .exist').length == 0)
             $("#roots .alert").addClass("well exist").removeClass("alert").html($(roots.trim()));
@@ -84,33 +84,33 @@ function showDerivatives(originalTerm, json) {
         return;
     }
 
-    var word = $($.parseXML(json.responseText)).find('entry').filter(function () {
+    let word = $($.parseXML(json.responseText)).find('entry').filter(function () {
         return $(this).find('ew').text().trim().length <= originalTerm.length
     });
-    var derivatives = word.find('ure').map(function (i, e) {
+    let derivatives = word.find('ure').map(function (i, e) {
         return e.textContent.replace(/\*/g, '·')
     });
     if (undefined != derivatives) derivatives = derivatives.toArray().toString().replace(/,/g, ", ");
-    var syns = word.find('sx').map(function (i, e) {
+    let syns = word.find('sx').map(function (i, e) {
         return e.textContent.replace(/\*/g, '·')
     });
     if (undefined != syns) syns = syns.toArray().toString().replace(/,/g, ", ");
 
-    var roots = word.children('et');
-    var resp_word = word.children('ew');
-    var hw = word.children('hw'); // 音节划分
-    var fls = word.children('fl'); //lexical class 词性
-    var defs = word.children('def');
+    let roots = word.children('et');
+    let resp_word = word.children('ew');
+    let hw = word.children('hw'); // 音节划分
+    let fls = word.children('fl'); //lexical class 词性
+    let defs = word.children('def');
 
-    var term = $('#learning_word .word .content.pull-left');
-    var small = term.find('small')[0].outerHTML;
+    let term = $('#learning_word .word .content.pull-left');
+    let small = term.find('small')[0].outerHTML;
 
-    var responseWord = word.find('ew').text();
+    let responseWord = word.find('ew').text();
     if (getCurrentTerm().length <= 4 + responseWord.length) {
         addButtons();
         if (hw.length > 0 && ls()['show_syllabe'] != 'no' && hw[0].textContent.replace(/\*/g, '') == originalTerm) term.html((hw[0].textContent.replace(/\*/g, '·') + small));
         if (undefined != roots && 0 < roots.length && ls()['etym'] == 'webster' && $('#roots .exist').length == 0) {
-            var r = $("#roots .alert").addClass("well exist").html(roots);
+            let r = $("#roots .alert").addClass("well exist").html(roots);
             if (0 < r.length) r.html(r.html().replace(/<\/it>/g, "</span>").replace(/<it>/g, "<span class='foreign'>"));
             r.removeClass("alert");
             if (!$("#roots .alert").length > 0 && ls()['root2note'] == 'YES') addToNote("#roots a.note-button");
@@ -120,11 +120,11 @@ function showDerivatives(originalTerm, json) {
         else if ($('#affix .word').length == 0)$("#affix").hide();
         if (!$("#affix .alert").hasClass("alert") && ls()['afx2note'] == 'YES') addToNote("#affix a.note-button");
         if (ls()['web_en'] == 'yes') {
-            var endef = $("#review-definitions .endf");
+            let endef = $("#review-definitions .endf");
             endef.html('');
             if (fls.length == defs.length) fls.each(function (i) {
                 endef.append($('<div class="span1"><span class="part-of-speech label">').find('span').html($(fls[i]).text().substr(0, 4)).parent());
-                var def = $('<ol class="span7">');
+                let def = $('<ol class="span7">');
                 $(defs[i]).find('dt').each(function () {
                     def.append($('<li class="definition"><span class="content">').find('span').html($(this).text()).parent())
                 });

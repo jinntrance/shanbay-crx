@@ -1,6 +1,6 @@
 {
   "name": "扇贝助手增强版",
-  "version": "1.13.7.3",
+  "version": "1.13.7.4",
   "manifest_version": 2,
   "description": "任意网页查询并加入生词本、背单词页面简洁、增强词根词缀Webster功能、增加实用快捷键",
   "icons": {
@@ -11,7 +11,6 @@
   "background": {
     "scripts": [
       "js/jquery.min.js",
-      "js/jquery.xml2json.js",
       "js/howler.min.js",
       "js/common.js",
       "js/dictionaries/dict.js",

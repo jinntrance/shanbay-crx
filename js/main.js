@@ -32,7 +32,7 @@ var boxTemplate = [
  * @param content
  */
 function compileBoxHtml(id,title,content) {
-    var output = boxTemplate.replace("{content}",content);
+    let output = boxTemplate.replace("{content}",content);
     output = output.replace("{id}",id);
     output = output.replace("{title}",title);
     return output;
@@ -53,29 +53,29 @@ function formatString(origin) {
 function renderWordChangesAndPhrase(response) {
     if(response){
         if(ls()['exchanges'] == 'yes' && response.exchanges.length > 1){
-            var exchanges = [
+            let exchanges = [
                 "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
                 "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
                 "过去分词："+formatString(response.baesInfo.exchange.word_done[0]),
                 "现在分词："+formatString(response.baesInfo.exchange.word_ing[0]),
                 "第三人称单数："+formatString(response.baesInfo.exchange.word_third[0])
             ];
-            var $exchanges = exchanges.map(function (exchange) {
+            let $exchanges = exchanges.map(function (exchange) {
                 return "<p>"+exchange+"<p/>"
             }).join("");
-            var $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
+            let $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
 
             // insert to dom
             $('#learning_word').after($exchanges);
         }
 
         if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
-            var $phrase = response.netmean.RelatedPhrase.map(function (one) {
+            let $phrase = response.netmean.RelatedPhrase.map(function (one) {
                 return "<p>"+ one.word + " " + one.list.map(function (subOne) {
                         return subOne.exp + " "
                     }) +"</p>"
             }).join("");
-            var $phrase = compileBoxHtml("phrase","常用短语",$phrase);
+            let $phrase = compileBoxHtml("phrase","常用短语",$phrase);
             $('#learning_word').after($phrase);
         }
     }
@@ -91,7 +91,7 @@ function getCurrentTerm() {
  * @param selector
  */
 function addNoteButton(selector) {
-    var button = $(selector).siblings('a.note-button');
+    let button = $(selector).siblings('a.note-button');
     if (button.length == 0 && !$(selector).hasClass("alert")) {
         $(selector).before(noteString);
     }
@@ -103,16 +103,16 @@ function addNoteButton(selector) {
  * @param term
  */
 function addToNote(add, term) {
-    var sib = $(add).siblings("div");
-    var notes = sib.text().trim();
+    let sib = $(add).siblings("div");
+    let notes = sib.text().trim();
     if (sib.has('#affix_word_tree_container').length > 0) notes = sib.find('#affix_word_tree_container').text().trim();
-    var hint = '加入成功';
-    var id = $('#learning-box').attr('data-id');
-    var url = "http://www.shanbay.com/api/v1/bdc/note/";
-    var note_sim = 0;
+    let hint = '加入成功';
+    let id = $('#learning-box').attr('data-id');
+    let url = "http://www.shanbay.com/api/v1/bdc/note/";
+    let note_sim = 0;
     // 查看个人笔记中与新笔记的相似度
     $('#note-mine-box li').each(function () {
-        var sim = n_gram_similarity(4, notes, $(this).text());
+        let sim = n_gram_similarity(4, notes, $(this).text());
         if(sim>note_sim){
             note_sim = sim;
         }
@@ -167,8 +167,8 @@ function searchOnline() {
 }
 $(document).on("DOMNodeInserted", '#learning-box', function () {
 //    console.log('handling definitions')
-    var $definitions = $('#review-definitions');
-    var cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>';
+    let $definitions = $('#review-definitions');
+    let cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>';
     if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
         $definitions.find('div.cndf').after(cn_anchor);
     if ($definitions.find('div.endf').length > 0 && $('div.endf').text().trim() != "" && ls()['hide_cn'] == 'yes') {
@@ -176,13 +176,13 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         $definitions.find('div.cndf').hide();
     }
 
-    var name={
+    let name={
         affix: '派生',
         roots:'词根'
     };
     $('#affix, #roots').each(function (e) {
             if ("" == $(this).html().trim()) {
-                var label = name[$(this).attr('id')];
+                let label = name[$(this).attr('id')];
                 if(label) {
                     //TODO
                     //$(this).html('<div class="span1"><h6 class="pull-right">' + label + '</h6></div><div class="roots-wrapper span9">' +
@@ -210,8 +210,8 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         }
     }
     if (undefined != ls()['hider']) {
-        var ids = ls()['hider'].split(',');
-        for (var i in ids) {
+        let ids = ls()['hider'].split(',');
+        for (let i in ids) {
             $('#' + ids[i]).hide()
         }
     }
@@ -326,9 +326,9 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         case 'J':
         case 'K':
         case 'L':
-            var key = String.fromCharCode(e.keyCode);
+            let key = String.fromCharCode(e.keyCode);
 
-            var $choices = $('#choices li.answer');
+            let $choices = $('#choices li.answer');
             switch (key) {
                 case 'U':
                     if (0 == $choices.length) $('#review a.known')[0].click();

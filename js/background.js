@@ -41,13 +41,13 @@ function notify(title, message, url) {
     if (!url) {
         url = "http://www.shanbay.com/";
     }
-    var opt = {
+    let opt = {
         type: "basic",
         title: title,
         message: message,
         iconUrl: "icon_48.png"
     };
-    var notId = Math.random().toString(36);
+    let notId = Math.random().toString(36);
     if (!notified && ls()['not_pop'] != 'no') {
         notification = chrome.notifications.create(notId, opt, function (notifyId) {
             console.info(notifyId + " was created.");
@@ -77,12 +77,12 @@ function notify_login() {
 
 
 function check_in() {
-    var check_in_url = "http://www.shanbay.com/api/v1/checkin/";
+    let check_in_url = "http://www.shanbay.com/api/v1/checkin/";
     $.getJSON(check_in_url, function (json) {
-        var arry = json.data.tasks.map(function (task) {
+        let arry = json.data.tasks.map(function (task) {
             return task.meta.num_left;
         });
-        var m = max(arry);
+        let m = max(arry);
         localStorage['checkin'] = m;
         if (0 == m) {
             chrome.browserAction.setBadgeText({text: ''});
@@ -101,7 +101,7 @@ function check_in() {
 
 function max(array) {
     if (undefined == array || array.length == 0) return 0;
-    var max = array[0];
+    let max = array[0];
     array.forEach(function (e) {
         if (e > max) max = e;
     });
@@ -126,9 +126,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             chrome.storage.sync.get("ls", function(value) {
                 // Notify that we saved.
                 try {
-                    var valueString = value.ls;
-                    var items = JSON.parse(valueString);
-                    for (var k in items) {
+                    let valueString = value.ls;
+                    let items = JSON.parse(valueString);
+                    for (let k in items) {
                         if (undefined != items[k])
                             localStorage[k] = items[k];
                     }
@@ -150,7 +150,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             break;
         case 'lookup':
             isUserSignedOn(function () {
-                getClickHandler(request.data, sender.tab);
+                getClickHandler(request.data, sender.tab, request.position);
             });
             break;
         case 'addWord':
@@ -184,11 +184,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             findDerivatives(request.data.term, showDerivatiresCallback);
             break;
         case 'popupEtymology':
-            var xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             xhr.open("GET", request.data.url, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
-                    var roots = parseEtymology(xhr.responseText);
+                    let roots = parseEtymology(xhr.responseText);
                     chrome.tabs.sendMessage(sender.tab.id, {
                         callback: 'popupEtymology',
                         data: {
@@ -290,9 +290,9 @@ function isUserSignedOn(callback) {
     });
 }
 
-function getClickHandler(term, tab) {
+function getClickHandler(term, tab, position) {
     console.log('signon');
-    var url = API + normalize(term);//normalize it only
+    let url = API + normalize(term);//normalize it only
 
     if (tab.id <= 0) {
         chrome.tabs.query({
@@ -315,20 +315,22 @@ function getClickHandler(term, tab) {
             console.log('success');
             if ((1 == data.status_code) || localStorage['search_webster'] == 'yes')
                 getOnlineWebsterCollegiate(term, function (term, json) {
-                    var defs = json.fls.map(function (i) {
+                    let defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
+                    let term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
                     chrome.tabs.sendMessage(tab.id, {
                         callback: 'popover',
                         data: {
                             shanbay: data,
-                            webster: {term: json.hw[0].textContent.replace(/\*/g, '·'), defs: defs}
+                            webster: {term: term, defs: defs},
+                            position: position
                         }
                     });
                 });
             else chrome.tabs.sendMessage(tab.id, {
                 callback: 'popover',
-                data: {shanbay: data}
+                data: {shanbay: data, position: position}
             });
         },
         error: function () {
@@ -341,22 +343,22 @@ function getClickHandler(term, tab) {
 }
 
 function singularize(word) {
-    var specailPluralDic = {
+    let specailPluralDic = {
         'men': 'man',
         'women': 'woman',
         'children': 'child'
     };
-    var result = specailPluralDic[word];
+    let result = specailPluralDic[word];
     if (result) {
         return result;
     }
 
-    var pluralRule = [{
+    let pluralRule = [{
         'match': /s$/,
         'replace': ''
     }];
 
-    for (var j = 0; j < pluralRule.length; j++) {
+    for (let j = 0; j < pluralRule.length; j++) {
         if (word.match(pluralRule[j].match)) {
             return word.replace(pluralRule[j].match, pluralRule[j].replace);
         }
