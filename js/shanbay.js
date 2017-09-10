@@ -3,32 +3,6 @@
  *
  */
 
-const devMode = !('update_url' in chrome.runtime.getManifest());
-
-function ls(callback) {
-    chrome.runtime.sendMessage({method: "getLocalStorage"}, function (response) {
-        if(response) {
-            for (let k in response.data)
-                localStorage[k] = response.data[k];
-        }
-        if(callback){
-            callback();
-        }
-    });
-    return localStorage;
-}
-
-const debugLog = (level = 'log', ...msg) => {
-    /**
-     * 在开发模式下打印日志
-     * @param msg 可以为任何值
-     * @param level console之下的任何函数名称
-     * */
-    if (devMode) {
-        console[level](...msg)
-    }
-};
-
 let parentBody = null;
 
 function searchingSelectedText (e) {
@@ -66,36 +40,39 @@ $(function () {
 
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  debugLog('log', 'received\n');
+    debugLog('log', 'received\n');
     switch (message.callback) {
         case 'popover':
             popover(message.data);
             break;
         case 'forgetWord':
             switch (message.data.msg) {
-        case 'success':
-          $('#shanbay-forget-btn').addClass('hide');
-          $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-          break;
-        case 'error':
-          $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
-          break;
+                case 'success':
+                    $('#shanbay-forget-btn').addClass('hide');
+                    $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
+                    break;
+                case 'error':
+                    $('#shanbay_popover .success').text('添加失败，请重试。').removeClass()
+                        .addClass('failed');
+                    break;
                 default:
             }
-      break;
+            break;
         case 'addWord':
             switch (message.data.msg) {
-        case 'success':
-          $('#shanbay-add-btn').addClass('hide');
-          $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
-          $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/' + message.data.rsp.id);
-          break;
-        case 'error':
-          $('#shanbay_popover .success').text('添加失败，请重试。').removeClass().addClass('failed');
-          break;
+                case 'success':
+                    $('#shanbay-add-btn').addClass('hide');
+                    $('#shanbay_popover .success, #shanbay-check-btn').removeClass('hide');
+                    $('#shanbay-check-btn').attr('href', 'http://www.shanbay.com/review/learning/'
+                                                         + message.data.rsp.id);
+                    break;
+                case 'error':
+                    $('#shanbay_popover .success').text('添加失败，请重试。').removeClass()
+                        .addClass('failed');
+                    break;
                 default:
             }
-      break
+            break
     }
 });
 
@@ -230,7 +207,7 @@ function getSelectionOffset(callback) {
         off = getOffset(dummy);
         dummy.remove();
         window.getSelection().addRange(range);
-        console.log(off.left + ':' + off.top);
+        debugLog('log', off.left + ':' + off.top);
     }
     callback(off.left, off.top);
 }

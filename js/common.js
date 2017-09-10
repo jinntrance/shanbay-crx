@@ -24,18 +24,31 @@ var keys = [
 'cc49f0d8-5299-410c-9661-e88c9e2ca516'
 ];
 
+const devMode = !('update_url' in chrome.runtime.getManifest());
+
 function ls(callback) {
     chrome.runtime.sendMessage({method: "getLocalStorage"}, function (response) {
-        console.info(response);
-        if (undefined != response)
+        if(response) {
             for (let k in response.data)
                 localStorage[k] = response.data[k];
-        if(undefined != callback){
+        }
+        if(callback){
             callback();
         }
     });
     return localStorage;
 }
+
+const debugLog = (level = 'log', ...msg) => {
+    /**
+     * 在开发模式下打印日志
+     * @param msg 可以为任何值
+     * @param level console之下的任何函数名称
+     * */
+    if (devMode) {
+        console[level](...msg)
+    }
+};
 
 /**
  * 获取在线词源

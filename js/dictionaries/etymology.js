@@ -19,8 +19,8 @@ function findDerivativesInContentPage(){
 }
 
 chrome.runtime.onMessage.addListener(function (resp, sender, sendResponse) {
-    console.log("received\n");
-    console.log(resp.data);
+    debugLog('log', "received\n");
+    debugLog('log', resp.data);
     switch (resp.callback) {
         case 'showEtymology':
             showEtymology(resp.data.term, resp.data.json);
@@ -102,7 +102,7 @@ function showDerivatives(originalTerm, json) {
     let fls = word.children('fl'); //lexical class 词性
     let defs = word.children('def');
 
-    let term = $('#learning_word .word .content.pull-left');
+    var term = $('#learning_word .word .content.pull-left');
     let small = term.find('small')[0].outerHTML;
 
     let responseWord = word.find('ew').text();

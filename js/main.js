@@ -119,7 +119,7 @@ function addToNote(add, term) {
     });
 
     if(note_sim>0) {
-        console.info("similarity between the new and old note is: " + note_sim);
+        debugLog('info', "similarity between the new and old note is: " + note_sim);
     }
 
     if ( $(add).parent().find('.alert').length == 0 &&
@@ -166,7 +166,7 @@ function searchOnline() {
     }
 }
 $(document).on("DOMNodeInserted", '#learning-box', function () {
-//    console.log('handling definitions')
+//    debugLog('log', 'handling definitions')
     let $definitions = $('#review-definitions');
     let cn_anchor = '<a href="javascript:void(0);" id="show_cn_df" onclick="$(this).siblings(\'div.cndf\').toggle();" class="sblink pull-right">中文释义</a>';
     if ($definitions.find('div.cndf').siblings('#show_cn_df').length == 0)
@@ -187,7 +187,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
                     //TODO
                     //$(this).html('<div class="span1"><h6 class="pull-right">' + label + '</h6></div><div class="roots-wrapper span9">' +
                     //noteString + '<div class="alert"></div></div>');
-                    //console.log("roots/affix body inserted");
+                    //debugLog('log', "roots/affix body inserted");
                 }
             }
         }
@@ -195,7 +195,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
 }).on("DOMNodeInserted", '#learning_word a#show_cn_df', function () {
     // TODO 改变在线搜索的触发条件
     if($('#learning_word .word h1.content').length>0) {
-        console.log('retrieving English definitions');
+        debugLog('log', 'retrieving English definitions');
 
         searchOnline();
 
@@ -224,22 +224,22 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         }
     }, 3000);
 }).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper', function (e) {
-    console.log('#roots triggered');
+    debugLog('log', '#roots triggered');
     addNoteButton('#roots .alert,#roots .well')
 }).on("DOMNodeInserted", '#roots a.note-button', function (e) {
-    console.log('retrieving roots data');
+    debugLog('log', 'retrieving roots data');
     if ($("#roots .well").length > 0 && ls()['root2note'] == 'yes') addToNote("#roots a.note-button");
 }).on("DOMNodeInserted", '#affix .roots-wrapper,#affix .roots-due-wrapper,#affix .word', function (e) {
-    console.log('#affix triggered');
+    debugLog('log', '#affix triggered');
     addNoteButton('#affix .alert,#affix .well')
 }).on("DOMNodeInserted", '#affix a.note-button', function (e) {
-    console.log('retrieving affix data');
+    debugLog('log', 'retrieving affix data');
     if ($('#affix .well').length > 0 && ls()['afx2note'] == 'yes')    addToNote('#affix a.note-button');
 }).on("mouseover", "a.etymology", function (e) {
     popupEtymology($(this));
     return;
 }).on("click", "a.note-button", function (e) {
-    console.log('clicking a note-button');
+    debugLog('log', 'clicking a note-button');
     addToNote($(this))
 }).on("click", "a#settings", function (e) {
     chrome.runtime.sendMessage({method: "openSettings", anchor: "webster_set"});
@@ -251,7 +251,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
 }).keyup(function (e) {
     //keydown/keyup组合不区分英文字母大小写，检测他们的keycode属性时，都为大写码。
     //keypress区分大小写。
-    console.log(String.fromCharCode(e.keyCode) + " pressed");
+    debugLog('log', String.fromCharCode(e.keyCode) + " pressed");
     switch (String.fromCharCode(e.keyCode)) {
         //退出浮框，esc return 等
         case "\x0D":
@@ -331,7 +331,11 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
             let $choices = $('#choices li.answer');
             switch (key) {
                 case 'U':
-                    if (0 == $choices.length) $('#review a.known')[0].click();
+                    if (0 == $choices.length) {
+                        if ($('#review a.known').length > 0) {
+                            $('#review a.known')[0].click();
+                        }
+                    }
                     else $choices[0].click();
                     return;
                 case 'J':
@@ -359,11 +363,11 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     return;//using "return" other attached events will execute
 }).on('keyup', 'input,textarea', function (event) {
     if (event.altKey && ('B' == String.fromCharCode(event.which))) {
-        console.log("reading British English");
+        debugLog('log', "reading British English");
         $('.learning-speaker .uk').click()
     }
     else if (event.altKey && ('A' == String.fromCharCode(event.which))) {
-        console.log("reading American English");
+        debugLog('log', "reading American English");
         $('.learning-speaker .us').click()
     }
 

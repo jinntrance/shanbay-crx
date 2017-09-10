@@ -38,6 +38,7 @@
       "css": ["css/shanbay.css"],
       "js": [
         "js/jquery.min.js",
+        "js/common.js",
         "js/shanbay.js"
       ],
       "matches": ["<all_urls>"],

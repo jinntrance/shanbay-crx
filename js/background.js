@@ -50,12 +50,12 @@ function notify(title, message, url) {
     let notId = Math.random().toString(36);
     if (!notified && ls()['not_pop'] != 'no') {
         notification = chrome.notifications.create(notId, opt, function (notifyId) {
-            console.info(notifyId + " was created.");
+            debugLog('info', notifyId + " was created.");
             notified = true
         });
     }
     chrome.notifications.onClicked.addListener(function (notifyId) {
-        console.info("notification was clicked");
+        debugLog('info', "notification was clicked");
         chrome.notifications.clear(notifyId, function () {
         });
         if (notId == notifyId) {
@@ -112,14 +112,14 @@ function saveToStorage() {
     // Save it using the Chrome extension storage API.
     chrome.storage.sync.set({ls:JSON.stringify(localStorage)}, function() {
         // Notify that we saved.
-        console.log('localStorage saved in chrome.storage.sync');
+        debugLog('log', 'localStorage saved in chrome.storage.sync');
     });
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if(request.method != 'getLocalStorage') {
-        console.log("received method: " + request.method);
-        console.log(request);
+        debugLog('log', "received method: " + request.method);
+        debugLog('log', request);
     }
     switch (request.method) {
         case "getLocalStorage":
@@ -132,7 +132,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         if (undefined != items[k])
                             localStorage[k] = items[k];
                     }
-                    console.log("fetched local storage from chrome.storage.sync");
+                    debugLog('log', "fetched local storage from chrome.storage.sync");
                 } catch (e) {
                     saveToStorage();
                     console.warn(e);
@@ -222,17 +222,17 @@ function addNewWordInBrgd(word_id, tab) {
                     callback: 'addWord',
                     data: {msg: 'success', rsp: data.data}
                 });
-                console.log('success');
+                debugLog('log', 'success');
             },
             error: function () {
                 chrome.tabs.sendMessage(tab.id, {
                     callback: 'addWord',
                     data: {msg: 'error', rsp: {}}
                 });
-                console.log('error');
+                debugLog('log', 'error');
             },
             complete: function () {
-                console.log('complete');
+                debugLog('log', 'complete');
             }
         });
     });
@@ -253,17 +253,17 @@ function forgetWordInBrgd(learning_id, tab) {
                     callback: 'forgetWord',
                     data: {msg: 'success', rsp: data.data}
                 });
-                console.log('success');
+                debugLog('log', 'success');
             },
             error: function () {
                 chrome.tabs.sendMessage(tab.id, {
                     callback: 'forgetWord',
                     data: {msg: 'error', rsp: {}}
                 });
-                console.log('error');
+                debugLog('log', 'error');
             },
             complete: function () {
-                console.log('complete');
+                debugLog('log', 'complete');
             }
         });
     });
@@ -280,7 +280,7 @@ var API = 'http://www.shanbay.com/api/v1/bdc/search/?word=';
 function isUserSignedOn(callback) {
     chrome.cookies.get({"url": 'http://www.shanbay.com', "name": 'auth_token'}, function (cookie) {
         if (cookie) {
-            localStorage.setItem('shanbay_cookies', cookie);
+            localStorage.setItem('shanbay_cookies', 'has_cookie');
             callback();
         } else {
             localStorage.removeItem('shanbay_cookies');
@@ -291,7 +291,7 @@ function isUserSignedOn(callback) {
 }
 
 function getClickHandler(term, tab, position) {
-    console.log('signon');
+    debugLog('log', 'signon');
     let url = API + normalize(term);//normalize it only
 
     if (tab.id <= 0) {
@@ -312,13 +312,13 @@ function getClickHandler(term, tab, position) {
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            console.log('success');
+            debugLog('log', 'success');
             if ((1 == data.status_code) || localStorage['search_webster'] == 'yes')
                 getOnlineWebsterCollegiate(term, function (term, json) {
                     let defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
-                    let term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
+                    var term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
                     chrome.tabs.sendMessage(tab.id, {
                         callback: 'popover',
                         data: {
@@ -334,10 +334,10 @@ function getClickHandler(term, tab, position) {
             });
         },
         error: function () {
-            console.log('error');
+            debugLog('log', 'error');
         },
         complete: function () {
-            console.log('complete');
+            debugLog('log', 'complete');
         }
     });
 }
