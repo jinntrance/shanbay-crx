@@ -6,24 +6,30 @@
 let parentBody = null;
 
 function searchingSelectedText (e) {
-  let text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
-  debugLog('info', 'selected ' + text);
+    let text = window.getSelection().toString().trim().match(/^[a-zA-Z\s']+$/);
+    debugLog('info', 'selected ' + text);
+    let pos = {
+        left: event.clientX + window.pageXOffset,
+        top: event.clientY + window.pageYOffset
+    };
   if (text && localStorage['click2s'] !== 'no') {
-    debugLog('log', 'searching ' + text);
-        chrome.runtime.sendMessage({
-            method: 'lookup',
-            data: text[0]
-    });
-    if (e.target.localName === 'body') {
-      parentBody = $(e.target)
-    } else {
-      parentBody = $(e.target).parents('body')
-    }
+      debugLog('log', 'searching ' + text);
+      chrome.runtime.sendMessage({
+                                     method: 'lookup',
+                                     data: text[0],
+                                     position: pos
+                                 });
+      if (e.target.localName === 'body') {
+          parentBody = $(e.target)
+      } else {
+          parentBody = $(e.target).parents('body')
+      }
         popover({
             shanbay: {
                 loading: true,
-        msg: '查询中....（请确保已登录扇贝网）'
-            }
+                msg: '查询中....（请确保已登录扇贝网）'
+            },
+            position: pos
         })
     }
 }
@@ -77,7 +83,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 function popover(alldata) {
-  if (!parentBody || !parentBody.length) return;
+    if(!alldata.position || !alldata.position.left) {
+        // 无选中位置，则是打开的 PDF 等类型文件
+        parentBody = $('body');
+    }
+  if (!parentBody || 1 != parentBody.length) return;
   let data = alldata.shanbay;
   let webster = alldata.webster;
   let defs = '';
@@ -125,7 +135,7 @@ function popover(alldata) {
   $('#shanbay_popover').remove();
   parentBody.append(html);
 
-    getSelectionOffset(function (left, top) {
+    getSelectionOffset(alldata.position, function (left, top) {
     setPopoverPosition(left, top);
     let h = $(window).scrollTop() + $(window).height();
         if ( h -200 < top && h >= top) {
@@ -194,11 +204,12 @@ function hidePopover() {
     $('#shanbay_popover').remove();
 }
 
-function getSelectionOffset(callback) {
+function getSelectionOffset(position, callback) {
     let off = {
         left: window.innerWidth * 8 / 10,
         top: window.innerHeight / 10
     };
+
     let selection = window.getSelection();
     if (0 < selection.rangeCount) {
         let range = window.getSelection().getRangeAt(0);
@@ -209,6 +220,14 @@ function getSelectionOffset(callback) {
         window.getSelection().addRange(range);
         debugLog('log', off.left + ':' + off.top);
     }
+
+    if(position && position.left && position.top){
+        off = {
+            left: position.left -  50,
+            top: position.top + 10
+        };
+    }
+
     callback(off.left, off.top);
 }
 

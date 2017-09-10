@@ -102,7 +102,7 @@ function showDerivatives(originalTerm, json) {
     let fls = word.children('fl'); //lexical class 词性
     let defs = word.children('def');
 
-    var term = $('#learning_word .word .content.pull-left');
+    let term = $('#learning_word .word .content.pull-left');
     let small = term.find('small')[0].outerHTML;
 
     let responseWord = word.find('ew').text();

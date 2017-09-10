@@ -290,7 +290,7 @@ function isUserSignedOn(callback) {
     });
 }
 
-function getClickHandler(term, tab, position) {
+function getClickHandler(term, tab, position = {}) {
     debugLog('log', 'signon');
     let url = API + normalize(term);//normalize it only
 
@@ -318,12 +318,12 @@ function getClickHandler(term, tab, position) {
                     let defs = json.fls.map(function (i) {
                         return "<span class='web_type'>" + json.fls[i].textContent + '</span>, ' + json.defs[i].textContent
                     }).toArray().join('<br/>');
-                    var term = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
+                    let tm = json.hw[0] ? json.hw[0].textContent.replace(/\*/g, '·') : '';
                     chrome.tabs.sendMessage(tab.id, {
                         callback: 'popover',
                         data: {
                             shanbay: data,
-                            webster: {term: term, defs: defs},
+                            webster: {term: tm, defs: defs},
                             position: position
                         }
                     });
