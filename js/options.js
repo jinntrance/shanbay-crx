@@ -8,11 +8,11 @@ chrome.management.getSelf(function (info) {
 // Saves options to localStorage.
 function save_options() {
     $('input[type=radio]:checked').each(function (index) {
-        var name = this.name;
+        let name = this.name;
         localStorage[name] = this.value;
     });
     $('input[type=text]').each(function (index) {
-        var name = this.name;
+        let name = this.name;
         localStorage[name] = this.value;
     });
     localStorage["hider"] = $("input[name=hider]:checkbox:checked").map(function (i, e) {
@@ -22,7 +22,7 @@ function save_options() {
 
 
     // Update status to let user know options were saved.
-    var status = document.getElementById("status");
+    let status = document.getElementById("status");
     status.innerHTML = "保存成功";
     setTimeout(function () {
         status.innerHTML = "";
@@ -36,30 +36,30 @@ function save_options() {
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     $('input[type=radio]').each(function (index) {
-       var name = this.name;
-       var value = localStorage[name];
+       let name = this.name;
+       let value = localStorage[name];
         if (value && value.trim().length > 0) {
             $("input[name=" + name + "][value=" + value + "]").attr("checked", true);
         }
     });
     $('input[type=text]').each(function (index) {
-        var name = this.name;
+        let name = this.name;
         if(localStorage[name] && localStorage[name].trim().length > 0) {
             $("input[name=" + name + "]").val(localStorage[name]);
         }
     });
 //    $('textarea[name=web_key]').val(localStorage["web_key"])
-    var hider = localStorage["hider"];
+    let hider = localStorage["hider"];
     if (!hider) hider = [];
     else hider = hider.split(',');
     $("input[name=hider]:checkbox").val(hider);
-    var keys = localStorage["web_key"];
+    let keys = localStorage["web_key"];
     if (!keys) keys = '';
     else keys = keys.replace(/,/g, '\n');
 
     // 增加行数显示完 keys
-    var row = 3;
-    var keys_length = keys.split(/\n/).length;
+    let row = 3;
+    let keys_length = keys.split(/\n/).length;
     if (keys_length > 3) {
         row = keys_length;
     }
@@ -69,12 +69,12 @@ function restore_options() {
 
 function test_keys() {
     save_options();
-    var $textarea = $('textarea[name=web_key]');
-    var keys = $textarea.val().trim();
+    let $textarea = $('textarea[name=web_key]');
+    let keys = $textarea.val().trim();
     if (keys.length > 0)
         keys.split('\n').forEach(function (e) {
-            var term = 'conduct';
-            var url = 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=' + e;
+            let term = 'conduct';
+            let url = 'http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + term + '?key=' + e;
             getOnlineWebster(term, url, function (data) {
                 if (0 < data.length) {
                     $textarea.val(($textarea.val() + '\n' + e).trim());
