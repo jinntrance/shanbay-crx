@@ -221,7 +221,7 @@ function getOffset(el) {
 
     if (el.bottom == el.top) {
         // 行首字母选择后会出现这种情况
-        off.top += 20;
+        off.top += 30;
     }
 
     return off;
