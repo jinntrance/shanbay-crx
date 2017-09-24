@@ -27,9 +27,7 @@ function save_options() {
     setTimeout(function () {
         status.innerHTML = "";
     }, 750);
-    for (let key in localStorage) {
-        localStorage.setItem(key, localStorage[key])
-    }
+    chrome.runtime.sendMessage({method: "setLocalStorage", data: localStorage});
 
 }
 

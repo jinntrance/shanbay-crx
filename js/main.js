@@ -59,23 +59,22 @@ function renderWordChangesAndPhrase(response) {
                 "过去分词："+formatString(response.baesInfo.exchange.word_done[0]),
                 "现在分词："+formatString(response.baesInfo.exchange.word_ing[0]),
                 "第三人称单数："+formatString(response.baesInfo.exchange.word_third[0])
-            ];
-            let $exchanges = exchanges.map(function (exchange) {
+            ].map(function (exchange) {
                 return "<p>"+exchange+"<p/>"
             }).join("");
-            let $exchanges = compileBoxHtml("exchanges","单词变形",$exchanges);
+            let $exchanges = compileBoxHtml("exchanges","单词变形",exchanges);
 
             // insert to dom
             $('#learning_word').after($exchanges);
         }
 
         if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
-            let $phrase = response.netmean.RelatedPhrase.map(function (one) {
+            let phrase = response.netmean.RelatedPhrase.map(function (one) {
                 return "<p>"+ one.word + " " + one.list.map(function (subOne) {
                         return subOne.exp + " "
                     }) +"</p>"
             }).join("");
-            let $phrase = compileBoxHtml("phrase","常用短语",$phrase);
+            let $phrase = compileBoxHtml("phrase","常用短语",phrase);
             $('#learning_word').after($phrase);
         }
     }
