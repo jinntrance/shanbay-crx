@@ -101,7 +101,7 @@ Basic features include:
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-7339457836147536"
-     data-ad-slot="3581463164"
+     data-ad-slot="5639662152"
      data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
