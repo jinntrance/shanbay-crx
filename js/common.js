@@ -21,7 +21,8 @@ var keys = [
 'd9b1eeac-4a10-42b3-8683-70a17bbe04af',
 'e855f926-44f0-4be4-91bb-5c5f7d685eca',
 '45b94f06-9d11-4049-9a23-ab80f95dd57e',
-'cc49f0d8-5299-410c-9661-e88c9e2ca516'
+'cc49f0d8-5299-410c-9661-e88c9e2ca516',
+'e81cc7d7-a2c5-41da-b452-3325b66defc2'
 ];
 
 const devMode = !('update_url' in chrome.runtime.getManifest());
