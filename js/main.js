@@ -211,17 +211,12 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
     if (undefined != ls()['hider']) {
         let ids = ls()['hider'].split(',');
         for (let i in ids) {
-            $('#' + ids[i]).hide()
+            if (ids[i]) {
+                $('#' + ids[i]).hide()
+            }
         }
     }
 
-    setTimeout(function () {
-        // 如果没有我的笔记, 则默认显示共享笔记.
-        if($('#note-mine-box').find('li').size() == 0) {
-            if (0 < $('a.note-user-box-tab').length)
-                $('a.note-user-box-tab')[0].click();
-        }
-    }, 3000);
 }).on("DOMNodeInserted", '#roots .roots-wrapper,#roots .roots-due-wrapper', function (e) {
     debugLog('log', '#roots triggered');
     addNoteButton('#roots .alert,#roots .well')

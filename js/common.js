@@ -3,9 +3,10 @@
  * @user Joseph
  */
 
-var etho_pre_url = 'http://www.etymonline.com/index.php?term=';
+const etym_url = 'https://www.etymonline.com';
+const etho_pre_url = etym_url + '/search?q=';
 
-var keys = [
+const keys = [
 '62f54ac9-4791-4131-bfdd-1146af327107',
 'c0b8de2c-834c-4d08-818d-c7a5ee1cf1a9',
 'e8e77e77-6c9d-4ce7-903a-9b9ad3246fd8',
@@ -61,22 +62,27 @@ function getOnlineEtymology(term, callback) {
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            let roots = parseEtymology(xhr.responseText);
+            let roots = parseEtymology(xhr.responseText, term);
             callback(term, {roots: roots, ew: term})
         }
     };
     xhr.send();
 }
 
-function parseEtymology(text) {
-    let etym_url = 'http://www.etymonline.com/';
-    let data = $(text.replace(/<img[^>]*>/g, "")).find('#dictionary dl');
-    data.find('a').addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
+function parseEtymology(text, term) {
+    let wordSelector = 'a.word--C9UPa';
+    let data = $(text.replace(/<img[^>]*>/g, "")).find(`div:has(>${wordSelector})`);
+    data.find(wordSelector).addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
         //let anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
         return $(this).attr('href', etym_url + $(this).attr('href'));
     });
-    data.find('dt a').removeClass('etymology');
-    data.find('dt a.dictionary').remove();
+    data.find('>div').remove();
+    data.find('>ul').remove();
+    if (term) {
+        data.find('a').filter(function (index) {
+            return $(this).find('p').text().indexOf(term) < 0;
+        }).remove();
+    }
     return data.html()
 }
 

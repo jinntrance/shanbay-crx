@@ -188,7 +188,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             xhr.open("GET", request.data.url, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
-                    let roots = parseEtymology(xhr.responseText);
+                    let roots = parseEtymology(xhr.responseText, request.data.term);
                     chrome.tabs.sendMessage(sender.tab.id, {
                         callback: 'popupEtymology',
                         data: {

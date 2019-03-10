@@ -78,3 +78,12 @@ input[type="text"].focus, textarea:focus {
     border: solid 1px #707070;
     box-shadow: 0 0 5px 1px #969696;
 }
+
+.roots-wrapper a p {
+    font-weight: bolder;
+    font-size: 120%;
+}
+
+.roots-wrapper a section {
+    color: #333;
+}
