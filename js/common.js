@@ -72,7 +72,7 @@ function getOnlineEtymology(term, callback) {
 function parseEtymology(text, term) {
     let wordSelector = 'a.word--C9UPa';
     let data = $(text.replace(/<img[^>]*>/g, "")).find(`div:has(>${wordSelector})`);
-    data.find(wordSelector).addClass('etymology').attr('target', '_blank').replaceWith(function (i, e) {
+    data.find(wordSelector).attr('target', '_blank').replaceWith(function (i, e) {
         //let anchor = '<a target="_blank" class="etymology" href="' + pre_url + $(this).text() + '">' + $(this).text() + '</a>'
         return $(this).attr('href', etym_url + $(this).attr('href'));
     });
