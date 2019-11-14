@@ -39,10 +39,10 @@ function compileBoxHtml(id,title,content) {
 }
 
 function formatString(origin) {
-    if(origin === null || typeof origin === "undefined") {
-        return "-";
-    }else{
+    if (origin) {
         return origin;
+    } else {
+        return "-";
     }
 }
 
@@ -52,7 +52,7 @@ function formatString(origin) {
  */
 function renderWordChangesAndPhrase(response) {
     if(response){
-        if(ls()['exchanges'] == 'yes' && response.exchanges.length > 1){
+        if(ls()['exchanges'] === 'yes' && response.exchanges.length > 1){
             let exchanges = [
                 "复数："+formatString(response.baesInfo.exchange.word_pl[0]),
                 "过去式："+formatString(response.baesInfo.exchange.word_past[0]),
@@ -68,7 +68,7 @@ function renderWordChangesAndPhrase(response) {
             $('#learning_word').after($exchanges);
         }
 
-        if(ls()['phrases'] == 'yes' && response.netmean.RelatedPhrase.length > 0){
+        if(ls()['phrases'] === 'yes' && response.netmean.RelatedPhrase.length > 0){
             let phrase = response.netmean.RelatedPhrase.map(function (one) {
                 return "<p>"+ one.word + " " + one.list.map(function (subOne) {
                         return subOne.exp + " "
@@ -83,7 +83,7 @@ function renderWordChangesAndPhrase(response) {
 chr = chrome;
 
 function getCurrentTerm() {
-    return $('#current-learning-word').text();
+    return $('div[name^="VocabPronounce_word"]').text();
 }
 /**
  * “加入笔记”的按钮添加
@@ -164,6 +164,11 @@ function searchOnline() {
         findDerivativesInContentPage();
     }
 }
+
+function simulateKeyPress(character) {
+    jQuery.event.trigger({ type : 'keypress', which : character.charCodeAt(0) });
+}
+
 $(document).on("DOMNodeInserted", '#learning-box', function () {
 //    debugLog('log', 'handling definitions')
     let $definitions = $('#review-definitions');
@@ -191,7 +196,7 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
             }
         }
     )
-}).on("DOMNodeInserted", '#learning_word a#show_cn_df', function () {
+}).on("DOMNodeInserted", '#root .study-page div.block-center', function () {
     // TODO 改变在线搜索的触发条件
     if($('#learning_word .word h1.content').length>0) {
         debugLog('log', 'retrieving English definitions');
@@ -322,34 +327,24 @@ $(document).on("DOMNodeInserted", '#learning-box', function () {
         case 'L':
             let key = String.fromCharCode(e.keyCode);
 
-            let $choices = $('#choices li.answer');
             switch (key) {
                 case 'U':
-                    if (0 == $choices.length) {
-                        if ($('#review a.known').length > 0) {
-                            $('#review a.known')[0].click();
-                        }
-                    }
-                    else $choices[0].click();
+                    simulateKeyPress("1");
                     return;
                 case 'J':
-                    if (1 < $choices.length)$choices[1].click();
-                    else {
-                        if ($('#review a.unknown').length > 0) $('#review a.unknown')[0].click();
-                        if ($('a.btn-forget').length > 0)$('a.btn-forget')[0].click();
-                    }
+                    simulateKeyPress("2");
                     return;
                 case 'K':
-                    if (4 == $choices.length)$choices[2].click();
+                    simulateKeyPress("3");
                     return;
                 case 'L':
-                    if (4 == $choices.length)$choices[3].click();
+                    simulateKeyPress("4");
                     return;
                 case 'O':
                     $('#choices li.forget').click();
                     return;
                 case 'I':
-                    $('#learning_word a.pass span').click();
+                    simulateKeyPress("9");
                     return;
             }
             return;
